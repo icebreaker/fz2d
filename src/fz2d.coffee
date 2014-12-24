@@ -377,6 +377,11 @@ class Fz2D
    # Public: Plugin namespace.
    @Plugins: {}
 
+   # Public: Plugin.
+   class Fz2D.Plugin
+     # Public: Supported?
+     @supported: true
+
    # Public: Gui namespace.
    @Gui: {}
 

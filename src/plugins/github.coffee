@@ -1,5 +1,5 @@
 # Public: GitHub 'Fork Me' Ribbon
-class Fz2D.Plugins.GitHub
+class Fz2D.Plugins.GitHub extends Fz2D.Plugin
   # Public: Allowed in production mode only.
   @supported: (Fz2D.production || Fz2D.github)
 

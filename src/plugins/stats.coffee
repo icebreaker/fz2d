@@ -1,5 +1,5 @@
 # Public: Stats
-class Fz2D.Plugins.Stats
+class Fz2D.Plugins.Stats extends Fz2D.Plugin
   # Public: Allowed in stats mode only.
   @supported: Fz2D.stats
 

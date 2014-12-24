@@ -1,5 +1,5 @@
 # Public: Console
-class Fz2D.Plugins.Console
+class Fz2D.Plugins.Console extends Fz2D.Plugin
   # Public: Allowed in debug mode only.
   @supported: Fz2D.debug
 

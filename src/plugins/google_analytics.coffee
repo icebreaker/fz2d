@@ -1,5 +1,5 @@
 # Public: Google Analytics
-class Fz2D.Plugins.GoogleAnalytics
+class Fz2D.Plugins.GoogleAnalytics extends Fz2D.Plugin
   # Public: Allowed in production mode only.
   @supported: Fz2D.production
 

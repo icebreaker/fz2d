@@ -303,6 +303,15 @@ Fz2D = (function() {
 
   Fz2D.Plugins = {};
 
+  Fz2D.Plugin = (function() {
+    function Plugin() {}
+
+    Plugin.supported = true;
+
+    return Plugin;
+
+  })();
+
   Fz2D.Gui = {};
 
   return Fz2D;
@@ -793,7 +802,66 @@ Fz2D.Loader.Loaders.TextureAtlas = (function(_super) {
 
 })(Fz2D.Loader.Base);
 
-Fz2D.Plugins.Console = (function() {
+Fz2D.Plugins.Branding = (function(_super) {
+  __extends(Branding, _super);
+
+  function Branding(game) {
+    var _base, _base1, _base2;
+    if (game.branding == null) {
+      return;
+    }
+    if (game.assets == null) {
+      game.assets = {};
+    }
+    if ((_base = game.assets).plugins == null) {
+      _base.plugins = {};
+    }
+    game.assets.plugins.branding = game.branding.logo;
+    if ((_base1 = game.branding).position == null) {
+      _base1.position = 'bottom-right';
+    }
+    if ((_base2 = game.branding).border == null) {
+      _base2.border = 5;
+    }
+  }
+
+  Branding.prototype.onload = function(game) {
+    if (game.branding == null) {
+      return;
+    }
+    this.logo = game.assets.plugins.branding;
+    this.w = this.logo.w;
+    this.h = this.logo.h;
+    switch (game.branding.position) {
+      case 'top-left':
+        this.x = game.branding.border;
+        return this.y = game.branding.border;
+      case 'top-right':
+        this.x = game.w - this.w - game.branding.border;
+        return this.y = game.branding.border;
+      case 'bottom-left':
+        this.x = game.branding.border;
+        return this.y = game.h - this.h - game.branding.border;
+      case 'bottom-right':
+        this.x = game.w - this.w - game.branding.border;
+        return this.y = game.h - this.h - game.branding.border;
+    }
+  };
+
+  Branding.prototype.draw = function(ctx) {
+    if (this.logo == null) {
+      return;
+    }
+    return ctx.draw(this.logo, 0, 0, this.w, this.h, this.x, this.y, this.w, this.h);
+  };
+
+  return Branding;
+
+})(Fz2D.Plugin);
+
+Fz2D.Plugins.Console = (function(_super) {
+  __extends(Console, _super);
+
   Console.supported = Fz2D.debug;
 
   Console.prototype.styles = {
@@ -840,9 +908,11 @@ Fz2D.Plugins.Console = (function() {
 
   return Console;
 
-})();
+})(Fz2D.Plugin);
 
-Fz2D.Plugins.GitHub = (function() {
+Fz2D.Plugins.GitHub = (function(_super) {
+  __extends(GitHub, _super);
+
   GitHub.supported = Fz2D.production || Fz2D.github;
 
   GitHub.prototype.colors = {
@@ -902,9 +972,11 @@ Fz2D.Plugins.GitHub = (function() {
 
   return GitHub;
 
-})();
+})(Fz2D.Plugin);
 
-Fz2D.Plugins.GoogleAnalytics = (function() {
+Fz2D.Plugins.GoogleAnalytics = (function(_super) {
+  __extends(GoogleAnalytics, _super);
+
   GoogleAnalytics.supported = Fz2D.production;
 
   GoogleAnalytics.track = function(id, event) {
@@ -940,9 +1012,11 @@ Fz2D.Plugins.GoogleAnalytics = (function() {
 
   return GoogleAnalytics;
 
-})();
+})(Fz2D.Plugin);
 
-Fz2D.Plugins.Stats = (function() {
+Fz2D.Plugins.Stats = (function(_super) {
+  __extends(Stats, _super);
+
   Stats.supported = Fz2D.stats;
 
   Stats.prototype.styles = {
@@ -976,7 +1050,7 @@ Fz2D.Plugins.Stats = (function() {
 
   return Stats;
 
-})();
+})(Fz2D.Plugin);
 
 Fz2D.Canvas = (function() {
   Canvas.supported = (function() {
@@ -2670,7 +2744,7 @@ Fz2D.Game = (function() {
   };
 
   function Game(opts) {
-    var instance, k, plugin, v, _i, _len, _ref;
+    var k, plugin, v, _i, _len, _ref;
     if (opts == null) {
       opts = {};
     }
@@ -2698,17 +2772,15 @@ Fz2D.Game = (function() {
       throw 'Canvas is not supported by your browser :(';
     }
     this.storage = new Fz2D.Storage();
-    this._plugins = [];
+    this._plugins_onloadable = [];
+    this._plugins_updateable = [];
+    this._plugins_drawable = [];
     if (this.plugins != null) {
       _ref = this.plugins;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         plugin = _ref[_i];
-        if (plugin.supported == null) {
-          continue;
-        }
-        instance = new plugin(this);
-        if (typeof instance.update === 'function') {
-          this._plugins.push(instance);
+        if (plugin.supported != null) {
+          this.registerPlugin(new plugin(this));
         }
       }
     }
@@ -2723,6 +2795,8 @@ Fz2D.Game = (function() {
         _this.update(_this._timer, _this._input);
         _this.draw(_this._ctx);
         _this.scene.remove(_this._loader);
+        _this.loaded = true;
+        _this._onloadPlugins();
         return _this.onload(_this);
       };
     })(this);
@@ -2731,14 +2805,36 @@ Fz2D.Game = (function() {
       this.scene.add(this._loader);
       this._loadAssets(this.assets);
     } else {
+      this.loaded = true;
+      this._onloadPlugins();
       this.onload(this);
     }
   }
+
+  Game.prototype.registerPlugin = function(plugin) {
+    if (typeof plugin.onload === 'function') {
+      if (__indexOf.call(this._plugins_onloadable, plugin) < 0) {
+        this._plugins_onloadable.push(plugin);
+      }
+    }
+    if (typeof plugin.update === 'function') {
+      if (__indexOf.call(this._plugins_updateable, plugin) < 0) {
+        this._plugins_updateable.push(plugin);
+      }
+    }
+    if (typeof plugin.draw === 'function') {
+      if (__indexOf.call(this._plugins_drawable, plugin) < 0) {
+        this._plugins_drawable.push(plugin);
+      }
+    }
+    return plugin;
+  };
 
   Game.prototype.onload = function(game) {};
 
   Game.prototype.load = function(path) {
     if (this._loader.group == null) {
+      this.loaded = false;
       this.scene.add(this._loader);
     }
     return this._loader.load(path);
@@ -2752,31 +2848,48 @@ Fz2D.Game = (function() {
     return this.scene.update(timer, input);
   };
 
+  Game.prototype._onloadPlugins = function() {
+    var plugin, _i, _len, _ref;
+    if (!this._plugins_onloaded) {
+      _ref = this._plugins_onloadable;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        plugin = _ref[_i];
+        plugin.onload(this);
+      }
+      this._plugins_onloaded = true;
+    }
+    return null;
+  };
+
   Game.prototype._loadAssets = function(assets) {
-    var k, url, _results;
-    _results = [];
+    var k, url;
     for (k in assets) {
       url = assets[k];
       if (typeof url === 'object') {
-        _results.push(this._loadAssets(url));
+        this._loadAssets(url);
       } else {
-        _results.push(assets[k] = this._loader.load(url));
+        assets[k] = this._loader.load(url);
       }
     }
-    return _results;
+    return null;
   };
 
   Game.prototype._loop = function() {
-    var plugin, _i, _len, _ref;
-    _ref = this._plugins;
+    var plugin, _i, _j, _len, _len1, _ref, _ref1;
+    _ref = this._plugins_updateable;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       plugin = _ref[_i];
-      plugin.update(this._timer, this.input);
+      plugin.update(this._timer, this.input, this);
     }
     this.update(this._timer, this.input);
     this.draw_call_count = this._ctx.draw_call_count;
     this._ctx.clear();
     this.draw(this._ctx);
+    _ref1 = this._plugins_drawable;
+    for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+      plugin = _ref1[_j];
+      plugin.draw(this._ctx, this);
+    }
     this._ctx.flush();
     this.input.update();
     this._timer.update();
