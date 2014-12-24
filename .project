@@ -1,0 +1,4 @@
+build:
+	cake make
+
+.PHONY: build

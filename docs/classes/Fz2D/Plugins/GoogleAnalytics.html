@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset='UTF-8'>
+  <title>Fz2D</title>
+  <link rel='stylesheet' href='..&#47;..&#47;..&#47;assets/biscotto.css' type='text/css'>
+  <script src='..&#47;..&#47;..&#47;assets/biscotto.js'></script>
+  <script src='..&#47;..&#47;..&#47;assets/search_data.js'></script>
+</head>
+  <body>
+    <div id='base' data-path='..&#47;..&#47;..&#47;'></div>
+<div id='header'>
+  <div id='menu'>
+    <a href='..&#47;..&#47;..&#47;README.md.html' title='Biscotto'>Biscotto</a>
+    &raquo;
+    <a href='..&#47;..&#47;..&#47;class_index.html' title='Index'>Index</a>
+    &raquo;
+    <a href='..&#47;..&#47;..&#47;classes&#47;Fz2D.html' title='Fz2D'>Fz2D</a>
+    &raquo;
+    <span class='title'>Plugins</span>
+    &raquo;
+    <span class='title'>GoogleAnalytics</span>
+    <nav>
+      <ul>
+        <li class='noframes'>
+          (<a class='noframes' href='#'>no frames</a>)
+        </li>
+      </ul>
+    </nav>
+    <div id='search'>
+      <a id='class_list_link' href='..&#47;..&#47;..&#47;class_list.html'>Classes</a>
+      <a id='method_list_link' href='..&#47;..&#47;..&#47;method_list.html'>Methods</a>
+      <a id='extra_list_link' href='..&#47;..&#47;..&#47;extra_list.html'>Extras</a>
+    </div>
+  </div>
+  <iframe id='search_frame'></iframe>
+  <div id='fuzzySearch'>
+    <input type='text'>
+    <ol></ol>
+  </div>
+  <div id='help'>
+    <p>
+      Quickly fuzzy find classes, mixins, methods, file:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-T</span>
+        Open fuzzy finder dialog
+      </li>
+    </ul>
+    <p>
+      In frame mode you can toggle the list naviation frame on the left side:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-L</span>
+        Toggle list view
+      </li>
+    </ul>
+    <p>
+      You can focus a list in frame mode or toggle a tab in frameless mode:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-C</span>
+        Class list
+      </li>
+      <li>
+        <span>Ctrl-I</span>
+        Mixin list
+      </li>
+      <li>
+        <span>Ctrl-F</span>
+        File list
+      </li>
+      <li>
+        <span>Ctrl-M</span>
+        Method list
+      </li>
+      <li>
+        <span>Ctrl-E</span>
+        Extras list
+      </li>
+    </ul>
+    <p>
+      You can focus and blur the search input:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-S</span>
+        Focus search input
+      </li>
+      <li>
+        <span>Esc</span>
+        Blur search input
+      </li>
+    </ul>
+    <p>
+      In frameless mode you can close the list tab:
+    </p>
+    <ul>
+      <li>
+        <span>Esc</span>
+        Close list tab
+      </li>
+    </ul>
+  </div>
+</div>
+    <div id='content'>
+      <h1>
+        Class
+        Fz2D.Plugins.GoogleAnalytics
+      </h1>
+      <table class='box'>
+        <tr>
+          <td>Defined in:</td>
+          <td>src&#47;plugins&#47;google_analytics.coffee</td>
+        </tr>
+      </table>
+      <h2>Overview</h2>
+      <div class='docstring'>
+  Public: Google Analytics 
+</div>
+<div class='tags'>
+</div>
+      <h2>Class Method Summary</h2>
+      <ul class='summary'>
+  <li>
+    <span class='signature'>
+      <a href='#track-class'>
+        .<strong>track</strong>(id, event = ['_trackPageview'])
+      </a>
+    </span>
+    <span class='desc'>
+      Tracks an event for a given account id.
+    </span>
+  </li>
+</ul>
+      <h2>Instance Method Summary</h2>
+      <ul class='summary'>
+  <li>
+    <span class='signature'>
+      <a href='#constructor-instance'>
+        ::<strong>constructor</strong>(game)
+      </a>
+    </span>
+    <span class='desc'>
+      Constructor.
+    </span>
+  </li>
+</ul>
+      <h2>Class Method Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='track-class'>
+      .<strong>track</strong>(id, event = ['_trackPageview'])
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;plugins&#47;google_analytics.coffee#L11'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: Tracks an event for a given account id.
+
+id - Google Analytics Account Id
+event - event array with options (default: ['_trackPageview'])
+
+Returns nothing. 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>id</span>
+      &mdash;
+      <span class='desc'>Google Analytics Account Id</span>
+    </li>
+    <li>
+      <span class='name'>event</span>
+      &mdash;
+      <span class='desc'>event array with options (default: [&#39;_trackPageview&#39;])</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      <span class='desc'>Returns nothing.</span>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
+      <h2>Constructor Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='constructor-instance'>
+      ::<strong>constructor</strong>(game)
+      <a class='gh-link' href='&#47;blob&#47;master/src&#47;plugins&#47;google_analytics.coffee#L33'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: Constructor.
+
+game - <a href='../../../classes/Fz2D/Game.html'>Fz2D.Game</a> 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='type'>(Fz2D.Game)</span>
+      <span class='name'>game</span>
+      &mdash;
+      <span class='desc'><a href='../../../classes/Fz2D/Game.html'>Fz2D.Game</a></span>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
+    </div>
+    <div id='footer'>
+  Generated on
+  Wed Dec 24 2014 02:36:12 GMT+0200 (EET)
+  by
+  <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
+  v2.3.1
+  (Node.js v0.10.29).
+  &#10034;
+  Press Ctrl-h to see the keyboard shortcuts
+</div>
+  </body>
+</html>

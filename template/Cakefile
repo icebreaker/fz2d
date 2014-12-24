@@ -1,0 +1,147 @@
+fs = require 'fs'
+http = require 'http'
+connect = require 'connect'
+logger = require 'morgan'
+serve_static = require 'serve-static'
+socketio = require 'socket.io'
+url = require 'url'
+path = require 'path'
+open = require 'open'
+{exec, spawn} = require 'child_process'
+
+puts = console.log
+
+system_with_echo = (cmd) ->
+  puts cmd
+  exec cmd, (err, stdout, stderr) ->
+    throw err if err
+    if stdout.length || stderr.length
+      puts stdout + stderr
+
+spawn_with_echo = (cmd) ->
+  puts cmd
+  args = cmd.split(' ')
+  e = spawn args.shift(), args
+  e.stdout.on 'data', (data) ->
+    puts data.toString()
+  e.stderr.on 'data', (data) ->
+    puts data.toString()
+  e
+
+process.env['PATH'] = path.join(__dirname, 'node_modules/.bin') + ':' + process.env['PATH']
+
+default_port = 3000
+default_refresh = 500
+
+option '-p', '--port [PORT]', "server port (default: #{default_port})"
+option '-r', '--refresh [MS]', "refresh frequency (default: #{default_refresh} ms)"
+option '-q', '--query [PARAMS]', 'query params (optional)'
+
+watch_file = (filename, refresh, io) ->
+  fs.watchFile path.join(__dirname, filename), interval: refresh, (curr, prev) ->
+    io.sockets.emit 'refresh', {}
+
+watch_files = (filenames, refresh, io) ->
+  for filename in filenames
+    watch_file filename, refresh, io
+
+watch_directory = (directory, refresh, io) ->
+  if fs.watch
+    fs.watch path.join(__dirname, directory), interval: refresh, (curr, prev) ->
+      io.sockets.emit 'refresh', {}
+
+watch_directories = (directories, refresh, io) ->
+  if fs.watch
+    for directory in directories
+      watch_directory directory, refresh, io
+
+create_server = (port, io, refresh, query) ->
+  puts "== Server on http://127.0.0.1:#{port}/"
+  app = connect()
+  app.use logger('dev')
+
+  if io
+    app.use (req, res, next) ->
+      if url.parse(req.url).pathname == '/'
+        fs.readFile path.join(__dirname, 'index.html'), (err, data) ->
+          if err
+            next()
+          else
+            js = """
+            <script type="text/javascript">
+            (function()
+            {
+              var ios = document.createElement('script'); ios.type = 'text/javascript'; ios.async = true;
+              ios.onload = function() 
+              {
+                var socket = io.connect(window.location.url);
+                socket.on('refresh', function(data)
+                {
+                  console.log('refreshing ...');
+                  window.location.reload(true);
+                });
+                socket.on('disconnect', function(data)
+                {
+                   console.log('closing ...');
+                   window.open('', '_self').close();
+                });
+              };
+              ios.src = '/socket.io/socket.io.js';
+              ios.id  = '_fz2d_development';
+              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ios, s);
+            })();
+            </script>
+            """
+            content = data.toString().replace('<head>', "<head>\n#{js}")
+
+            res.setHeader 'Content-Type', 'text/html'
+            res.setHeader 'Content-Length', content.length
+            res.end content
+      else
+        next()
+
+  app.use serve_static(__dirname)
+
+  server = http.createServer app
+  
+  if io
+    puts "== Socket.io Server on http://127.0.0.1:#{port}/"
+    io = socketio.listen server
+    io.sockets.on 'connection', (socket) ->
+      socket.on 'disconnect', () ->
+        puts "== Tab closed/refreshed"
+
+  server.listen port, () ->
+    if io
+      puts "== Watching files (#{refresh} ms) ..."
+      watch_files ['js/fz2d.js', 'js/game.js', 'index.html'], refresh, io
+      watch_directories ['assets/textures', 'assets/sounds', 'assets/json'], refresh, io
+
+    puts "== Opening Browser on http://127.0.0.1:#{port}/"
+    open("http://127.0.0.1:#{port}/#{query}")
+
+    puts 'Press Ctrl + C to stop.'
+
+  process.on 'SIGINT', () ->
+    puts 'Bye, bye ...'
+    process.exit()
+
+task 'make', 'compiles game.js', (options) ->
+  spawn_with_echo 'coffee -o js/ -j js/game.js -cb src'
+
+task 'build', 'starts a server in development mode', (options) ->
+  port = options.port || default_port
+  refresh = options.refresh || default_refresh
+  query = options.query
+
+  if query?
+    query = "?#{query}"
+  else
+    query = ''
+
+  create_server port, true, refresh, query
+  spawn_with_echo 'coffee -o js/ -j js/game.js -cbw src'
+
+task 'server', "starts a server on localhost", (options) ->
+  port = options.port || default_port
+  create_server port
