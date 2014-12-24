@@ -33,4 +33,4 @@ class Fz2D.Plugins.GoogleAnalytics
   # game - {Fz2D.Game}
   constructor: (game) ->
     # FIXME: check if ga is a hash
-    Fz2D.GoogleAnalytics.track(game.ga.id, game.ga.event) if game.ga? and game.ga.id?
+    Fz2D.Plugins.GoogleAnalytics.track(game.ga.id, game.ga.event) if game.ga? and game.ga.id?

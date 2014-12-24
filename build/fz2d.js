@@ -913,7 +913,7 @@ Fz2D.Plugins.GoogleAnalytics = (function() {
 
   function GoogleAnalytics(game) {
     if ((game.ga != null) && (game.ga.id != null)) {
-      Fz2D.GoogleAnalytics.track(game.ga.id, game.ga.event);
+      Fz2D.Plugins.GoogleAnalytics.track(game.ga.id, game.ga.event);
     }
   }
 
