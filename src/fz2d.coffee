@@ -74,6 +74,25 @@ class Fz2D
     null
   )()
 
+  # Public: Is touch device?
+  @touch: (() ->
+    return 'supported' if Fz2D.forcetouch?
+
+    if 'ontouchstart' in window or window.navigator.maxTouchPoints or window.navigator.msMaxTouchPoints
+      'supported'
+    else
+      null
+  )()
+
+  # Public: Is mobile device?
+  @mobile: (() ->
+    m = window.navigator.userAgent.match(/(iphone|ipod|ipad|android|iemobile|blackberry|bada)/i)
+    if m
+      m[1]
+    else
+      null
+  )()
+
   # Public: Clamps a given number between two limits.
   #
   # d   - number
