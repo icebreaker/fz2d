@@ -65,6 +65,8 @@ Fz2D = (function() {
     }
   })();
 
+  Fz2D.production = null;
+
   Fz2D.development = (function() {
     if (Fz2D.debug != null) {
       return 'development';
@@ -72,7 +74,7 @@ Fz2D = (function() {
     if (/localhost|127.0.0.1/i.test(window.location.hostname)) {
       return 'development';
     }
-    this.production = 'production';
+    Fz2D.production = 'production';
     return null;
   })();
 

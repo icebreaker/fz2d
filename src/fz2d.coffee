@@ -62,12 +62,15 @@ class Fz2D
       null
   )()
 
-  # Public: Development or Production environment?
+  # Public: Production environment?
+  @production: null
+
+  # Public: Development environment?
   @development: (() ->
     return 'development' if Fz2D.debug?
     return 'development' if /localhost|127.0.0.1/i.test(window.location.hostname)
     # return 'development' if document.getElementById('_fz2d_development')?
-    @production = 'production'
+    Fz2D.production = 'production'
     null
   )()
 
