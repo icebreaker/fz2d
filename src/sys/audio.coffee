@@ -62,7 +62,7 @@ class Fz2D.Audio
 
   # Public: Replay the audio.
   replay: () ->
-    @_native.currentTime = 0
+    @_native.currentTime = 0 if @_native.currentTime > 0
     @_native.play()
     @
 
@@ -74,7 +74,7 @@ class Fz2D.Audio
   # Public: Stops the audio.
   stop: () ->
     @_native.pause()
-    @_native.currentTime = 0
+    @_native.currentTime = 0 if @_native.currentTime > 0
     @
 
   # Public: Sets loop state.
