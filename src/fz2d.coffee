@@ -68,8 +68,7 @@ class Fz2D
   # Public: Development environment?
   @development: (() ->
     return 'development' if Fz2D.debug?
-    return 'development' if /localhost|127.0.0.1/i.test(window.location.hostname)
-    # return 'development' if document.getElementById('_fz2d_development')?
+    return 'development' if /localhost|127.0.0.1|192.168.\d+.\d+/i.test(window.location.hostname)
     Fz2D.production = 'production'
     null
   )()
@@ -89,6 +88,23 @@ class Fz2D
     m = window.navigator.userAgent.match(/(iphone|ipod|ipad|android|iemobile|blackberry|bada)/i)
     if m
       m[1]
+    else
+      null
+  )()
+
+  # Public: Is Firefox?
+  @firefox: (() ->
+    if /firefox/i.test(window.navigator.userAgent)
+      'firefox'
+    else
+      null
+  )()
+
+  # Public: Is Internet Explorer?
+  @ie: (() ->
+    m = window.navigator.userAgent.match(/(msie \d+|iemobile\/\d+|WPDesktop)/i)
+    if m
+      parseInt(m[1].replace(/(msie\s+|iemobile\/)/i, '')) || 11
     else
       null
   )()
