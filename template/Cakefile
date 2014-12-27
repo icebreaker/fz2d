@@ -85,6 +85,13 @@ create_server = (port, io, refresh, query) ->
                    console.log('closing ...');
                    window.open('', '_self').close();
                 });
+                if(window.Event)
+                {
+                  // FIXME: use Event() instead of this mockery :)
+                  var evt = document.createEvent('Event');
+                  evt.initEvent('io', true, true);
+                  document.dispatchEvent(evt);
+                }
               };
               ios.src = '/socket.io/socket.io.js';
               ios.id  = '_fz2d_development';
@@ -92,7 +99,7 @@ create_server = (port, io, refresh, query) ->
             })();
             </script>
             """
-            content = data.toString().replace('<head>', "<head>\n#{js}")
+            content = data.toString().replace('</body>', "#{js}\n</body>")
 
             res.setHeader 'Content-Type', 'text/html'
             res.setHeader 'Content-Length', content.length
@@ -110,6 +117,8 @@ create_server = (port, io, refresh, query) ->
     io.sockets.on 'connection', (socket) ->
       socket.on 'disconnect', () ->
         puts "== Tab closed/refreshed"
+      socket.on 'log', (data) ->
+        console.log.apply(console, data.args)
 
   server.listen port, () ->
     if io
