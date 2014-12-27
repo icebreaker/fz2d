@@ -13,6 +13,7 @@ class Fz2D.Loader
     
     @visible = @alive = @exists = true
 
+    # FIXME: do not hardcode these ...
     @w = 256
     @h = 24
 
@@ -32,7 +33,7 @@ class Fz2D.Loader
         if ++@loaded >= @total
           @onload()
 
-        console.log("Loaded: #{((@pct * 100) | 0)}%")
+        console.log("Loaded: #{Math.ceil(@pct * 100)}%") if @pct > 0
 
       console.log("Registered loader #{k} for the `#{_loader.extension}` extension.")
       @_loaders[_loader.extension] = _loader
