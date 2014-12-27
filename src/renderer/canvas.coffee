@@ -10,6 +10,8 @@ class Fz2D.Canvas
     catch
       null
   )()
+  # Public: Context Options.
+  @opts: {}
 
   # Public: Requests and configures a context.
   #
@@ -21,7 +23,7 @@ class Fz2D.Canvas
   # opts - options to pass to when requesting the context (optional)
   #
   # Returns the requested context or null.
-  @getContext: (w, h, color=null, selector=null, type=@supported, opts={}) ->
+  @getContext: (w, h, color=null, selector=null, type=@supported, opts=@opts) ->
     if selector?
       canvas = Fz2D.getEl(selector) || Fz2D.createEl('canvas')
     else
@@ -35,6 +37,7 @@ class Fz2D.Canvas
     if selector?
       canvas.id = selector.slice(1)
       canvas.style.position = 'relative' # required for FF to have correct relative mouse coords
+      canvas.style.touchAction = 'none' # disable pan/zoom in all browsers supporting touch
       Fz2D.appendEl(canvas)
     
     ctx = canvas.getContext(type, opts)
@@ -55,8 +58,20 @@ class Fz2D.Canvas
   # Returns the image.
   @createImage: (w, h, color) ->
     ctx = Fz2D.Canvas.getContext(w, h)
+
+    [color, type, radius] = color.split(':')
+
     ctx.fillStyle = color
-    ctx.fillRect(0, 0, w, h)
+
+    if type == 'circle'
+      radius ?= w / 2.0
+
+      ctx.beginPath()
+      ctx.arc(radius, h / 2.0, radius, 0, 2 * Math.PI, false)
+      ctx.fill()
+    else
+      ctx.fillRect(0, 0, w, h)
+
     ctx.canvas
  
   # Public: Constructor.
