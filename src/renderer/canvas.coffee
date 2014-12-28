@@ -67,7 +67,7 @@ class Fz2D.Canvas
       radius ?= w / 2.0
 
       ctx.beginPath()
-      ctx.arc(radius, h / 2.0, radius, 0, 2 * Math.PI, false)
+      ctx.arc(radius, radius, radius, 0, 2 * Math.PI, false)
       ctx.fill()
     else
       ctx.fillRect(0, 0, w, h)
