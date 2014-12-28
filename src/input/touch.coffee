@@ -26,6 +26,7 @@ class Fz2D.Input.Touch
   # Private: Registers all event touch listeners.
   _setup: () ->
     @element.addEventListener 'touchstart', (e) =>
+      e.preventDefault()
       @element.onmousedown(@_updateTouches(e))
       @pressed = true
       @released = null
@@ -44,6 +45,7 @@ class Fz2D.Input.Touch
       false
 
     @element.addEventListener 'touchmove', (e) =>
+      e.preventDefault()
       @_updateTouches(e)
       false
 

@@ -82,11 +82,16 @@ Fz2D = (function() {
     if (Fz2D.forcetouch != null) {
       return 'supported';
     }
-    if (__indexOf.call(window, 'ontouchstart') >= 0 || window.navigator.maxTouchPoints || window.navigator.msMaxTouchPoints) {
+    if (__indexOf.call(window, 'ontouchstart') >= 0) {
       return 'supported';
-    } else {
-      return null;
     }
+    if (window.DocumentTouch && window.document(instance(DocumentTouch))) {
+      return 'supported';
+    }
+    if (window.navigator.maxTouchPoints > 0 || window.navigator.msMaxTouchPoints > 0) {
+      return 'supported';
+    }
+    return null;
   })();
 
   Fz2D.mobile = (function() {
@@ -594,6 +599,7 @@ Fz2D.Input.Touch = (function() {
   Touch.prototype._setup = function() {
     this.element.addEventListener('touchstart', (function(_this) {
       return function(e) {
+        e.preventDefault();
         _this.element.onmousedown(_this._updateTouches(e));
         _this.pressed = true;
         _this.released = null;
@@ -618,6 +624,7 @@ Fz2D.Input.Touch = (function() {
     })(this));
     this.element.addEventListener('touchmove', (function(_this) {
       return function(e) {
+        e.preventDefault();
         _this._updateTouches(e);
         return false;
       };

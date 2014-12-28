@@ -76,11 +76,10 @@ class Fz2D
   # Public: Is touch device?
   @touch: (() ->
     return 'supported' if Fz2D.forcetouch?
-
-    if 'ontouchstart' in window or window.navigator.maxTouchPoints or window.navigator.msMaxTouchPoints
-      'supported'
-    else
-      null
+    return 'supported' if 'ontouchstart' in window
+    return 'supported' if window.DocumentTouch and window.document instance DocumentTouch
+    return 'supported' if window.navigator.maxTouchPoints > 0 or window.navigator.msMaxTouchPoints > 0
+    null
   )()
 
   # Public: Is mobile device?
