@@ -338,7 +338,7 @@ Game = (function(_super) {
     winter_snow: 'winter_snow.ogg'
   };
 
-  Game.prototype.plugins = [Fz2D.Plugins.GitHub, Fz2D.Plugins.Stats];
+  Game.prototype.plugins = [Fz2D.Plugins.Touch, Fz2D.Plugins.GitHub, Fz2D.Plugins.Stats];
 
   Game.prototype.github = {
     username: 'icebreaker',

@@ -71,7 +71,7 @@ Fz2D = (function() {
     if (Fz2D.debug != null) {
       return 'development';
     }
-    if (/localhost|127.0.0.1/i.test(window.location.hostname)) {
+    if (/localhost|127.0.0.1|192.168.\d+.\d+/i.test(window.location.hostname)) {
       return 'development';
     }
     Fz2D.production = 'production';
@@ -94,6 +94,24 @@ Fz2D = (function() {
     m = window.navigator.userAgent.match(/(iphone|ipod|ipad|android|iemobile|blackberry|bada)/i);
     if (m) {
       return m[1];
+    } else {
+      return null;
+    }
+  })();
+
+  Fz2D.firefox = (function() {
+    if (/firefox/i.test(window.navigator.userAgent)) {
+      return 'firefox';
+    } else {
+      return null;
+    }
+  })();
+
+  Fz2D.ie = (function() {
+    var m;
+    m = window.navigator.userAgent.match(/(msie \d+|iemobile\/\d+|WPDesktop)/i);
+    if (m) {
+      return parseInt(m[1].replace(/(msie\s+|iemobile\/)/i, '')) || 11;
     } else {
       return null;
     }
@@ -381,6 +399,7 @@ if (window.performance.memory == null) {
 
 Fz2D.Input = (function() {
   function Input(element, x, y) {
+    this.element = element;
     if (x == null) {
       x = 0;
     }
@@ -388,12 +407,14 @@ Fz2D.Input = (function() {
       y = 0;
     }
     this.keys = new Fz2D.Input.Keyboard();
-    this.mouse = new Fz2D.Input.Mouse(element, x, y);
+    this.mouse = new Fz2D.Input.Mouse(this.element, x, y);
+    this.touch = new Fz2D.Input.Touch(this.element, x, y);
   }
 
   Input.prototype.update = function() {
     this.keys.update();
-    return this.mouse.update();
+    this.mouse.update();
+    return this.touch.update();
   };
 
   return Input;
@@ -403,7 +424,7 @@ Fz2D.Input = (function() {
 Fz2D.Input.Keyboard = (function() {
   function Keyboard() {
     this.update();
-    if (window.event) {
+    if (window.event != null) {
       window.onkeydown = (function(_this) {
         return function(e) {
           return _this[e.which] = _this.pressed[e.which] = true;
@@ -441,6 +462,8 @@ Fz2D.Input.Keyboard.Key = (function() {
 
   function Key() {}
 
+  Key.NONE = 0;
+
   for (c = _i = _ref = 'A'.charCodeAt(0), _ref1 = 'Z'.charCodeAt(0); _ref <= _ref1 ? _i <= _ref1 : _i >= _ref1; c = _ref <= _ref1 ? ++_i : --_i) {
     Key[String.fromCharCode(c)] = c;
   }
@@ -465,26 +488,27 @@ Fz2D.Input.Keyboard.Key = (function() {
 
 Fz2D.Input.Mouse = (function() {
   function Mouse(element, x, y) {
+    this.element = element;
     this.x = x != null ? x : 0;
     this.y = y != null ? y : 0;
     this.position = new Fz2D.Point(this.x, this.y);
     this.update();
-    element.onmousedown = (function(_this) {
+    this.element.onmousedown = (function(_this) {
       return function(e) {
         _this[e.button] = _this.pressed[e.button] = true;
         _this.released[e.button] = false;
         return false;
       };
     })(this);
-    element.onmouseup = (function(_this) {
+    this.element.onmouseup = (function(_this) {
       return function(e) {
         _this[e.button] = _this.pressed[e.button] = false;
         _this.released[e.button] = true;
         return false;
       };
     })(this);
-    if (/firefox/i.test(navigator.userAgent)) {
-      element.onmousemove = (function(_this) {
+    if ((Fz2D.firefox != null) && (Fz2D.touch == null)) {
+      this.element.onmousemove = (function(_this) {
         return function(e) {
           if (e.layerX || e.layerX === 0) {
             _this.dx = e.layerX - _this.x;
@@ -495,7 +519,7 @@ Fz2D.Input.Mouse = (function() {
         };
       })(this);
     } else {
-      element.onmousemove = (function(_this) {
+      this.element.onmousemove = (function(_this) {
         return function(e) {
           if (e.offsetX || e.offsetX === 0) {
             _this.dx = e.offsetX - _this.x;
@@ -506,18 +530,18 @@ Fz2D.Input.Mouse = (function() {
         };
       })(this);
     }
-    element.oncontextmenu = function(e) {
+    this.element.oncontextmenu = function(e) {
+      e.preventDefault();
       return false;
     };
-    this._element = element;
   }
 
   Mouse.prototype.show = function() {
-    return this._element.style.cursor = 'hand';
+    return this.element.style.cursor = 'hand';
   };
 
   Mouse.prototype.hide = function() {
-    return this._element.style.cursor = 'none';
+    return this.element.style.cursor = 'none';
   };
 
   Mouse.prototype.update = function() {
@@ -540,6 +564,228 @@ Fz2D.Input.Mouse.Button = (function() {
   Button.RIGHT = 2;
 
   return Button;
+
+})();
+
+Fz2D.Input.Touch = (function() {
+  function Touch(element, x, y) {
+    this.element = element;
+    this.x = x != null ? x : 0;
+    this.y = y != null ? y : 0;
+    this.position = new Fz2D.Point(this.x, this.y);
+    this.collection = new Fz2D.Input.Touch.Collection(this.element.getBoundingClientRect());
+    this.update();
+    if (Fz2D.touch == null) {
+      return;
+    }
+    if (window.PointerEvent != null) {
+      this._setup_pointer();
+    } else {
+      this._setup();
+    }
+  }
+
+  Touch.prototype.update = function() {
+    this.dx = this.dy = 0;
+    this.pressed = this.released = null;
+    return this.collection.length = 0;
+  };
+
+  Touch.prototype._setup = function() {
+    this.element.addEventListener('touchstart', (function(_this) {
+      return function(e) {
+        _this.element.onmousedown(_this._updateTouches(e));
+        _this.pressed = true;
+        _this.released = null;
+        return false;
+      };
+    })(this));
+    this.element.addEventListener('touchend', (function(_this) {
+      return function(e) {
+        _this.element.onmouseup(_this._updateTouches(e));
+        _this.pressed = null;
+        _this.released = true;
+        return false;
+      };
+    })(this));
+    this.element.addEventListener('touchcancel', (function(_this) {
+      return function(e) {
+        _this.element.onmouseup(_this._updateTouches(e));
+        _this.pressed = null;
+        _this.released = true;
+        return false;
+      };
+    })(this));
+    this.element.addEventListener('touchmove', (function(_this) {
+      return function(e) {
+        _this._updateTouches(e);
+        return false;
+      };
+    })(this));
+    this.element.addEventListener('selectstart', function(e) {
+      e.preventDefault();
+      return false;
+    });
+    this.element.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      return false;
+    });
+    return this.element.addEventListener('MSHoldVisual', function(e) {
+      e.preventDefault();
+      return false;
+    });
+  };
+
+  Touch.prototype._setup_pointer = function() {
+    this.element.addEventListener('pointerdown', (function(_this) {
+      return function(e) {
+        _this.element.onmousedown(_this._updatePointerTouches(e));
+        _this.pressed = true;
+        _this.released = null;
+        return false;
+      };
+    })(this));
+    this.element.addEventListener('pointerup', (function(_this) {
+      return function(e) {
+        _this.element.onmouseup(_this._updatePointerTouches(e));
+        _this.pressed = null;
+        _this.released = true;
+        return false;
+      };
+    })(this));
+    this.element.addEventListener('pointerout', (function(_this) {
+      return function(e) {
+        _this.element.onmouseup(_this._updatePointerTouches(e));
+        _this.pressed = null;
+        _this.released = true;
+        return false;
+      };
+    })(this));
+    this.element.addEventListener('pointercancel', (function(_this) {
+      return function(e) {
+        _this.element.onmouseup(_this._updatePointerTouches(e));
+        _this.pressed = null;
+        _this.released = true;
+        return false;
+      };
+    })(this));
+    this.element.addEventListener('pointermove', (function(_this) {
+      return function(e) {
+        _this._updatePointerTouches(e);
+        return false;
+      };
+    })(this));
+    this.element.addEventListener('selectstart', function(e) {
+      e.preventDefault();
+      return false;
+    });
+    this.element.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      return false;
+    });
+    return this.element.addEventListener('MSHoldVisual', function(e) {
+      e.preventDefault();
+      return false;
+    });
+  };
+
+  Touch.prototype._updateTouches = function(e) {
+    this.collection.setFromTouchList(e.changedTouches);
+    return this._updateLastTouch(e);
+  };
+
+  Touch.prototype._updatePointerTouches = function(e) {
+    this.collection.setFromPointer(e);
+    return this._updateLastTouch(e);
+  };
+
+  Touch.prototype._updateLastTouch = function(e) {
+    var touch;
+    touch = this.collection.first();
+    this.dx = touch.offsetX - this.x;
+    this.dy = touch.offsetY - this.y;
+    this.position.x = this.x = touch.offsetX;
+    this.position.y = this.y = touch.offsetY;
+    this.element.onmousemove(touch);
+    return touch;
+  };
+
+  return Touch;
+
+})();
+
+Fz2D.Input.Touch.Collection = (function() {
+  function Collection(bounds, n) {
+    if (n == null) {
+      n = 16;
+    }
+    this.x = bounds.left;
+    this.y = bounds.top;
+    this._reserve(n);
+  }
+
+  Collection.prototype.setFromPointer = function(pointer) {
+    var item;
+    item = this._items[0];
+    item.id = pointer.pointerId;
+    item.offsetX = pointer.clientX - this.x;
+    item.offsetY = pointer.clientY - this.y;
+    return this.length = 1;
+  };
+
+  Collection.prototype.setFromTouchList = function(touches) {
+    var i, item, touch, _i, _ref;
+    for (i = _i = 0, _ref = touches.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+      touch = touches[i];
+      item = this._items[i];
+      item.id = touch.identifier;
+      item.offsetX = touch.clientX - this.x;
+      item.offsetY = touch.clientY - this.y;
+    }
+    return this.length = touches.length;
+  };
+
+  Collection.prototype.find = function(id) {
+    var i, item, _i, _ref;
+    if (this.length === 0) {
+      return null;
+    }
+    for (i = _i = 0, _ref = this.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+      item = this._items[i];
+      if (item.id === id) {
+        return item;
+      }
+    }
+    return null;
+  };
+
+  Collection.prototype.first = function() {
+    return this._items[0];
+  };
+
+  Collection.prototype.last = function() {
+    return this._items[this.length - 1];
+  };
+
+  Collection.prototype.at = function(i) {
+    return this._items[i];
+  };
+
+  Collection.prototype._reserve = function(n) {
+    var i, _i, _ref;
+    this._items = [];
+    for (i = _i = 0, _ref = n - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+      this._items[i] = {
+        id: null,
+        offsetX: 0,
+        offsetY: 0,
+        button: 0
+      };
+    }
+    return this.length = 0;
+  };
+
+  return Collection;
 
 })();
 
@@ -569,7 +815,9 @@ Fz2D.Loader = (function() {
           if (++_this.loaded >= _this.total) {
             _this.onload();
           }
-          return console.log("Loaded: " + ((_this.pct * 100) | 0) + "%");
+          if (_this.pct > 0) {
+            return console.log("Loaded: " + (Math.ceil(_this.pct * 100)) + "%");
+          }
         };
       })(this);
       console.log("Registered loader " + k + " for the `" + _loader.extension + "` extension.");
@@ -1014,6 +1262,61 @@ Fz2D.Plugins.GoogleAnalytics = (function(_super) {
 
 })(Fz2D.Plugin);
 
+Fz2D.Plugins.RemoteConsole = (function(_super) {
+  __extends(RemoteConsole, _super);
+
+  RemoteConsole.supported = Fz2D.debug;
+
+  function RemoteConsole(game) {
+    this._setup_after = __bind(this._setup_after, this);
+    this._setup_before();
+    document.addEventListener('io', this._setup_after);
+  }
+
+  RemoteConsole.prototype._setup_before = function() {
+    this._args = [];
+    this._log = window.console.log;
+    return window.console.log = (function(_this) {
+      return function() {
+        return _this._args.push(arguments);
+      };
+    })(this);
+  };
+
+  RemoteConsole.prototype._setup_after = function() {
+    var args, _i, _len, _ref, _results;
+    window.console.log = (function(_this) {
+      return function() {
+        var arg, args, _i, _len;
+        _this._log.apply(window.console, arguments);
+        args = [];
+        for (_i = 0, _len = arguments.length; _i < _len; _i++) {
+          arg = arguments[_i];
+          if (typeof arg === 'object') {
+            args.push(JSON.stringify(arg, null, ' '));
+          } else {
+            args.push(arg);
+          }
+        }
+        return _this.socket.emit('log', {
+          args: args
+        });
+      };
+    })(this);
+    this.socket = window.io.connect(window.location.url);
+    _ref = this._args;
+    _results = [];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      args = _ref[_i];
+      _results.push(window.console.log.apply(window.console, args));
+    }
+    return _results;
+  };
+
+  return RemoteConsole;
+
+})(Fz2D.Plugin);
+
 Fz2D.Plugins.Stats = (function(_super) {
   __extends(Stats, _super);
 
@@ -1052,6 +1355,236 @@ Fz2D.Plugins.Stats = (function(_super) {
 
 })(Fz2D.Plugin);
 
+Fz2D.Plugins.Touch = (function(_super) {
+  var Key;
+
+  __extends(Touch, _super);
+
+  Key = Fz2D.Input.Keyboard.Key;
+
+  Touch.supported = Fz2D.touch;
+
+  Touch.prototype.config = {
+    left: {
+      type: 'joystick',
+      radius: 50,
+      keys: {
+        right: Key.RIGHT,
+        left: Key.LEFT
+      }
+    },
+    right: {
+      type: 'button',
+      radius: 50,
+      keys: {
+        up: Key.UP
+      }
+    }
+  };
+
+  function Touch(game) {
+    var left, right;
+    console.log('Touch Plugin enabled ...');
+    this._controls = [];
+    if (game.touch == null) {
+      game.touch = this.config;
+    }
+    if (left = game.touch.left) {
+      if (left.radius == null) {
+        left.radius = 50;
+      }
+      left.left = true;
+      this._controls.push(this._create_control(game.w, game.h, left));
+    }
+    if (right = game.touch.right) {
+      if (right.radius == null) {
+        right.radius = 50;
+      }
+      this._controls.push(this._create_control(game.w, game.h, right));
+    }
+  }
+
+  Touch.prototype.update = function(timer, input) {
+    var control, _i, _len, _ref, _results;
+    _ref = this._controls;
+    _results = [];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      control = _ref[_i];
+      _results.push(control.update(timer, input));
+    }
+    return _results;
+  };
+
+  Touch.prototype.draw = function(ctx) {
+    var control, _i, _len, _ref, _results;
+    _ref = this._controls;
+    _results = [];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      control = _ref[_i];
+      _results.push(control.draw(ctx));
+    }
+    return _results;
+  };
+
+  Touch.prototype._create_control = function(w, h, config) {
+    switch (config.type) {
+      case 'joystick':
+        return new Fz2D.Plugins.Touch.TouchControlJoystick(w, h, config);
+      case 'button':
+        return new Fz2D.Plugins.Touch.TouchControlJoystickButton(w, h, config);
+      default:
+        throw 'Invalid touch control configuration type';
+    }
+  };
+
+  return Touch;
+
+})(Fz2D.Plugin);
+
+Fz2D.Plugins.Touch.TouchControl = (function() {
+  function TouchControl(w, h, config) {
+    this._keys = config.keys || {};
+    this._radius = config.radius || 50;
+    this._radius2 = this._radius * this._radius;
+    this._outer_size = this._radius * 2;
+    this._inner_size = this._outer_size - 20;
+    this._outer = new Fz2D.Texture("rgba(224, 224, 224, 0.2):circle", this._outer_size, this._outer_size);
+    this._inner = new Fz2D.Texture("rgba(224, 224, 224, 0.4):circle", this._inner_size, this._inner_size);
+    if (config.left != null) {
+      this._outer_x = 20;
+      this._inner_x = 30;
+    } else {
+      this._outer_x = w - this._outer_size - 20;
+      this._inner_x = w - this._outer_size - 10;
+    }
+    this._outer_y = h - this._outer_size - 20;
+    this._inner_y = h - this._outer_size - 10;
+    this.cx = this._outer_x + this._radius;
+    this.cy = this._outer_y + this._radius;
+    this.dx = 0;
+    this.dy = 0;
+    this.id = null;
+  }
+
+  TouchControl.prototype.pressed = function(touch, input) {};
+
+  TouchControl.prototype.moved = function(touch, input) {};
+
+  TouchControl.prototype.released = function(touch, input) {
+    var k, v, _ref;
+    _ref = this._keys;
+    for (k in _ref) {
+      v = _ref[k];
+      input.keys[v] = input.keys.pressed[v] = false;
+    }
+    return null;
+  };
+
+  TouchControl.prototype.update = function(timer, input) {
+    var dx, dy, touch;
+    if (this.id != null) {
+      touch = input.touch.collection.find(this.id);
+      if (touch == null) {
+        return;
+      }
+      this.dx = 0;
+      this.dy = 0;
+      if (input.touch.released != null) {
+        this.id = null;
+        return this.released(touch, input);
+      } else {
+        return this.moved(touch, input);
+      }
+    } else if (input.touch.pressed != null) {
+      touch = input.touch.collection.first();
+      dx = touch.offsetX - this.cx;
+      dy = touch.offsetY - this.cy;
+      if (dx * dx + dy * dy < 50 * 50) {
+        this.id = touch.id;
+        this.dx = 0;
+        this.dy = 0;
+        return this.pressed(touch, input);
+      }
+    }
+  };
+
+  TouchControl.prototype.draw = function(ctx) {
+    ctx.draw(this._outer, 0, 0, this._outer.w, this._outer.h, this._outer_x, this._outer_y, this._outer_size, this._outer_size);
+    return ctx.draw(this._inner, 0, 0, this._inner.w, this._inner.h, this.dx + this._inner_x, this.dy + this._inner_y, this._inner_size, this._inner_size);
+  };
+
+  return TouchControl;
+
+})();
+
+Fz2D.Plugins.Touch.TouchControlJoystick = (function(_super) {
+  __extends(TouchControlJoystick, _super);
+
+  function TouchControlJoystick() {
+    return TouchControlJoystick.__super__.constructor.apply(this, arguments);
+  }
+
+  TouchControlJoystick.prototype.moved = function(touch, input) {
+    var dir, dx, dy;
+    if ((this._keys.left != null) && (this._keys.right != null)) {
+      dx = touch.offsetX - this.cx;
+      dir = dx / 50;
+      if (dir < 0) {
+        this.dx = -10;
+        input.keys[this._keys.left] = input.keys.pressed[this._keys.left] = true;
+        input.keys[this._keys.right] = input.keys.pressed[this._keys.right] = false;
+      } else if (dir > 0) {
+        this.dx = 10;
+        input.keys[this._keys.left] = input.keys.pressed[this._keys.left] = false;
+        input.keys[this._keys.right] = input.keys.pressed[this._keys.right] = true;
+      } else {
+        this.dx = 0;
+      }
+    }
+    if ((this._keys.up != null) && (this._keys.down != null)) {
+      dy = touch.offsetY - this.cy;
+      dir = dy / 50;
+      if (dir < 0) {
+        this.dy = -10;
+        input.keys[this._keys.up] = input.keys.pressed[this._keys.up] = true;
+        input.keys[this._keys.down] = input.keys.pressed[this._keys.down] = false;
+      } else if (dir > 0) {
+        this.dy = 10;
+        input.keys[this._keys.up] = input.keys.pressed[this._keys.up] = false;
+        input.keys[this._keys.down] = input.keys.pressed[this._keys.down] = true;
+      } else {
+        this.dy = 0;
+      }
+    }
+    return null;
+  };
+
+  return TouchControlJoystick;
+
+})(Fz2D.Plugins.Touch.TouchControl);
+
+Fz2D.Plugins.Touch.TouchControlJoystickButton = (function(_super) {
+  __extends(TouchControlJoystickButton, _super);
+
+  function TouchControlJoystickButton() {
+    return TouchControlJoystickButton.__super__.constructor.apply(this, arguments);
+  }
+
+  TouchControlJoystickButton.prototype.pressed = function(touch, input) {
+    var k, v, _ref;
+    this.dy = 10;
+    _ref = this._keys;
+    for (k in _ref) {
+      v = _ref[k];
+      input.keys[v] = input.keys.pressed[v] = true;
+    }
+    return null;
+  };
+
+  return TouchControlJoystickButton;
+
+})(Fz2D.Plugins.Touch.TouchControl);
+
 Fz2D.Canvas = (function() {
   Canvas.supported = (function() {
     try {
@@ -1065,6 +1598,8 @@ Fz2D.Canvas = (function() {
     }
   })();
 
+  Canvas.opts = {};
+
   Canvas.getContext = function(w, h, color, selector, type, opts) {
     var canvas, ctx;
     if (color == null) {
@@ -1077,7 +1612,7 @@ Fz2D.Canvas = (function() {
       type = this.supported;
     }
     if (opts == null) {
-      opts = {};
+      opts = this.opts;
     }
     if (selector != null) {
       canvas = Fz2D.getEl(selector) || Fz2D.createEl('canvas');
@@ -1092,6 +1627,7 @@ Fz2D.Canvas = (function() {
     if (selector != null) {
       canvas.id = selector.slice(1);
       canvas.style.position = 'relative';
+      canvas.style.touchAction = 'none';
       Fz2D.appendEl(canvas);
     }
     ctx = canvas.getContext(type, opts);
@@ -1104,10 +1640,20 @@ Fz2D.Canvas = (function() {
   };
 
   Canvas.createImage = function(w, h, color) {
-    var ctx;
+    var ctx, radius, type, _ref;
     ctx = Fz2D.Canvas.getContext(w, h);
+    _ref = color.split(':'), color = _ref[0], type = _ref[1], radius = _ref[2];
     ctx.fillStyle = color;
-    ctx.fillRect(0, 0, w, h);
+    if (type === 'circle') {
+      if (radius == null) {
+        radius = w / 2.0;
+      }
+      ctx.beginPath();
+      ctx.arc(radius, radius, radius, 0, 2 * Math.PI, false);
+      ctx.fill();
+    } else {
+      ctx.fillRect(0, 0, w, h);
+    }
     return ctx.canvas;
   };
 
@@ -1317,10 +1863,13 @@ Fz2D.CanvasWebGL = (function(_super) {
 Fz2D.Renderer = (function(Fz2D) {
   if (Fz2D.Canvas.supported != null) {
     if (Fz2D.nowebgl != null) {
+      console.log('Renderer: 2D (forced)');
       return Fz2D.Canvas;
     } else if (Fz2D.CanvasWebGL.supported != null) {
+      console.log('Renderer: WebGL');
       return Fz2D.CanvasWebGL;
     } else {
+      console.log('Renderer: 2D');
       return Fz2D.Canvas;
     }
   } else {
@@ -2697,7 +3246,9 @@ Fz2D.Audio = (function() {
   };
 
   Audio.prototype.replay = function() {
-    this._native.currentTime = 0;
+    if (this._native.currentTime > 0) {
+      this._native.currentTime = 0;
+    }
     this._native.play();
     return this;
   };
@@ -2709,7 +3260,9 @@ Fz2D.Audio = (function() {
 
   Audio.prototype.stop = function() {
     this._native.pause();
-    this._native.currentTime = 0;
+    if (this._native.currentTime > 0) {
+      this._native.currentTime = 0;
+    }
     return this;
   };
 
