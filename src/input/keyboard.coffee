@@ -4,7 +4,7 @@ class Fz2D.Input.Keyboard
   constructor: () ->
     @update()
 
-    if window.event
+    if window.event?
       window.onkeydown = (e) =>
         @[e.which] = @pressed[e.which] = true
 
