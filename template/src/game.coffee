@@ -13,6 +13,7 @@ class Game extends Fz2D.Game
     winter_snow: 'winter_snow.ogg'
   
   plugins: [
+    Fz2D.Plugins.Touch,
     Fz2D.Plugins.GitHub,
     Fz2D.Plugins.Stats
   ]
@@ -82,5 +83,5 @@ class Game extends Fz2D.Game
     scene.add(background)
     scene.add(map)
     scene.add(hud)
- 
+
 Game.run()
