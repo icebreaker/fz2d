@@ -6,6 +6,7 @@
 		"morgan"		: "*",
 		"serve-static"	: "*",
 		"socket.io"		: "*",
-		"uglify-js"		: "*"
+		"uglify-js"		: "*",
+		"open"			: "*"
 	}
 }
