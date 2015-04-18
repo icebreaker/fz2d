@@ -140,7 +140,7 @@
   <li>
     <span class='signature'>
       <a href='#getContext-class'>
-        .<strong>getContext</strong>(w, h, color = null, selector = null, type = @supported, opts = {})
+        .<strong>getContext</strong>(w, h, color = null, selector = null, type = @supported, opts = @opts)
       </a>
     </span>
     <span class='desc'>
@@ -227,7 +227,7 @@
     <p class='signature' id='createImage-class'>
       .<strong>createImage</strong>(w, h, color)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L56'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L58'>Source</a>
     </p>
     <div class='docstring'>
    Public: Creates an image filled with a solid color.
@@ -268,9 +268,9 @@ Returns the image.
   </div>
   <div class='method_details'>
     <p class='signature' id='getContext-class'>
-      .<strong>getContext</strong>(w, h, color = null, selector = null, type = @supported, opts = {})
+      .<strong>getContext</strong>(w, h, color = null, selector = null, type = @supported, opts = @opts)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L24'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L25'>Source</a>
     </p>
     <div class='docstring'>
    Public: Requests and configures a context.
@@ -334,7 +334,7 @@ Returns the requested context or null.
     <p class='signature' id='constructor-instance'>
       ::<strong>constructor</strong>(w, h, color = null, selector = null)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L68'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L82'>Source</a>
     </p>
     <div class='docstring'>
    Public: Constructor.
@@ -377,7 +377,7 @@ selector - query selector or id (default: Fz2D.SELECTOR)
     <p class='signature' id='clear-instance'>
       ::<strong>clear</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L82'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L96'>Source</a>
     </p>
     <div class='docstring'>
   Public: Clears the canvas. 
@@ -389,7 +389,7 @@ selector - query selector or id (default: Fz2D.SELECTOR)
     <p class='signature' id='draw-instance'>
       ::<strong>draw</strong>(texture, sx, sy, sw, sh, x, y, w, h)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L101'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L115'>Source</a>
     </p>
     <div class='docstring'>
    Public: Draws a <a href='../../classes/Fz2D/Texture.html'>Fz2D.Texture</a>.
@@ -460,7 +460,7 @@ h - desired height
     <p class='signature' id='fill-instance'>
       ::<strong>fill</strong>(color)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L76'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L90'>Source</a>
     </p>
     <div class='docstring'>
    Public: Fills the canvas with a solid color.
@@ -482,7 +482,7 @@ color - HTML color code
     <p class='signature' id='flush-instance'>
       ::<strong>flush</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L88'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L102'>Source</a>
     </p>
     <div class='docstring'>
   Public: Flushes the canvas. 
@@ -494,7 +494,7 @@ color - HTML color code
     <p class='signature' id='toElement-instance'>
       ::<strong>toElement</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L111'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L125'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns the canvas as an HTML DOM element. 
@@ -506,7 +506,7 @@ color - HTML color code
     <p class='signature' id='toImage-instance'>
       ::<strong>toImage</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L107'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L121'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns the canvas as an image. 
@@ -518,7 +518,7 @@ color - HTML color code
     </div>
     <div id='footer'>
   Generated on
-  Wed Dec 24 2014 15:00:03 GMT+0200 (EET)
+  Sun Apr 19 2015 01:52:30 GMT+0300 (EEST)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1

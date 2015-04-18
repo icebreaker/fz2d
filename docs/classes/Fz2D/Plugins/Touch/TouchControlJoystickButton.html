@@ -17,11 +17,11 @@
     &raquo;
     <a href='..&#47;..&#47;..&#47;..&#47;classes&#47;Fz2D.html' title='Fz2D'>Fz2D</a>
     &raquo;
-    <a href='..&#47;..&#47;..&#47;..&#47;classes&#47;Fz2D&#47;Loader.html' title='Loader'>Loader</a>
+    <span class='title'>Plugins</span>
     &raquo;
-    <span class='title'>Loaders</span>
+    <a href='..&#47;..&#47;..&#47;..&#47;classes&#47;Fz2D&#47;Plugins&#47;Touch.html' title='Touch'>Touch</a>
     &raquo;
-    <span class='title'>Audio</span>
+    <span class='title'>TouchControlJoystickButton</span>
     <nav>
       <ul>
         <li class='noframes'>
@@ -111,23 +111,23 @@
     <div id='content'>
       <h1>
         Class
-        Fz2D.Loader.Loaders.Audio
+        Fz2D.Plugins.Touch.TouchControlJoystickButton
       </h1>
       <table class='box'>
         <tr>
           <td>Defined in:</td>
-          <td>src&#47;loader&#47;loaders&#47;audio.coffee</td>
+          <td>src&#47;plugins&#47;touch&#47;touch_control_joystick_button.coffee</td>
         </tr>
         <tr>
           <td>Inherits:</td>
           <td>
-            <a href='..&#47;..&#47;..&#47;..&#47;classes/Fz2D&#47;Loader&#47;Base.html'>Fz2D.Loader.Base</a>
+            <a href='..&#47;..&#47;..&#47;..&#47;classes/Fz2D&#47;Plugins&#47;Touch&#47;TouchControl.html'>Fz2D.Plugins.Touch.TouchControl</a>
           </td>
         </tr>
       </table>
       <h2>Overview</h2>
       <div class='docstring'>
-  Public: Audio Loader 
+  Public: Joystick Button 
 </div>
 <div class='tags'>
 </div>
@@ -135,12 +135,12 @@
       <ul class='summary'>
   <li>
     <span class='signature'>
-      <a href='#load-instance'>
-        Fz2D.Audio ::<strong>load</strong>(path)
+      <a href='#pressed-instance'>
+        ::<strong>pressed</strong>(touch, input)
       </a>
     </span>
     <span class='desc'>
-      Loads an &#39;audio&#39; asset.
+      Fired on press.
     </span>
   </li>
 </ul>
@@ -149,45 +149,43 @@
       </h2>
       <h3 class='inherited'>
         Methods inherited from
-        <a href='..&#47;..&#47;..&#47;..&#47;classes/Fz2D&#47;Loader&#47;Base.html'>Fz2D.Loader.Base</a>
+        <a href='..&#47;..&#47;..&#47;..&#47;classes/Fz2D&#47;Plugins&#47;Touch&#47;TouchControl.html'>Fz2D.Plugins.Touch.TouchControl</a>
       </h3>
       <p class='inherited'>
-                <a href='..&#47;..&#47;..&#47;..&#47;classes/Fz2D&#47;Loader&#47;Base.html#constructor-instance'>.constructor</a>,
-                <a href='..&#47;..&#47;..&#47;..&#47;classes/Fz2D&#47;Loader&#47;Base.html#expand-instance'>.expand</a>,
-                <a href='..&#47;..&#47;..&#47;..&#47;classes/Fz2D&#47;Loader&#47;Base.html#load-instance'>.load</a>,
-        <a href='..&#47;..&#47;..&#47;..&#47;classes/Fz2D&#47;Loader&#47;Base.html#onload-instance'>.onload</a>
+                <a href='..&#47;..&#47;..&#47;..&#47;classes/Fz2D&#47;Plugins&#47;Touch&#47;TouchControl.html#constructor-instance'>.constructor</a>,
+                <a href='..&#47;..&#47;..&#47;..&#47;classes/Fz2D&#47;Plugins&#47;Touch&#47;TouchControl.html#pressed-instance'>.pressed</a>,
+                <a href='..&#47;..&#47;..&#47;..&#47;classes/Fz2D&#47;Plugins&#47;Touch&#47;TouchControl.html#moved-instance'>.moved</a>,
+                <a href='..&#47;..&#47;..&#47;..&#47;classes/Fz2D&#47;Plugins&#47;Touch&#47;TouchControl.html#released-instance'>.released</a>,
+                <a href='..&#47;..&#47;..&#47;..&#47;classes/Fz2D&#47;Plugins&#47;Touch&#47;TouchControl.html#update-instance'>.update</a>,
+        <a href='..&#47;..&#47;..&#47;..&#47;classes/Fz2D&#47;Plugins&#47;Touch&#47;TouchControl.html#draw-instance'>.draw</a>
       </p>
       <h2>Instance Method Details</h2>
       <div class='methods'>
   <div class='method_details'>
-    <p class='signature' id='load-instance'>
-      Fz2D.Audio ::<strong>load</strong>(path)
+    <p class='signature' id='pressed-instance'>
+      ::<strong>pressed</strong>(touch, input)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;loader&#47;loaders&#47;audio.coffee#L13'>Source</a>
+&#47;blob&#47;master/src&#47;plugins&#47;touch&#47;touch_control_joystick_button.coffee#L7'>Source</a>
     </p>
     <div class='docstring'>
-   Public: Loads an 'audio' asset.
+   Public: Fired on press.
 
-url - relative partial path
-
-Returns a <a href='../../../../classes/Fz2D/Audio.html'>Fz2D.Audio</a>. 
+touch - Hash
+input - <a href='../../../../classes/Fz2D/Input.html'>Fz2D.Input</a> 
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
   <ul class='param'>
     <li>
-      <span class='name'>url</span>
+      <span class='name'>touch</span>
       &mdash;
-      <span class='desc'>relative partial path</span>
+      <span class='desc'>Hash</span>
     </li>
-  </ul>
-  <h3>Returns:</h3>
-  <ul class='return'>
     <li>
-      <span class='type'></span>
-      (<tt><a href='../../../../classes/Fz2D/Audio.html'>Fz2D.Audio</a></tt>)
+      <span class='type'>(Fz2D.Input)</span>
+      <span class='name'>input</span>
       &mdash;
-      <span class='desc'>Returns a <a href='../../../../classes/Fz2D/Audio.html'>Fz2D.Audio</a>.</span>
+      <span class='desc'><a href='../../../../classes/Fz2D/Input.html'>Fz2D.Input</a></span>
     </li>
   </ul>
 </div>

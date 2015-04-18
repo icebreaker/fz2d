@@ -64,8 +64,12 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
 
     @_texture_id = 0
 
+    @gl.disable(@gl.DEPTH_TEST)
+    @gl.disable(@gl.CULL_FACE)
+
     @gl.enable(@gl.BLEND)
-    @gl.blendFunc(@gl.SRC_ALPHA, @gl.ONE_MINUS_SRC_ALPHA)
+    @gl.blendFuncSeparate(@gl.SRC_ALPHA, @gl.ONE_MINUS_SRC_ALPHA,
+                          @gl.ONE, @gl.ONE_MINUS_SRC_ALPHA)
 
     @_program = @_createShaderProgram(Fz2D.CanvasWebGL.VERTEX_SHADER,
                                       Fz2D.CanvasWebGL.FRAGMENT_SHADER)
