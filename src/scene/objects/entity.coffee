@@ -12,7 +12,7 @@ class Fz2D.Entity extends Fz2D.Object
     h ?= @texture.h
 
     unless w?
-      if @texture.w % h == 0
+      if (@texture.w % h == 0) and (@texture.w / h > 2)
         w = h
       else
         w = @texture.w

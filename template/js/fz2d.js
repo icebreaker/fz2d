@@ -2440,7 +2440,11 @@ Fz2D.Entity = (function(superClass) {
       h = this.texture.h;
     }
     if (w == null) {
-      if (this.texture.w % h === 0) {
+      console.log(this.texture.w % h);
+      console.log(this.texture.w / h);
+      console.log(this.texture.w, h);
+      console.log((this.texture.w % h === 0) && (this.texture.w / h > 2));
+      if ((this.texture.w % h === 0) && (this.texture.w / h > 2)) {
         w = h;
       } else {
         w = this.texture.w;

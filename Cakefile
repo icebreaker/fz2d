@@ -59,8 +59,6 @@ task 'template', 'updates the template with the latest', (options) ->
 
 task 'release', 'compiles, minifies, updates the template and generates docs', () ->
   invoke 'make'
-  invoke 'minify'
-  invoke 'template'
   invoke 'docs'
 
 task 'docs', 'generates documentation', () ->

@@ -10,7 +10,7 @@ class Fz2D.Animation
     @ended = true
 
     if not @count? or @count < 1
-      if @texture.w % @texture.h == 0
+      if (@texture.w % @texture.h == 0) and (@texture.w / @texture.h > 2)
         @count = @texture.w / @texture.h
       else
         @count = 1
