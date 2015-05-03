@@ -2518,6 +2518,11 @@ Fz2D.Group = (function(superClass) {
     this._objects = [];
   }
 
+  Group.prototype.sort = function(cb) {
+    this._objects.sort.apply(this._objects, arguments);
+    return this;
+  };
+
   Group.prototype.recycle = function() {
     var j, len, o, ref;
     ref = this._objects;

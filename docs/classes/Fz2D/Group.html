@@ -471,6 +471,16 @@
   </li>
   <li>
     <span class='signature'>
+      <a href='#sort-instance'>
+        ::<strong>sort</strong>(cb)
+      </a>
+    </span>
+    <span class='desc'>
+      Sorts objects.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
       <a href='#update-instance'>
         ::<strong>update</strong>(timer, input)
       </a>
@@ -545,7 +555,7 @@ h - height of group (default: 0)
     <p class='signature' id='add-instance'>
       ::<strong>add</strong>(object)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L160'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L166'>Source</a>
     </p>
     <div class='docstring'>
    Public: Adds an object.
@@ -577,7 +587,7 @@ Returns the object itself.
     <p class='signature' id='at-instance'>
       ::<strong>at</strong>(i)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L259'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L265'>Source</a>
     </p>
     <div class='docstring'>
    Public: Returns object at a given index.
@@ -599,7 +609,7 @@ i - index (>= 0 and <= length - 1)
     <p class='signature' id='clear-instance'>
       ::<strong>clear</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L263'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L269'>Source</a>
     </p>
     <div class='docstring'>
   Public: Removes all objects. 
@@ -611,7 +621,7 @@ i - index (>= 0 and <= length - 1)
     <p class='signature' id='draw-instance'>
       ::<strong>draw</strong>(ctx)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L273'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L279'>Source</a>
     </p>
     <div class='docstring'>
    Public: Draws group on every frame.
@@ -634,7 +644,7 @@ ctx - <a href='../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a>
     <p class='signature' id='findByClass-instance'>
       ::<strong>findByClass</strong>(klass)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L242'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L248'>Source</a>
     </p>
     <div class='docstring'>
    Public: Finds an object by class.
@@ -665,7 +675,7 @@ Returns the object or null.
     <p class='signature' id='findByTag-instance'>
       ::<strong>findByTag</strong>(tag)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L231'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L237'>Source</a>
     </p>
     <div class='docstring'>
    Public: Finds an object by tag.
@@ -696,7 +706,7 @@ Returns the object or null.
     <p class='signature' id='first-instance'>
       ::<strong>first</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L249'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L255'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns first object. 
@@ -708,7 +718,7 @@ Returns the object or null.
     <p class='signature' id='firstAlive-instance'>
       ::<strong>firstAlive</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L106'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L112'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns first <a href='../../classes/Fz2D/Object.html'>Fz2D.Object</a> that is alive. 
@@ -720,7 +730,7 @@ Returns the object or null.
     <p class='signature' id='firstAliveByClass-instance'>
       ::<strong>firstAliveByClass</strong>(klass)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L124'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L130'>Source</a>
     </p>
     <div class='docstring'>
    Public: Returns first <a href='../../classes/Fz2D/Object.html'>Fz2D.Object</a> by class that is alive.
@@ -742,7 +752,7 @@ klass - class of the object
     <p class='signature' id='firstAliveByTag-instance'>
       ::<strong>firstAliveByTag</strong>(tag)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L115'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L121'>Source</a>
     </p>
     <div class='docstring'>
    Public: Returns first <a href='../../classes/Fz2D/Object.html'>Fz2D.Object</a> by tag that is alive.
@@ -764,7 +774,7 @@ tag - name of the object
     <p class='signature' id='firstAvail-instance'>
       ::<strong>firstAvail</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L56'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L62'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns first <a href='../../classes/Fz2D/Object.html'>Fz2D.Object</a> that doesn't exist. 
@@ -776,7 +786,7 @@ tag - name of the object
     <p class='signature' id='firstAvailByClass-instance'>
       ::<strong>firstAvailByClass</strong>(klass)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L74'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L80'>Source</a>
     </p>
     <div class='docstring'>
    Public: Returns first <a href='../../classes/Fz2D/Object.html'>Fz2D.Object</a> by class that doesn't exist.
@@ -798,7 +808,7 @@ klass - class of the object
     <p class='signature' id='firstAvailByTag-instance'>
       ::<strong>firstAvailByTag</strong>(tag)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L65'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L71'>Source</a>
     </p>
     <div class='docstring'>
    Public: Returns first <a href='../../classes/Fz2D/Object.html'>Fz2D.Object</a> by tag that doesn't exist.
@@ -820,7 +830,7 @@ tag - name of the object
     <p class='signature' id='firstDead-instance'>
       ::<strong>firstDead</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L131'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L137'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns first <a href='../../classes/Fz2D/Object.html'>Fz2D.Object</a> that is dead. 
@@ -832,7 +842,7 @@ tag - name of the object
     <p class='signature' id='firstDeadByTag-instance'>
       ::<strong>firstDeadByTag</strong>(tag)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L140'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L146'>Source</a>
     </p>
     <div class='docstring'>
    Public: Returns first <a href='../../classes/Fz2D/Object.html'>Fz2D.Object</a> by tag that is dead.
@@ -854,7 +864,7 @@ tag - name of the object
     <p class='signature' id='firstDeadByTag-instance'>
       ::<strong>firstDeadByTag</strong>(klass)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L149'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L155'>Source</a>
     </p>
     <div class='docstring'>
    Public: Returns first <a href='../../classes/Fz2D/Object.html'>Fz2D.Object</a> by class that is dead.
@@ -876,7 +886,7 @@ klass - class of the object
     <p class='signature' id='firstExisting-instance'>
       ::<strong>firstExisting</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L81'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L87'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns first <a href='../../classes/Fz2D/Object.html'>Fz2D.Object</a> that exist. 
@@ -888,7 +898,7 @@ klass - class of the object
     <p class='signature' id='firstExistingByClass-instance'>
       ::<strong>firstExistingByClass</strong>(klass)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L99'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L105'>Source</a>
     </p>
     <div class='docstring'>
    Public: Returns first <a href='../../classes/Fz2D/Object.html'>Fz2D.Object</a> by class that exist.
@@ -910,7 +920,7 @@ klass - class of the object
     <p class='signature' id='firstExistingByTag-instance'>
       ::<strong>firstExistingByTag</strong>(tag)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L90'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L96'>Source</a>
     </p>
     <div class='docstring'>
    Public: Returns first <a href='../../classes/Fz2D/Object.html'>Fz2D.Object</a> by tag that exist.
@@ -932,7 +942,7 @@ tag - name of the object
     <p class='signature' id='hasAlive-instance'>
       ::<strong>hasAlive</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L40'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L46'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns true if there's at least one object that is alive. 
@@ -944,7 +954,7 @@ tag - name of the object
     <p class='signature' id='hasAliveByClass-instance'>
       ::<strong>hasAliveByClass</strong>(klass)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L52'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L58'>Source</a>
     </p>
     <div class='docstring'>
    Public: Returns true if there's at least one object that is alive with the given class.
@@ -966,7 +976,7 @@ klass - class of the object
     <p class='signature' id='hasAliveByTag-instance'>
       ::<strong>hasAliveByTag</strong>(tag)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L46'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L52'>Source</a>
     </p>
     <div class='docstring'>
    Public: Returns true if there's at least one object that is alive with the given tag.
@@ -988,7 +998,7 @@ tag - name of the object
     <p class='signature' id='killAll-instance'>
       ::<strong>killAll</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L213'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L219'>Source</a>
     </p>
     <div class='docstring'>
   Public: Kills all objects. 
@@ -1000,7 +1010,7 @@ tag - name of the object
     <p class='signature' id='last-instance'>
       ::<strong>last</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L253'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L259'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns last object. 
@@ -1012,7 +1022,7 @@ tag - name of the object
     <p class='signature' id='length-instance'>
       ::<strong>length</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L267'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L273'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns the number of objects. 
@@ -1024,7 +1034,7 @@ tag - name of the object
     <p class='signature' id='recycle-instance'>
       ::<strong>recycle</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L15'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L21'>Source</a>
     </p>
     <div class='docstring'>
    Public: Recycle an object.
@@ -1037,7 +1047,7 @@ Returns first <a href='../../classes/Fz2D/Object.html'>Fz2D.Object</a> that does
     <p class='signature' id='recycleByClass-instance'>
       Fz2D.Object ::<strong>recycleByClass</strong>(klass)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L35'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L41'>Source</a>
     </p>
     <div class='docstring'>
    Public: Recycle an object by class.
@@ -1070,7 +1080,7 @@ Returns first <a href='../../classes/Fz2D/Object.html'>Fz2D.Object</a> with the 
     <p class='signature' id='recycleByTag-instance'>
       Fz2D.Object ::<strong>recycleByTag</strong>(tag)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L26'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L32'>Source</a>
     </p>
     <div class='docstring'>
    Public: Recycle an object by tag.
@@ -1103,7 +1113,7 @@ Returns first <a href='../../classes/Fz2D/Object.html'>Fz2D.Object</a> with the 
     <p class='signature' id='remove-instance'>
       ::<strong>remove</strong>(object)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L170'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L176'>Source</a>
     </p>
     <div class='docstring'>
    Public: Removes an object.
@@ -1135,7 +1145,7 @@ Returns the object itself.
     <p class='signature' id='removeByClass-instance'>
       ::<strong>removeByClass</strong>(klass)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L206'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L212'>Source</a>
     </p>
     <div class='docstring'>
    Public: Removes an object by class.
@@ -1166,7 +1176,7 @@ Returns the object itself.
     <p class='signature' id='removeByIndex-instance'>
       ::<strong>removeByIndex</strong>(i)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L178'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L184'>Source</a>
     </p>
     <div class='docstring'>
    Public: Removes an object by index.
@@ -1197,7 +1207,7 @@ Returns the object itself.
     <p class='signature' id='removeByTag-instance'>
       ::<strong>removeByTag</strong>(tag)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L195'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L201'>Source</a>
     </p>
     <div class='docstring'>
    Public: Removes an object by tag.
@@ -1228,7 +1238,7 @@ Returns the object itself.
     <p class='signature' id='resetAll-instance'>
       ::<strong>resetAll</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L220'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L226'>Source</a>
     </p>
     <div class='docstring'>
   Public: Resets all objects. 
@@ -1237,10 +1247,23 @@ Returns the object itself.
 </div>
   </div>
   <div class='method_details'>
+    <p class='signature' id='sort-instance'>
+      ::<strong>sort</strong>(cb)
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L15'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: Sorts objects.
+cb - compare callback function 
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
     <p class='signature' id='update-instance'>
       ::<strong>update</strong>(timer, input)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L283'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;group.coffee#L289'>Source</a>
     </p>
     <div class='docstring'>
    Public: Updates group on every frame.
@@ -1270,7 +1293,7 @@ input - <a href='../../classes/Fz2D/Input.html'>Fz2D.Input</a>
     </div>
     <div id='footer'>
   Generated on
-  Sun Apr 19 2015 01:52:30 GMT+0300 (EEST)
+  Sun May 03 2015 16:00:29 GMT+0300 (EEST)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1

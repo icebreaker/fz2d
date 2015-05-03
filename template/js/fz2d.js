@@ -2112,7 +2112,7 @@ Fz2D.Animation = (function() {
     this.delay = delay1;
     this.ended = true;
     if ((this.count == null) || this.count < 1) {
-      if (this.texture.w % this.texture.h === 0) {
+      if ((this.texture.w % this.texture.h === 0) && (this.texture.w / this.texture.h > 2)) {
         this.count = this.texture.w / this.texture.h;
       } else {
         this.count = 1;
@@ -2440,10 +2440,6 @@ Fz2D.Entity = (function(superClass) {
       h = this.texture.h;
     }
     if (w == null) {
-      console.log(this.texture.w % h);
-      console.log(this.texture.w / h);
-      console.log(this.texture.w, h);
-      console.log((this.texture.w % h === 0) && (this.texture.w / h > 2));
       if ((this.texture.w % h === 0) && (this.texture.w / h > 2)) {
         w = h;
       } else {

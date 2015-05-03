@@ -10,6 +10,12 @@ class Fz2D.Group extends Fz2D.Object
     super(x, y, w, h)
     @_objects = []
 
+  # Public: Sorts objects.
+  # cb - compare callback function
+  sort: (cb) ->
+    @_objects.sort.apply(@_objects, arguments)
+    @
+
   # Public: Recycle an object.
   # Returns first {Fz2D.Object} that doesn't exist.
   recycle: () ->
