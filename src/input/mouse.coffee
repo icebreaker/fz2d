@@ -7,7 +7,12 @@ class Fz2D.Input.Mouse
   # y - initial mouse position on the Y axis (default: 0)
   constructor: (@element, @x=0, @y=0) ->
     @position = new Fz2D.Point(@x, @y)
-    @update()
+
+    @pressed = {}
+    @released = {}
+
+    for i in [0..Fz2D.Input.Mouse.Button.MAX_BUTTONS]
+      @[i] = @pressed[i] = @released[i] = false
 
     @element.onmousedown = (e) =>
       @[e.button] = @pressed[e.button] = true
@@ -49,5 +54,8 @@ class Fz2D.Input.Mouse
   # Public: Updates mouse state on every frame.
   update: () ->
     @dx = @dy = 0
-    @pressed = {}
-    @released = {}
+
+    for i in [0..Fz2D.Input.Mouse.Button.MAX_BUTTONS]
+      @pressed[i] = @released[i] = false
+
+    null

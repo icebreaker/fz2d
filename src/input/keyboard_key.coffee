@@ -1,6 +1,9 @@
 # Public: Keyboard Keys
 class Fz2D.Input.Keyboard.Key
-  # Public: No Key
+  # Public: Maximum Number of Keys.
+  @MAX = 256
+
+  # Public: No Key.
   @NONE = 0
 
   for c in ['A'.charCodeAt(0)..'Z'.charCodeAt(0)]

@@ -428,7 +428,11 @@ Fz2D.Input = (function() {
 
 Fz2D.Input.Keyboard = (function() {
   function Keyboard() {
-    this.update();
+    var i, j, ref;
+    this.pressed = {};
+    for (i = j = 0, ref = Fz2D.Input.Keyboard.Key.MAX; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+      this[i] = this.pressed[i] = false;
+    }
     if (window.event != null) {
       window.onkeydown = (function(_this) {
         return function(e) {
@@ -455,7 +459,11 @@ Fz2D.Input.Keyboard = (function() {
   }
 
   Keyboard.prototype.update = function() {
-    return this.pressed = {};
+    var i, j, ref;
+    for (i = j = 0, ref = Fz2D.Input.Keyboard.Key.MAX; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+      this.pressed[i] = false;
+    }
+    return null;
   };
 
   return Keyboard;
@@ -466,6 +474,8 @@ Fz2D.Input.Keyboard.Key = (function() {
   var c, j, ref, ref1;
 
   function Key() {}
+
+  Key.MAX = 256;
 
   Key.NONE = 0;
 
@@ -493,11 +503,16 @@ Fz2D.Input.Keyboard.Key = (function() {
 
 Fz2D.Input.Mouse = (function() {
   function Mouse(element1, x3, y3) {
+    var i, j, ref;
     this.element = element1;
     this.x = x3 != null ? x3 : 0;
     this.y = y3 != null ? y3 : 0;
     this.position = new Fz2D.Point(this.x, this.y);
-    this.update();
+    this.pressed = {};
+    this.released = {};
+    for (i = j = 0, ref = Fz2D.Input.Mouse.Button.MAX_BUTTONS; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+      this[i] = this.pressed[i] = this.released[i] = false;
+    }
     this.element.onmousedown = (function(_this) {
       return function(e) {
         _this[e.button] = _this.pressed[e.button] = true;
@@ -550,9 +565,12 @@ Fz2D.Input.Mouse = (function() {
   };
 
   Mouse.prototype.update = function() {
+    var i, j, ref;
     this.dx = this.dy = 0;
-    this.pressed = {};
-    return this.released = {};
+    for (i = j = 0, ref = Fz2D.Input.Mouse.Button.MAX_BUTTONS; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+      this.pressed[i] = this.released[i] = false;
+    }
+    return null;
   };
 
   return Mouse;
@@ -561,6 +579,8 @@ Fz2D.Input.Mouse = (function() {
 
 Fz2D.Input.Mouse.Button = (function() {
   function Button() {}
+
+  Button.MAX = 3;
 
   Button.LEFT = 0;
 
@@ -2517,6 +2537,11 @@ Fz2D.Group = (function(superClass) {
     Group.__super__.constructor.call(this, x, y, w, h);
     this._objects = [];
   }
+
+  Group.prototype.sort = function(cb) {
+    this._objects.sort.apply(this._objects, arguments);
+    return this;
+  };
 
   Group.prototype.recycle = function() {
     var j, len, o, ref;

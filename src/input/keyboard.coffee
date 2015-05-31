@@ -2,7 +2,10 @@
 class Fz2D.Input.Keyboard
   # Public: Constructor.
   constructor: () ->
-    @update()
+    @pressed = {}
+
+    for i in [0..Fz2D.Input.Keyboard.Key.MAX]
+      @[i] = @pressed[i] = false
 
     if window.event?
       window.onkeydown = (e) =>
@@ -16,7 +19,10 @@ class Fz2D.Input.Keyboard
 
       window.onkeyup = (e) =>
         @[e.keyCode] = @pressed[e.keyCode] = false
-
+  
   # Public: Updates keyboard state on every frame.
   update: () ->
-    @pressed = {}
+    for i in [0..Fz2D.Input.Keyboard.Key.MAX]
+      @pressed[i] = false
+
+    null
