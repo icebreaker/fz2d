@@ -2564,6 +2564,7 @@ Fz2D.Group = (function(superClass) {
         return o;
       }
     }
+    return null;
   };
 
   Group.prototype.recycleByClass = function(klass) {
@@ -2575,6 +2576,7 @@ Fz2D.Group = (function(superClass) {
         return o;
       }
     }
+    return null;
   };
 
   Group.prototype.hasAlive = function() {

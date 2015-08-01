@@ -33,6 +33,8 @@ class Fz2D.Group extends Fz2D.Object
     for o in @_objects
       return o if not o.exists and o.tag == tag
 
+    null
+
   # Public: Recycle an object by class.
   #
   # klass - class
@@ -41,6 +43,8 @@ class Fz2D.Group extends Fz2D.Object
   recycleByClass: (klass) ->
     for o in @_objects
       return o if not o.exists and o instanceof klass
+
+    null
 
   # Public: Returns true if there's at least one object that is alive.
   hasAlive: () ->
