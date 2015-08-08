@@ -40,9 +40,9 @@ docs = path.join(__dirname, 'docs')
 option '-p', '--path [PATH]', 'specifies destination directory for the create or update tasks'
 
 task 'make', 'compiles everything', () ->
-  spawn_with_echo 'coffee -o ' + build + ' -j '+ build + '/fz2d.js -cb ' + source
-  invoke 'minify'
-  invoke 'template'
+  spawn_with_echo 'coffee -o ' + build + ' -j '+ build + '/fz2d.js -cb ' + source, ->
+    invoke 'minify'
+    invoke 'template'
 
 task 'minify', 'minifies everything', () ->
   spawn_with_echo 'uglifyjs --no-dead-code -o ' + build + '/fz2d.min.js ' + build + '/fz2d.js'
