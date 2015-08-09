@@ -2518,369 +2518,6 @@ Fz2D.Entity = (function(superClass) {
 
 })(Fz2D.Object);
 
-Fz2D.Group = (function(superClass) {
-  extend(Group, superClass);
-
-  function Group(x, y, w, h) {
-    if (x == null) {
-      x = 0;
-    }
-    if (y == null) {
-      y = 0;
-    }
-    if (w == null) {
-      w = 0;
-    }
-    if (h == null) {
-      h = 0;
-    }
-    Group.__super__.constructor.call(this, x, y, w, h);
-    this._objects = [];
-  }
-
-  Group.prototype.sort = function(cb) {
-    this._objects.sort.apply(this._objects, arguments);
-    return this;
-  };
-
-  Group.prototype.recycle = function() {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (!o.exists) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.recycleByTag = function(tag) {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (!o.exists && o.tag === tag) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.recycleByClass = function(klass) {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (!o.exists && o instanceof klass) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.hasAlive = function() {
-    return this.firstAlive() != null;
-  };
-
-  Group.prototype.hasAliveByTag = function(tag) {
-    return this.firstAliveByTag(tag) != null;
-  };
-
-  Group.prototype.hasAliveByClass = function(klass) {
-    return this.firstAliveByClass(klass) != null;
-  };
-
-  Group.prototype.firstAvail = function() {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (!o.exists) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.firstAvailByTag = function(tag) {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (!o.exists && o.tag === tag) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.firstAvailByClass = function(klass) {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (!o.exists && o instanceof klass) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.firstExisting = function() {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (o.exists) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.firstExistingByTag = function(tag) {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (o.exists && o.tag === tag) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.firstExistingByClass = function(klass) {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (o.exists && o instanceof klass) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.firstAlive = function() {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (o.alive) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.firstAliveByTag = function(tag) {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (o.alive && o.tag === tag) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.firstAliveByClass = function(klass) {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (o.alive && o instanceof klass) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.firstDead = function() {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (!o.alive) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.firstDeadByTag = function(tag) {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (!o.alive && o.tag === tag) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.firstDeadByTag = function(klass) {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (!o.alive && o instanceof klass) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.add = function(object) {
-    this._objects.push(object);
-    if (object.group == null) {
-      object.group = this;
-    }
-    return object;
-  };
-
-  Group.prototype.remove = function(object) {
-    return this.removeByIndex(this._objects.indexOf(object));
-  };
-
-  Group.prototype.removeByIndex = function(i) {
-    var arr, object;
-    if (i > -1) {
-      arr = this._objects.splice(i, 1);
-      if (arr.length === 1) {
-        object = arr[0];
-        if (object.group === this) {
-          object.group = null;
-        }
-        return object;
-      } else {
-        return null;
-      }
-    } else {
-      return null;
-    }
-  };
-
-  Group.prototype.removeByTag = function(tag) {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (o.tag === tag) {
-        return this.remove(o);
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.removeByClass = function(klass) {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (o instanceof klass) {
-        return this.remove(o);
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.killAll = function() {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      o.killAll();
-    }
-    return null;
-  };
-
-  Group.prototype.resetAll = function() {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      o.resetAll();
-    }
-    return null;
-  };
-
-  Group.prototype.findByTag = function(tag) {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (o.tag === tag) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.findByClass = function(klass) {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (o instanceof klass) {
-        return o;
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.first = function() {
-    return this._objects[0];
-  };
-
-  Group.prototype.last = function() {
-    return this._objects[this._objects.length - 1];
-  };
-
-  Group.prototype.at = function(i) {
-    return this._objects[i];
-  };
-
-  Group.prototype.clear = function() {
-    return this._objects = [];
-  };
-
-  Group.prototype.length = function() {
-    return this._objects.length;
-  };
-
-  Group.prototype.draw = function(ctx) {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (o.exists && o.visible) {
-        o.draw(ctx);
-      }
-    }
-    return null;
-  };
-
-  Group.prototype.update = function(timer, input) {
-    var j, len, o, ref;
-    ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (o.exists && o.alive) {
-        o.update(timer, input);
-      }
-    }
-    return null;
-  };
-
-  return Group;
-
-})(Fz2D.Object);
-
 Fz2D.Gui.Button = (function(superClass) {
   extend(Button, superClass);
 
@@ -3539,3 +3176,378 @@ Fz2D.Timer = (function() {
   return Timer;
 
 })();
+
+Fz2D.Group = (function(superClass) {
+  extend(Group, superClass);
+
+  function Group(x, y, w, h) {
+    if (x == null) {
+      x = 0;
+    }
+    if (y == null) {
+      y = 0;
+    }
+    if (w == null) {
+      w = 0;
+    }
+    if (h == null) {
+      h = 0;
+    }
+    Group.__super__.constructor.call(this, x, y, w, h);
+    this._objects = [];
+  }
+
+  Group.prototype.each = function(cb) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (cb(o) === false) {
+        break;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.sort = function(cb) {
+    this._objects.sort.apply(this._objects, arguments);
+    return this;
+  };
+
+  Group.prototype.recycle = function() {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (!o.exists) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.recycleByTag = function(tag) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (!o.exists && o.tag === tag) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.recycleByClass = function(klass) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (!o.exists && o instanceof klass) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.hasAlive = function() {
+    return this.firstAlive() != null;
+  };
+
+  Group.prototype.hasAliveByTag = function(tag) {
+    return this.firstAliveByTag(tag) != null;
+  };
+
+  Group.prototype.hasAliveByClass = function(klass) {
+    return this.firstAliveByClass(klass) != null;
+  };
+
+  Group.prototype.firstAvail = function() {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (!o.exists) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.firstAvailByTag = function(tag) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (!o.exists && o.tag === tag) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.firstAvailByClass = function(klass) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (!o.exists && o instanceof klass) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.firstExisting = function() {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (o.exists) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.firstExistingByTag = function(tag) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (o.exists && o.tag === tag) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.firstExistingByClass = function(klass) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (o.exists && o instanceof klass) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.firstAlive = function() {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (o.alive) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.firstAliveByTag = function(tag) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (o.alive && o.tag === tag) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.firstAliveByClass = function(klass) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (o.alive && o instanceof klass) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.firstDead = function() {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (!o.alive) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.firstDeadByTag = function(tag) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (!o.alive && o.tag === tag) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.firstDeadByTag = function(klass) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (!o.alive && o instanceof klass) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.add = function(object) {
+    this._objects.push(object);
+    if (object.group == null) {
+      object.group = this;
+    }
+    return object;
+  };
+
+  Group.prototype.remove = function(object) {
+    return this.removeByIndex(this._objects.indexOf(object));
+  };
+
+  Group.prototype.removeByIndex = function(i) {
+    var arr, object;
+    if (i > -1) {
+      arr = this._objects.splice(i, 1);
+      if (arr.length === 1) {
+        object = arr[0];
+        if (object.group === this) {
+          object.group = null;
+        }
+        return object;
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  };
+
+  Group.prototype.removeByTag = function(tag) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (o.tag === tag) {
+        return this.remove(o);
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.removeByClass = function(klass) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (o instanceof klass) {
+        return this.remove(o);
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.killAll = function() {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      o.killAll();
+    }
+    return null;
+  };
+
+  Group.prototype.resetAll = function() {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      o.resetAll();
+    }
+    return null;
+  };
+
+  Group.prototype.findByTag = function(tag) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (o.tag === tag) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.findByClass = function(klass) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (o instanceof klass) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.first = function() {
+    return this._objects[0];
+  };
+
+  Group.prototype.last = function() {
+    return this._objects[this._objects.length - 1];
+  };
+
+  Group.prototype.at = function(i) {
+    return this._objects[i];
+  };
+
+  Group.prototype.clear = function() {
+    return this._objects = [];
+  };
+
+  Group.prototype.length = function() {
+    return this._objects.length;
+  };
+
+  Group.prototype.draw = function(ctx) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (o.exists && o.visible) {
+        o.draw(ctx);
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.update = function(timer, input) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (o.exists && o.alive) {
+        o.update(timer, input);
+      }
+    }
+    return null;
+  };
+
+  return Group;
+
+})(Fz2D.Object);

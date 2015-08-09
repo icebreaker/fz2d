@@ -10,6 +10,15 @@ class Fz2D.Group extends Fz2D.Object
     super(x, y, w, h)
     @_objects = []
 
+  # Public: Iterates over each object.
+  # cb - iteration callback function
+  each: (cb) ->
+    for o in @_objects
+      if cb(o) is false
+        break
+
+    null
+
   # Public: Sorts objects.
   # cb - compare callback function
   sort: (cb) ->
