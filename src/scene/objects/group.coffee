@@ -19,6 +19,14 @@ class Fz2D.Group extends Fz2D.Object
 
     null
 
+  # Public: Iterates over each object of a given class.
+  eachByClass: (klass, cb) ->
+    for o in @_objects
+      if o instanceof klass and cb(o) is false
+        break
+
+    null
+
   # Public: Sorts objects.
   # cb - compare callback function
   sort: (cb) ->
@@ -37,7 +45,7 @@ class Fz2D.Group extends Fz2D.Object
   #
   # tag - name of the object
   #
-  # Returns first {Fz2D.Object} with the give tag that doesn't exist.
+  # Returns first {Fz2D.Object} with the given tag that doesn't exist.
   recycleByTag: (tag) ->
     for o in @_objects
       return o if not o.exists and o.tag == tag
@@ -48,7 +56,7 @@ class Fz2D.Group extends Fz2D.Object
   #
   # klass - class
   #
-  # Returns first {Fz2D.Object} with the give class that doesn't exist.
+  # Returns first {Fz2D.Object} with the given class that doesn't exist.
   recycleByClass: (klass) ->
     for o in @_objects
       return o if not o.exists and o instanceof klass
@@ -70,6 +78,38 @@ class Fz2D.Group extends Fz2D.Object
   # klass - class of the object
   hasAliveByClass: (klass) ->
     @firstAliveByClass(klass)?
+
+  # Public: Returns true if there's at least one object that is dead.
+  hasDead: () ->
+    @firstDead()?
+
+  # Public: Returns true if there's at least one object that is dead with the given tag.
+  #
+  # tag - name of the object
+  hasDeadByTag: (tag) ->
+    @firstDeadByTag(tag)?
+
+  # Public: Returns true if there's at least one object that is dead with the given class.
+  #
+  # klass - class of the object
+  hasDeadByClass: (klass) ->
+    @firstDeadByClass(klass)?
+
+  # Public: Returns true if there's at least one object that is visible.
+  hasVisible: () ->
+    @firstVisible()?
+
+  # Public: Returns true if there's at least one object that is visible with the given tag.
+  #
+  # tag - name of the object
+  hasVisibleByTag: (tag) ->
+    @firstVisibleByTag(tag)?
+
+  # Public: Returns true if there's at least one object that is visible with the given class.
+  #
+  # klass - class of the object
+  hasVisibleByClass: (klass) ->
+    @firstVisibleByClass(klass)?
 
   # Public: Returns first {Fz2D.Object} that doesn't exist.
   firstAvail: () ->
@@ -165,11 +205,44 @@ class Fz2D.Group extends Fz2D.Object
   # Public: Returns first {Fz2D.Object} by class that is dead.
   #
   # klass - class of the object
-  firstDeadByTag: (klass) ->
+  firstDeadByClass: (klass) ->
     for o in @_objects
       return o if not o.alive and o instanceof klass
 
     null
+
+  # Public: Returns first {Fz2D.Object} that is visible.
+  firstVisible: () ->
+    for o in @_objects
+      return o if o.visible
+
+    null
+
+  # Public: Returns first {Fz2D.Object} by tag that is visible.
+  #
+  # tag - name of the object
+  firstVisibleByTag: (tag) ->
+    for o in @_objects
+      return o if o.visible and o.tag == tag
+
+    null
+
+  # Public: Returns first {Fz2D.Object} by class that is visible.
+  #
+  # klass - class of the object
+  firstVisibleByClass: (klass) ->
+    for o in @_objects
+      return o if o.visible and o instanceof klass
+
+    null
+
+  # Public: Returns true if all objects are alive.
+  allAlive: () ->
+    !@hasDead()
+
+  # Public: Returns true if all objects are dead.
+  allDead: () ->
+    !@hasAlive()
 
   # Public: Adds an object.
   #
@@ -241,6 +314,16 @@ class Fz2D.Group extends Fz2D.Object
       o.resetAll()
     
     null
+
+  # Public: Hides all objects.
+  hideAll: () ->
+    for o in @_objects
+      o.visible = false
+
+  # Public: Shows all objects.
+  showAll: () ->
+    for o in @_objects
+      o.visible = true
 
   # Public: Finds an object by tag.
   #
