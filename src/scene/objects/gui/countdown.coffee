@@ -11,6 +11,8 @@ class Fz2D.Gui.Countdown extends Fz2D.Object
     super(x, y)
 
     @count ?= 0
+    @delay ?= 1000
+
     @_count = 0
     @_dt    = 0
 
@@ -48,7 +50,7 @@ class Fz2D.Gui.Countdown extends Fz2D.Object
 
     @_dt += timer.dt
 
-    if @_dt > 1000
+    if @_dt > @delay
       @_dt = 0
       if @_count == 0
         @ended = true
