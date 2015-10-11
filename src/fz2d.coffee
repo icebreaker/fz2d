@@ -6,13 +6,13 @@ class Fz2D
   # Public: None.
   @NONE   = 0
   # Public: Top.
-  @TOP    = 1 << 1
+  @TOP    = 1 << 0
   # Public: Left.
-  @LEFT   = 1 << 2
+  @LEFT   = 1 << 1
   # Public: Right.
-  @RIGHT  = 1 << 3
+  @RIGHT  = 1 << 2
   # Public: Bottom.
-  @BOTTOM = 1 << 4
+  @BOTTOM = 1 << 3
 
   # Public: Default foreground color.
   @FG: '#FFFFFF'
