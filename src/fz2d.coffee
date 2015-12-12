@@ -177,11 +177,11 @@ class Fz2D
   #
   # Returns the sides of a collision.
   @getCollisionSide: (o1, o2) ->
-    x1 = o1.x + o1.bounds.cx
-    y1 = o1.y + o1.bounds.cy
+    x1 = o1.x + o1.bounds.center.x
+    y1 = o1.y + o1.bounds.center.y
  
-    x2 = o2.x + o2.bounds.cx
-    y2 = o2.y + o2.bounds.cy
+    x2 = o2.x + o2.bounds.center.x
+    y2 = o2.y + o2.bounds.center.y
    
     result = Fz2D.NONE
 

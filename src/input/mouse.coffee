@@ -6,7 +6,7 @@ class Fz2D.Input.Mouse
   # x - initial mouse position on the X axis (default: 0)
   # y - initial mouse position on the Y axis (default: 0)
   constructor: (@element, @x=0, @y=0) ->
-    @position = new Fz2D.Point(@x, @y)
+    @position = new Fz2D.Vec2(@x, @y)
 
     @pressed = {}
     @released = {}

@@ -42,7 +42,7 @@ class Fz2D.Rect
 
   # Public: Determines if a point is inside the rectangle.
   #
-  # p - {Fz2D.Point}
+  # p - {Fz2D.Vec2}
   #
   # Returns true or false.
   contains: (p) ->

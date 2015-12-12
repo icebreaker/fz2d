@@ -7,6 +7,7 @@ class Fz2D.BBox
   # w - width
   # h - height
   constructor: (@x=0, @y=0, @w=0, @h=0) ->
+    @center = new Fz2D.Vec2()
     @_update()
 
   # Public: Sets the position and size.
@@ -29,7 +30,7 @@ class Fz2D.BBox
   setPos: (x, y) ->
     @x = x
     @y = y
-    @
+    @_update()
 
   # Public: Sets the size of the rectangle.
   #
@@ -42,7 +43,7 @@ class Fz2D.BBox
 
   # Public: Determines if a point is inside the rectangle.
   #
-  # p - {Fz2D.Point}
+  # p - {Fz2D.Vec2}
   #
   # Returns true or false.
   contains: (p) ->
@@ -68,10 +69,10 @@ class Fz2D.BBox
   isNull: () ->
     @w == 0 or @h == 0
 
-  # Private: Updates half sizes + centers.
+  # Private: Updates half size and center.
   _update: () ->
-    @hw = @w / 2.0
-    @hh = @h / 2.0
-    @cx = @x + @hw
-    @cy = @y + @hh
+    @hw     = @w / 2.0
+    @hh     = @h / 2.0
+    @radius = @hw
+    @center.set(@x + @hw, @y + @hh)
     @

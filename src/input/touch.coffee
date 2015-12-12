@@ -6,7 +6,7 @@ class Fz2D.Input.Touch
   # x - initial touch position on the X axis (default: 0)
   # y - initial touch position on the Y axis (default: 0)
   constructor: (@element, @x=0, @y=0) ->
-    @position = new Fz2D.Point(@x, @y)
+    @position = new Fz2D.Vec2(@x, @y)
     @collection = new Fz2D.Input.Touch.Collection(@element.getBoundingClientRect())
     @update()
 
