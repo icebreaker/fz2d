@@ -93,7 +93,7 @@ class Fz2D.Entity extends Fz2D.Object
     @animation.update(timer) unless @animation.ended
 
     if @moving
-      @x += (@dx * timer.dt)
-      @y += (@dy * timer.dt)
+      @x += (@dx * timer.dt) | 0
+      @y += (@dy * timer.dt) | 0
 
     null
