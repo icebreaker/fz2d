@@ -22,7 +22,7 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
 
   # Private: Vertex Shader.
   @VERTEX_SHADER: """
-  precision highp float;
+  precision lowp float;
 
   uniform vec2 screen;
   uniform vec2 texture;
@@ -40,7 +40,7 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
    
   # Private: Fragment Shader.
   @FRAGMENT_SHADER: """
-  precision highp float;
+  precision lowp float;
 
   uniform sampler2D texture_id;
   varying vec2 texture_coord;
