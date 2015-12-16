@@ -39,7 +39,11 @@ class Fz2D.Game
 
     if @plugins?
       for plugin in @plugins
-        @registerPlugin(new plugin(@)) if plugin.supported?
+        if plugin.supported?
+          @registerPlugin(new plugin(@))
+          console.log("Plugin: #{plugin.getName()} << enabled >>")
+        else
+          console.log("Plugin: #{plugin.getName()} << not supported or is disabled in the current environment >>")
 
     @_timer  = new Fz2D.Timer()
     @_ctx    = new Fz2D.Renderer(@w, @h, @bg, @selector)
