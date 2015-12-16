@@ -10,6 +10,7 @@ class Fz2D.Canvas
     catch
       null
   )()
+
   # Public: Context Options.
   @opts: {}
 
@@ -114,9 +115,19 @@ class Fz2D.Canvas
   # y - desired position on the Y axis
   # w - desired width
   # h - desired height
-  draw: (texture, sx, sy, sw, sh, x, y, w, h) ->
+  # hw - desired half width (default: w/2.0)
+  # hh - desired half height (default: h/2.0)
+  # angle - rotation angle (default: 0.0)
+  draw: (texture, sx, sy, sw, sh, x, y, w, h, hw=h/2.0, hh=h/2.0, angle=0.0) ->
     @draw_call_count++
-    @_ctx.drawImage(texture._native, sx, sy, sw, sh, x, y, w, h)
+    @_ctx.save()
+
+    @_ctx.translate(x + hw, y + hh)
+    @_ctx.rotate(angle * Fz2D.DEG2RAD)
+
+    @_ctx.drawImage(texture._native, sx, sy, sw, sh, -hw, -hh, w, h)
+
+    @_ctx.restore()
     @_ctx
 
   # Public: Returns the canvas as an image.

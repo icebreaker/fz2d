@@ -18,7 +18,7 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
   )()
 
   # Public: Vertex Cache Size. (note: should be power of two)
-  @VERTEX_CACHE_MAX_SIZE: 24 * 2048
+  @VERTEX_CACHE_MAX_SIZE: 48 * 2048
 
   # Private: Vertex Shader.
   @VERTEX_SHADER: """
@@ -28,13 +28,25 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
   uniform vec2 texture;
 
   attribute vec4 pos;
+  attribute vec4 uv;
+
   varying vec2 texture_coord;
 
   void main(void)
   { 
-    texture_coord = pos.zw * texture;
-    vec2 new_pos = pos.xy * screen;
-    gl_Position = vec4(new_pos.x - 1.0, 1.0 - new_pos.y, 0.0, 1.0);
+    texture_coord = uv.st * texture;
+    
+    float r = radians(uv.z);
+    float cosr = cos(r);
+    float sinr = sin(r);
+
+    vec2 pp = pos.xy - pos.zw;
+    vec2 p  = vec2(pp.x * cosr - pp.y * sinr, pp.x * sinr + pp.y * cosr);
+
+    p += pos.zw;
+    p *= screen;
+
+    gl_Position = vec4(p.x - 1.0, 1.0 - p.y, 0.0, 1.0);
   }
   """
    
@@ -74,7 +86,8 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
     @_program = @_createShaderProgram(Fz2D.CanvasWebGL.VERTEX_SHADER,
                                       Fz2D.CanvasWebGL.FRAGMENT_SHADER)
 
-    @_pos_uv_loc = @gl.getAttribLocation(@_program, "pos")
+    @_pos_loc = @gl.getAttribLocation(@_program, "pos")
+    @_uv_loc = @gl.getAttribLocation(@_program, "uv")
     @_texture_id_loc = @gl.getUniformLocation(@_program, "texture_id")
     @_texture_loc = @gl.getUniformLocation(@_program, "texture")
     @_screen_loc = @gl.getUniformLocation(@_program, "screen")
@@ -89,6 +102,12 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
     @_vertex_cache_size = 0
 
     @gl.bufferData(@gl.ARRAY_BUFFER, @_vertex_cache, @gl.DYNAMIC_DRAW)
+
+    @gl.enableVertexAttribArray(@_pos_loc)
+    @gl.enableVertexAttribArray(@_uv_loc)
+
+    @gl.vertexAttribPointer(@_pos_loc, 4, @gl.FLOAT, false, 32, 0)
+    @gl.vertexAttribPointer(@_uv_loc,  4, @gl.FLOAT, false, 32, 16)
 
   # Public: Fills the canvas with a solid color.
   #
@@ -108,10 +127,7 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
     @draw_call_count++
 
     @gl.bufferSubData(@gl.ARRAY_BUFFER, 0, @_vertex_cache)
-
-    @gl.enableVertexAttribArray(@_pos_uv_loc)
-    @gl.vertexAttribPointer(@_pos_uv_loc, 4, @gl.FLOAT, false, 16, 0)
-    @gl.drawArrays(@gl.TRIANGLES, 0, @_vertex_cache_size >> 2)
+    @gl.drawArrays(@gl.TRIANGLES, 0, @_vertex_cache_size >> 3)
 
     @_vertex_cache_size = 0
 
@@ -126,7 +142,10 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
   # y - desired position on the Y axis
   # w - desired width
   # h - desired height
-  draw: (texture, sx, sy, sw, sh, x, y, w, h) ->
+  # hw - desired half width (default: w/2.0)
+  # hh - desired half height (default: h/2.0)
+  # angle - rotation angle (default: 0.0)
+  draw: (texture, sx, sy, sw, sh, x, y, w, h, hw=w/2.0, hh=h/2.0, angle=0.0) ->
     if texture._native._texture_id != @_texture_id
       @flush()
 
@@ -138,43 +157,76 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
       @_texture_id = texture._native._texture_id
  
       @gl.uniform2f(@_texture_loc, texture.iw, texture.ih)
-  
+    
     r = x + w
     b = y + h
 
     sr = sx + sw
     sb = sy + sh
     
-    @_vertex_cache[@_vertex_cache_size++] = x
-    @_vertex_cache[@_vertex_cache_size++] = y
-    @_vertex_cache[@_vertex_cache_size++] = sx
-    @_vertex_cache[@_vertex_cache_size++] = sy
-    
-    @_vertex_cache[@_vertex_cache_size++] = r
-    @_vertex_cache[@_vertex_cache_size++] = y
-    @_vertex_cache[@_vertex_cache_size++] = sr
-    @_vertex_cache[@_vertex_cache_size++] = sy
-    
-    @_vertex_cache[@_vertex_cache_size++] = x
-    @_vertex_cache[@_vertex_cache_size++] = b
-    @_vertex_cache[@_vertex_cache_size++] = sx
-    @_vertex_cache[@_vertex_cache_size++] = sb
-    
-    @_vertex_cache[@_vertex_cache_size++] = x
-    @_vertex_cache[@_vertex_cache_size++] = b
-    @_vertex_cache[@_vertex_cache_size++] = sx
-    @_vertex_cache[@_vertex_cache_size++] = sb
-    
-    @_vertex_cache[@_vertex_cache_size++] = r
-    @_vertex_cache[@_vertex_cache_size++] = y
-    @_vertex_cache[@_vertex_cache_size++] = sr
-    @_vertex_cache[@_vertex_cache_size++] = sy
-    
-    @_vertex_cache[@_vertex_cache_size++] = r
-    @_vertex_cache[@_vertex_cache_size++] = b
-    @_vertex_cache[@_vertex_cache_size++] = sr
-    @_vertex_cache[@_vertex_cache_size++] = sb
+    cx = x + hw
+    cy = y + hh
 
+    @_vertex_cache[@_vertex_cache_size++] = x
+    @_vertex_cache[@_vertex_cache_size++] = y
+    @_vertex_cache[@_vertex_cache_size++] = cx
+    @_vertex_cache[@_vertex_cache_size++] = cy
+
+    @_vertex_cache[@_vertex_cache_size++] = sx
+    @_vertex_cache[@_vertex_cache_size++] = sy
+    @_vertex_cache[@_vertex_cache_size++] = angle
+    @_vertex_cache[@_vertex_cache_size++] = 0
+    
+    @_vertex_cache[@_vertex_cache_size++] = r
+    @_vertex_cache[@_vertex_cache_size++] = y
+    @_vertex_cache[@_vertex_cache_size++] = cx
+    @_vertex_cache[@_vertex_cache_size++] = cy
+
+    @_vertex_cache[@_vertex_cache_size++] = sr
+    @_vertex_cache[@_vertex_cache_size++] = sy
+    @_vertex_cache[@_vertex_cache_size++] = angle
+    @_vertex_cache[@_vertex_cache_size++] = 0
+    
+    @_vertex_cache[@_vertex_cache_size++] = x
+    @_vertex_cache[@_vertex_cache_size++] = b
+    @_vertex_cache[@_vertex_cache_size++] = cx
+    @_vertex_cache[@_vertex_cache_size++] = cy
+
+    @_vertex_cache[@_vertex_cache_size++] = sx
+    @_vertex_cache[@_vertex_cache_size++] = sb
+    @_vertex_cache[@_vertex_cache_size++] = angle
+    @_vertex_cache[@_vertex_cache_size++] = 0
+ 
+    @_vertex_cache[@_vertex_cache_size++] = x
+    @_vertex_cache[@_vertex_cache_size++] = b
+    @_vertex_cache[@_vertex_cache_size++] = cx
+    @_vertex_cache[@_vertex_cache_size++] = cy
+
+    @_vertex_cache[@_vertex_cache_size++] = sx
+    @_vertex_cache[@_vertex_cache_size++] = sb
+    @_vertex_cache[@_vertex_cache_size++] = angle
+    @_vertex_cache[@_vertex_cache_size++] = 0
+ 
+    @_vertex_cache[@_vertex_cache_size++] = r
+    @_vertex_cache[@_vertex_cache_size++] = y
+    @_vertex_cache[@_vertex_cache_size++] = cx
+    @_vertex_cache[@_vertex_cache_size++] = cy
+
+    @_vertex_cache[@_vertex_cache_size++] = sr
+    @_vertex_cache[@_vertex_cache_size++] = sy
+    @_vertex_cache[@_vertex_cache_size++] = angle
+    @_vertex_cache[@_vertex_cache_size++] = 0
+ 
+    @_vertex_cache[@_vertex_cache_size++] = r
+    @_vertex_cache[@_vertex_cache_size++] = b
+    @_vertex_cache[@_vertex_cache_size++] = cx
+    @_vertex_cache[@_vertex_cache_size++] = cy
+
+    @_vertex_cache[@_vertex_cache_size++] = sr
+    @_vertex_cache[@_vertex_cache_size++] = sb
+    @_vertex_cache[@_vertex_cache_size++] = angle
+    @_vertex_cache[@_vertex_cache_size++] = 0
+ 
     if @_vertex_cache_size == Fz2D.CanvasWebGL.VERTEX_CACHE_MAX_SIZE
       @flush()
 
