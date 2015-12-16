@@ -1,18 +1,18 @@
 # Public: Fz2D
 class Fz2D
   # Public: Version Number.
-  @VERSION: '0.0.1'
+  @VERSION: '0.0.2'
 
   # Public: None.
-  @NONE   = 0
+  @NONE:    0
   # Public: Top.
-  @TOP    = 1 << 0
+  @TOP:     1 << 0
   # Public: Left.
-  @LEFT   = 1 << 1
+  @LEFT:    1 << 1
   # Public: Right.
-  @RIGHT  = 1 << 2
+  @RIGHT:   1 << 2
   # Public: Bottom.
-  @BOTTOM = 1 << 3
+  @BOTTOM:  1 << 3
 
   # Public: Default foreground color.
   @FG: '#FFFFFF'
@@ -24,6 +24,12 @@ class Fz2D
 
   # Public: Default assets path.
   @PATH: 'assets'
+
+  # Public: Degree to Radian
+  @DEG2RAD: Math.PI / 180.0
+
+  # Public: Radian to Degree
+  @RAD2DEG: 180.0 / Math.PI
 
   # Public: Hash of parsed and unescaped query paramaters.
   @query:(()->
@@ -396,6 +402,13 @@ class Fz2D
    class Fz2D.Plugin
      # Public: Supported?
      @supported: true
+
+     # Public: Returns plugin name.
+     @getName: () ->
+       try
+         @prototype.constructor.name
+       catch
+         "Generic"
 
    # Public: Gui namespace.
    @Gui: {}
