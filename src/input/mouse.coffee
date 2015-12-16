@@ -11,7 +11,7 @@ class Fz2D.Input.Mouse
     @pressed = {}
     @released = {}
 
-    for i in [0..Fz2D.Input.Mouse.Button.MAX_BUTTONS]
+    for i in [0..Fz2D.Input.Mouse.Button.MAX]
       @[i] = @pressed[i] = @released[i] = false
 
     @element.onmousedown = (e) =>
@@ -55,7 +55,7 @@ class Fz2D.Input.Mouse
   update: () ->
     @dx = @dy = 0
 
-    for i in [0..Fz2D.Input.Mouse.Button.MAX_BUTTONS]
+    for i in [0..Fz2D.Input.Mouse.Button.MAX]
       @pressed[i] = @released[i] = false
 
     null
