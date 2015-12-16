@@ -8,7 +8,7 @@ var Fz2D,
 Fz2D = (function() {
   function Fz2D() {}
 
-  Fz2D.VERSION = '0.0.1';
+  Fz2D.VERSION = '0.0.2';
 
   Fz2D.NONE = 0;
 
@@ -27,6 +27,10 @@ Fz2D = (function() {
   Fz2D.SELECTOR = '#canvas';
 
   Fz2D.PATH = 'assets';
+
+  Fz2D.DEG2RAD = Math.PI / 180.0;
+
+  Fz2D.RAD2DEG = 180.0 / Math.PI;
 
   Fz2D.query = (function() {
     var hash, j, k, kk, len, q, query, ref, ref1, v, vv;
@@ -156,10 +160,10 @@ Fz2D = (function() {
 
   Fz2D.getCollisionSide = function(o1, o2) {
     var result, x1, x2, y1, y2;
-    x1 = o1.x + o1.bounds.cx;
-    y1 = o1.y + o1.bounds.cy;
-    x2 = o2.x + o2.bounds.cx;
-    y2 = o2.y + o2.bounds.cy;
+    x1 = o1.x + o1.bounds.center.x;
+    y1 = o1.y + o1.bounds.center.y;
+    x2 = o2.x + o2.bounds.center.x;
+    y2 = o2.y + o2.bounds.center.y;
     result = Fz2D.NONE;
     if (y1 > y2) {
       result |= Fz2D.BOTTOM;
@@ -330,6 +334,15 @@ Fz2D = (function() {
     function Plugin() {}
 
     Plugin.supported = true;
+
+    Plugin.getName = function() {
+      var error;
+      try {
+        return this.prototype.constructor.name;
+      } catch (error) {
+        return "Generic";
+      }
+    };
 
     return Plugin;
 
@@ -507,10 +520,10 @@ Fz2D.Input.Mouse = (function() {
     this.element = element1;
     this.x = x3 != null ? x3 : 0;
     this.y = y3 != null ? y3 : 0;
-    this.position = new Fz2D.Point(this.x, this.y);
+    this.position = new Fz2D.Vec2(this.x, this.y);
     this.pressed = {};
     this.released = {};
-    for (i = j = 0, ref = Fz2D.Input.Mouse.Button.MAX_BUTTONS; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    for (i = j = 0, ref = Fz2D.Input.Mouse.Button.MAX; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
       this[i] = this.pressed[i] = this.released[i] = false;
     }
     this.element.onmousedown = (function(_this) {
@@ -567,7 +580,7 @@ Fz2D.Input.Mouse = (function() {
   Mouse.prototype.update = function() {
     var i, j, ref;
     this.dx = this.dy = 0;
-    for (i = j = 0, ref = Fz2D.Input.Mouse.Button.MAX_BUTTONS; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    for (i = j = 0, ref = Fz2D.Input.Mouse.Button.MAX; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
       this.pressed[i] = this.released[i] = false;
     }
     return null;
@@ -597,7 +610,7 @@ Fz2D.Input.Touch = (function() {
     this.element = element1;
     this.x = x3 != null ? x3 : 0;
     this.y = y3 != null ? y3 : 0;
-    this.position = new Fz2D.Point(this.x, this.y);
+    this.position = new Fz2D.Vec2(this.x, this.y);
     this.collection = new Fz2D.Input.Touch.Collection(this.element.getBoundingClientRect());
     this.update();
     if (Fz2D.touch == null) {
@@ -1077,6 +1090,185 @@ Fz2D.Loader.Loaders.TextureAtlas = (function(superClass) {
 
 })(Fz2D.Loader.Base);
 
+Fz2D.Plugins.Box2D = (function(superClass) {
+  extend(Box2D, superClass);
+
+  Box2D.supported = (function() {
+    if (window.Box2D != null) {
+      return 'supported';
+    }
+  })();
+
+  function Box2D(game) {
+    this._world = game.world = new Box2D.World();
+  }
+
+  Box2D.prototype.update = function(timer, input) {
+    return this._world.update(timer);
+  };
+
+  return Box2D;
+
+})(Fz2D.Plugin);
+
+Fz2D.Plugins.Box2D.World = (function() {
+  var b2BodyDef, b2PolygonShape, b2Vec2, b2World, b2_dynamicBody, b2_staticBody;
+
+  if (window.Box2D == null) {
+    window.Box2D = {};
+  }
+
+  b2Vec2 = window.Box2D.b2Vec2;
+
+  b2World = window.Box2D.b2World;
+
+  b2BodyDef = window.Box2D.b2BodyDef;
+
+  b2PolygonShape = window.Box2D.b2PolygonShape;
+
+  b2_dynamicBody = window.Box2D.b2_dynamicBody;
+
+  b2_staticBody = window.Box2D.b2_staticBody;
+
+  World.UPDATE_HZ = 1.0 / 60.0;
+
+  World.VELOCITY = 3;
+
+  World.POSITION = 2;
+
+  World.GRAVITY = 8.0;
+
+  World.SCALE = 100.0;
+
+  World.INV_SCALE = 1.0 / World.SCALE;
+
+  function World() {
+    this._entities = [];
+    this._world = new b2World(new b2Vec2(0.0, World.GRAVITY));
+    this._vec = new b2Vec2(0.0, 0.0);
+    this._bodydef = new b2BodyDef();
+  }
+
+  World.prototype.setGravity = function(gravity) {
+    this._vec.Set(0.0, gravity);
+    return this._world.SetGravity(this._vec);
+  };
+
+  World.prototype.update = function(timer) {
+    var body, entity, j, len, position, ref;
+    this._world.Step(World.UPDATE_HZ, World.VELOCITY, World.POSITION);
+    ref = this._entities;
+    for (j = 0, len = ref.length; j < len; j++) {
+      entity = ref[j];
+      if (!entity.exists) {
+        continue;
+      }
+      body = entity.body;
+      if (entity.isOutOfBounds()) {
+        entity.kill();
+        body.SetActive(0);
+        body.SetAwake(0);
+        continue;
+      }
+      position = body.GetPosition();
+      entity.x = (position.get_x() * World.SCALE) - entity.bounds.center.x;
+      entity.y = (position.get_y() * World.SCALE) - entity.bounds.center.y;
+      entity.angle = body.GetAngle() * Fz2D.RAD2DEG;
+    }
+    return null;
+  };
+
+  World.prototype.add = function(entity) {
+    var body, bounds, shape, x, y;
+    if (!(entity.exists || entity.body)) {
+      return entity;
+    }
+    if (entity.density == null) {
+      entity.density = 0.0;
+    }
+    bounds = entity.bounds;
+    x = entity.x + bounds.center.x;
+    y = entity.y + bounds.center.y;
+    this._vec.Set(x * World.INV_SCALE, y * World.INV_SCALE);
+    this._bodydef.set_position(this._vec);
+    this._bodydef.set_angle(entity.angle * Fz2D.DEG2RAD);
+    if (entity.density > 0.0) {
+      this._bodydef.set_type(b2_dynamicBody);
+    } else {
+      this._bodydef.set_type(b2_staticBody);
+    }
+    body = this._world.CreateBody(this._bodydef);
+    shape = new b2PolygonShape();
+    shape.SetAsBox(bounds.hw * World.INV_SCALE, bounds.hh * World.INV_SCALE);
+    body.CreateFixture(shape, entity.density);
+    entity.body = body;
+    this._entities.push(entity);
+    return entity;
+  };
+
+  World.prototype.kill = function(entity) {
+    var body;
+    if (!entity.body) {
+      return;
+    }
+    body = entity.body;
+    body.SetActive(0);
+    body.SetAwake(0);
+    return null;
+  };
+
+  World.prototype.reset = function(entity) {
+    var body, bounds, x, y;
+    if (!entity.body) {
+      return;
+    }
+    body = entity.body;
+    bounds = entity.bounds;
+    x = entity.x + bounds.center.x;
+    y = entity.y + bounds.center.y;
+    this._vec.Set(x * World.INV_SCALE, y * World.INV_SCALE);
+    body.SetTransform(this._vec, entity.angle * Fz2D.DEG2RAD);
+    if (entity.density > 0.0) {
+      body.SetType(b2_dynamicBody);
+    } else {
+      body.SetType(b2_staticBody);
+    }
+    body.SetActive(1);
+    body.SetAwake(1);
+    return null;
+  };
+
+  World.prototype.remove = function(entity) {
+    var i;
+    if (!entity.body) {
+      return false;
+    }
+    this._world.DestroyBody(entity.body);
+    entity.body = null;
+    i = this._entities.indexOf(entity);
+    if (i > -1) {
+      this._entities.splice(i, 1);
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  World.prototype.clear = function() {
+    var entity, j, len, ref;
+    ref = this._entities;
+    for (j = 0, len = ref.length; j < len; j++) {
+      entity = ref[j];
+      this._world.DestroyBody(entity.body);
+      entity.body = null;
+    }
+    return this._entities = [];
+  };
+
+  return World;
+
+})();
+
 Fz2D.Plugins.Branding = (function(superClass) {
   extend(Branding, superClass);
 
@@ -1371,7 +1563,7 @@ Fz2D.Plugins.Stats = (function(superClass) {
 
   Stats.prototype.update = function(timer, input) {
     if (this._dt > 1000) {
-      this._div.innerHTML = "FPS: " + timer.fps + " <br/> CTX: " + Fz2D.Renderer.supported + " <br/> DRW: " + this._game.draw_call_count + " <br/> AO: " + Fz2D.Audio.supported;
+      this._div.innerHTML = "FPS: " + (Math.min(timer.fps, 60)) + " <br/> CTX: " + Fz2D.Renderer.supported + " <br/> DRW: " + this._game.draw_call_count + " <br/> AO: " + Fz2D.Audio.supported;
       return this._dt = 0;
     } else {
       return this._dt += timer.dt;
@@ -1411,7 +1603,6 @@ Fz2D.Plugins.Touch = (function(superClass) {
 
   function Touch(game) {
     var left, right;
-    console.log('Touch Plugin enabled ...');
     this._controls = [];
     if (game.touch == null) {
       game.touch = this.config;
@@ -1709,9 +1900,22 @@ Fz2D.Canvas = (function() {
 
   Canvas.prototype.flush = function() {};
 
-  Canvas.prototype.draw = function(texture, sx, sy, sw, sh, x, y, w, h) {
+  Canvas.prototype.draw = function(texture, sx, sy, sw, sh, x, y, w, h, hw, hh, angle) {
+    if (hw == null) {
+      hw = h / 2.0;
+    }
+    if (hh == null) {
+      hh = h / 2.0;
+    }
+    if (angle == null) {
+      angle = 0.0;
+    }
     this.draw_call_count++;
-    this._ctx.drawImage(texture._native, sx, sy, sw, sh, x, y, w, h);
+    this._ctx.save();
+    this._ctx.translate(x + hw, y + hh);
+    this._ctx.rotate(angle * Fz2D.DEG2RAD);
+    this._ctx.drawImage(texture._native, sx, sy, sw, sh, -hw, -hh, w, h);
+    this._ctx.restore();
     return this._ctx;
   };
 
@@ -1750,11 +1954,11 @@ Fz2D.CanvasWebGL = (function(superClass) {
     }
   })();
 
-  CanvasWebGL.VERTEX_CACHE_MAX_SIZE = 24 * 2048;
+  CanvasWebGL.VERTEX_CACHE_MAX_SIZE = 48 * 2048;
 
-  CanvasWebGL.VERTEX_SHADER = "precision highp float;\n\nuniform vec2 screen;\nuniform vec2 texture;\n\nattribute vec4 pos;\nvarying vec2 texture_coord;\n\nvoid main(void)\n{ \n  texture_coord = pos.zw * texture;\n  vec2 new_pos = pos.xy * screen;\n  gl_Position = vec4(new_pos.x - 1.0, 1.0 - new_pos.y, 0.0, 1.0);\n}";
+  CanvasWebGL.VERTEX_SHADER = "precision lowp float;\n\nuniform vec2 screen;\nuniform vec2 texture;\n\nattribute vec4 pos;\nattribute vec4 uv;\n\nvarying vec2 texture_coord;\n\nvoid main(void)\n{ \n  texture_coord = uv.st * texture;\n  \n  float r = radians(uv.z);\n  float cosr = cos(r);\n  float sinr = sin(r);\n\n  vec2 pp = pos.xy - pos.zw;\n  vec2 p  = vec2(pp.x * cosr - pp.y * sinr, pp.x * sinr + pp.y * cosr);\n\n  p += pos.zw;\n  p *= screen;\n\n  gl_Position = vec4(p.x - 1.0, 1.0 - p.y, 0.0, 1.0);\n}";
 
-  CanvasWebGL.FRAGMENT_SHADER = "precision highp float;\n\nuniform sampler2D texture_id;\nvarying vec2 texture_coord;\n  \nvoid main(void)\n{\n  gl_FragColor = texture2D(texture_id, texture_coord);\n}";
+  CanvasWebGL.FRAGMENT_SHADER = "precision lowp float;\n\nuniform sampler2D texture_id;\nvarying vec2 texture_coord;\n  \nvoid main(void)\n{\n  gl_FragColor = texture2D(texture_id, texture_coord);\n}";
 
   function CanvasWebGL() {
     CanvasWebGL.__super__.constructor.apply(this, arguments);
@@ -1765,7 +1969,8 @@ Fz2D.CanvasWebGL = (function(superClass) {
     this.gl.enable(this.gl.BLEND);
     this.gl.blendFuncSeparate(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA, this.gl.ONE, this.gl.ONE_MINUS_SRC_ALPHA);
     this._program = this._createShaderProgram(Fz2D.CanvasWebGL.VERTEX_SHADER, Fz2D.CanvasWebGL.FRAGMENT_SHADER);
-    this._pos_uv_loc = this.gl.getAttribLocation(this._program, "pos");
+    this._pos_loc = this.gl.getAttribLocation(this._program, "pos");
+    this._uv_loc = this.gl.getAttribLocation(this._program, "uv");
     this._texture_id_loc = this.gl.getUniformLocation(this._program, "texture_id");
     this._texture_loc = this.gl.getUniformLocation(this._program, "texture");
     this._screen_loc = this.gl.getUniformLocation(this._program, "screen");
@@ -1776,6 +1981,10 @@ Fz2D.CanvasWebGL = (function(superClass) {
     this._vertex_cache = new Float32Array(Fz2D.CanvasWebGL.VERTEX_CACHE_MAX_SIZE);
     this._vertex_cache_size = 0;
     this.gl.bufferData(this.gl.ARRAY_BUFFER, this._vertex_cache, this.gl.DYNAMIC_DRAW);
+    this.gl.enableVertexAttribArray(this._pos_loc);
+    this.gl.enableVertexAttribArray(this._uv_loc);
+    this.gl.vertexAttribPointer(this._pos_loc, 4, this.gl.FLOAT, false, 32, 0);
+    this.gl.vertexAttribPointer(this._uv_loc, 4, this.gl.FLOAT, false, 32, 16);
   }
 
   CanvasWebGL.prototype.fill = function(color) {
@@ -1795,14 +2004,21 @@ Fz2D.CanvasWebGL = (function(superClass) {
     }
     this.draw_call_count++;
     this.gl.bufferSubData(this.gl.ARRAY_BUFFER, 0, this._vertex_cache);
-    this.gl.enableVertexAttribArray(this._pos_uv_loc);
-    this.gl.vertexAttribPointer(this._pos_uv_loc, 4, this.gl.FLOAT, false, 16, 0);
-    this.gl.drawArrays(this.gl.TRIANGLES, 0, this._vertex_cache_size >> 2);
+    this.gl.drawArrays(this.gl.TRIANGLES, 0, this._vertex_cache_size >> 3);
     return this._vertex_cache_size = 0;
   };
 
-  CanvasWebGL.prototype.draw = function(texture, sx, sy, sw, sh, x, y, w, h) {
-    var b, r, sb, sr;
+  CanvasWebGL.prototype.draw = function(texture, sx, sy, sw, sh, x, y, w, h, hw, hh, angle) {
+    var b, cx, cy, r, sb, sr;
+    if (hw == null) {
+      hw = w / 2.0;
+    }
+    if (hh == null) {
+      hh = h / 2.0;
+    }
+    if (angle == null) {
+      angle = 0.0;
+    }
     if (texture._native._texture_id !== this._texture_id) {
       this.flush();
       if (texture._native._texture_id) {
@@ -1817,30 +2033,56 @@ Fz2D.CanvasWebGL = (function(superClass) {
     b = y + h;
     sr = sx + sw;
     sb = sy + sh;
+    cx = x + hw;
+    cy = y + hh;
     this._vertex_cache[this._vertex_cache_size++] = x;
     this._vertex_cache[this._vertex_cache_size++] = y;
+    this._vertex_cache[this._vertex_cache_size++] = cx;
+    this._vertex_cache[this._vertex_cache_size++] = cy;
     this._vertex_cache[this._vertex_cache_size++] = sx;
     this._vertex_cache[this._vertex_cache_size++] = sy;
+    this._vertex_cache[this._vertex_cache_size++] = angle;
+    this._vertex_cache[this._vertex_cache_size++] = 0;
     this._vertex_cache[this._vertex_cache_size++] = r;
     this._vertex_cache[this._vertex_cache_size++] = y;
+    this._vertex_cache[this._vertex_cache_size++] = cx;
+    this._vertex_cache[this._vertex_cache_size++] = cy;
     this._vertex_cache[this._vertex_cache_size++] = sr;
     this._vertex_cache[this._vertex_cache_size++] = sy;
+    this._vertex_cache[this._vertex_cache_size++] = angle;
+    this._vertex_cache[this._vertex_cache_size++] = 0;
     this._vertex_cache[this._vertex_cache_size++] = x;
     this._vertex_cache[this._vertex_cache_size++] = b;
+    this._vertex_cache[this._vertex_cache_size++] = cx;
+    this._vertex_cache[this._vertex_cache_size++] = cy;
     this._vertex_cache[this._vertex_cache_size++] = sx;
     this._vertex_cache[this._vertex_cache_size++] = sb;
+    this._vertex_cache[this._vertex_cache_size++] = angle;
+    this._vertex_cache[this._vertex_cache_size++] = 0;
     this._vertex_cache[this._vertex_cache_size++] = x;
     this._vertex_cache[this._vertex_cache_size++] = b;
+    this._vertex_cache[this._vertex_cache_size++] = cx;
+    this._vertex_cache[this._vertex_cache_size++] = cy;
     this._vertex_cache[this._vertex_cache_size++] = sx;
     this._vertex_cache[this._vertex_cache_size++] = sb;
+    this._vertex_cache[this._vertex_cache_size++] = angle;
+    this._vertex_cache[this._vertex_cache_size++] = 0;
     this._vertex_cache[this._vertex_cache_size++] = r;
     this._vertex_cache[this._vertex_cache_size++] = y;
+    this._vertex_cache[this._vertex_cache_size++] = cx;
+    this._vertex_cache[this._vertex_cache_size++] = cy;
     this._vertex_cache[this._vertex_cache_size++] = sr;
     this._vertex_cache[this._vertex_cache_size++] = sy;
+    this._vertex_cache[this._vertex_cache_size++] = angle;
+    this._vertex_cache[this._vertex_cache_size++] = 0;
     this._vertex_cache[this._vertex_cache_size++] = r;
     this._vertex_cache[this._vertex_cache_size++] = b;
+    this._vertex_cache[this._vertex_cache_size++] = cx;
+    this._vertex_cache[this._vertex_cache_size++] = cy;
     this._vertex_cache[this._vertex_cache_size++] = sr;
     this._vertex_cache[this._vertex_cache_size++] = sb;
+    this._vertex_cache[this._vertex_cache_size++] = angle;
+    this._vertex_cache[this._vertex_cache_size++] = 0;
     if (this._vertex_cache_size === Fz2D.CanvasWebGL.VERTEX_CACHE_MAX_SIZE) {
       return this.flush();
     }
@@ -2209,6 +2451,7 @@ Fz2D.BBox = (function() {
     this.y = y3 != null ? y3 : 0;
     this.w = w1 != null ? w1 : 0;
     this.h = h1 != null ? h1 : 0;
+    this.center = new Fz2D.Vec2();
     this._update();
   }
 
@@ -2223,7 +2466,7 @@ Fz2D.BBox = (function() {
   BBox.prototype.setPos = function(x, y) {
     this.x = x;
     this.y = y;
-    return this;
+    return this._update();
   };
 
   BBox.prototype.setSize = function(w, h) {
@@ -2251,8 +2494,8 @@ Fz2D.BBox = (function() {
   BBox.prototype._update = function() {
     this.hw = this.w / 2.0;
     this.hh = this.h / 2.0;
-    this.cx = this.x + this.hw;
-    this.cy = this.y + this.hh;
+    this.radius = this.hw;
+    this.center.set(this.x + this.hw, this.y + this.hh);
     return this;
   };
 
@@ -2393,6 +2636,7 @@ Fz2D.Object = (function() {
     this.visible = true;
     this.alive = true;
     this.exists = true;
+    this.angle = 0.0;
   }
 
   Object.prototype.kill = function() {
@@ -2406,18 +2650,24 @@ Fz2D.Object = (function() {
     return this.kill();
   };
 
-  Object.prototype.reset = function(x, y) {
+  Object.prototype.reset = function(x, y, angle) {
     if (x == null) {
       x = null;
     }
     if (y == null) {
       y = null;
     }
+    if (angle == null) {
+      angle = null;
+    }
     if (x != null) {
       this.x = x;
     }
     if (y != null) {
       this.y = y;
+    }
+    if (angle != null) {
+      this.angle = angle;
     }
     this.visible = true;
     this.alive = true;
@@ -2480,6 +2730,10 @@ Fz2D.Entity = (function(superClass) {
     return new Fz2D.Entity(this.texture, this.x, this.y, this.w, this.h, this.tag);
   };
 
+  Entity.prototype.isOutOfBounds = function() {
+    return this.group && !Fz2D.overlap(this.group, this);
+  };
+
   Entity.prototype.play = function(tag, looped) {
     this.animation = this.animations[tag];
     this.animation.play(looped);
@@ -2500,7 +2754,7 @@ Fz2D.Entity = (function(superClass) {
   };
 
   Entity.prototype.draw = function(ctx) {
-    ctx.draw(this.animation.texture, this.animation.frame.x, this.animation.frame.y, this.animation.frame.w, this.animation.frame.h, this.x, this.y, this.w, this.h);
+    ctx.draw(this.animation.texture, this.animation.frame.x, this.animation.frame.y, this.animation.frame.w, this.animation.frame.h, this.x, this.y, this.w, this.h, this.bounds.hw, this.bounds.hh, this.angle);
     return null;
   };
 
@@ -2509,8 +2763,8 @@ Fz2D.Entity = (function(superClass) {
       this.animation.update(timer);
     }
     if (this.moving) {
-      this.x += this.dx * timer.dt;
-      this.y += this.dy * timer.dt;
+      this.x += (this.dx * timer.dt) | 0;
+      this.y += (this.dy * timer.dt) | 0;
     }
     return null;
   };
@@ -3126,20 +3380,37 @@ Fz2D.Gui.Label = (function(superClass) {
     this._dt = 0;
   }
 
+  Label.prototype.setFormat = function(format) {
+    var i;
+    if ((format != null) && format.length === 2) {
+      this.format = ((function() {
+        var j, ref, results;
+        results = [];
+        for (i = j = 1, ref = parseInt(format[1]); 1 <= ref ? j <= ref : j >= ref; i = 1 <= ref ? ++j : --j) {
+          results.push(format[0]);
+        }
+        return results;
+      })()).join('');
+    } else {
+      this.format = null;
+    }
+    return this._setText();
+  };
+
   Label.prototype.setText = function(text) {
-    var size;
-    this.text = text;
-    size = this.font.measureText(text, this.size);
-    this.bounds.w = this.w = size.w;
-    this.bounds.h = this.h = size.h;
-    return this;
+    this.text = text.toString();
+    return this._setText();
+  };
+
+  Label.prototype.is = function(text) {
+    return this.text === text.toString();
   };
 
   Label.prototype.inc = function(amount) {
     if (amount == null) {
       amount = 1;
     }
-    return this.setText((this.toInt() + amount).toString());
+    return this.setText(this.toInt() + amount);
   };
 
   Label.prototype.dec = function(amount) {
@@ -3154,7 +3425,7 @@ Fz2D.Gui.Label = (function(superClass) {
   };
 
   Label.prototype.draw = function(ctx) {
-    return this.font.drawText(ctx, this.text, this.x, this.y, this.size);
+    return this.font.drawText(ctx, this._text, this.x, this.y, this.size, null, null);
   };
 
   Label.prototype.update = function(timer, input) {
@@ -3167,6 +3438,21 @@ Fz2D.Gui.Label = (function(superClass) {
     }
     this._dt = 0;
     return this.visible = !this.visible;
+  };
+
+  Label.prototype._setText = function() {
+    var length, size;
+    this._text = this.text;
+    if (this.format != null) {
+      length = this.format.length - this.text.length;
+      if (length > 0) {
+        this._text = this.format.substring(0, length) + this._text;
+      }
+    }
+    size = this.font.measureText(this._text, this.size);
+    this.bounds.w = this.w = size.w;
+    this.bounds.h = this.h = size.h;
+    return this;
   };
 
   return Label;
@@ -3243,29 +3529,6 @@ Fz2D.VerticalScroller = (function(superClass) {
 
 })(Fz2D.Entity);
 
-Fz2D.Point = (function() {
-  function Point(x3, y3) {
-    this.x = x3 != null ? x3 : 0;
-    this.y = y3 != null ? y3 : 0;
-  }
-
-  Point.prototype.set = function(x, y) {
-    this.x = x;
-    return this.y = y;
-  };
-
-  Point.prototype.equals = function(p) {
-    return this.x === p.x && this.y === p.y;
-  };
-
-  Point.prototype.isNull = function() {
-    return this.x === 0 && this.y === 0;
-  };
-
-  return Point;
-
-})();
-
 Fz2D.Rect = (function() {
   function Rect(x3, y3, w1, h1) {
     this.x = x3 != null ? x3 : 0;
@@ -3334,6 +3597,67 @@ Fz2D.Size = (function() {
   };
 
   return Size;
+
+})();
+
+Fz2D.Vec2 = (function() {
+  function Vec2(x3, y3) {
+    this.x = x3 != null ? x3 : 0;
+    this.y = y3 != null ? y3 : 0;
+  }
+
+  Vec2.prototype.set = function(x, y) {
+    this.x = x;
+    return this.y = y;
+  };
+
+  Vec2.prototype.dist = function(p) {
+    var dx, dy;
+    dx = this.x - p.x;
+    dy = this.y - p.y;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+
+  Vec2.prototype.distSqr = function(p) {
+    var dx, dy;
+    dx = this.x - p.x;
+    dy = this.y - p.y;
+    return dx * dx + dy * dy;
+  };
+
+  Vec2.prototype.dot = function(p) {
+    return this.x * p.x + this.y * p.y;
+  };
+
+  Vec2.prototype.add = function(p) {
+    return new Fz2D.Vec2(this.x + p.x, this.y + p.y);
+  };
+
+  Vec2.prototype.sub = function(p) {
+    return new Fz2D.Vec2(this.x - p.x, this.y - p.y);
+  };
+
+  Vec2.prototype.mul = function(s) {
+    return new Fz2D.Vec2(this.x * s, this.y * s);
+  };
+
+  Vec2.prototype.div = function(s) {
+    return new Fz2D.Vec2(this.x / s, this.y / s);
+  };
+
+  Vec2.prototype.equals = function(p) {
+    return this.x === p.x && this.y === p.y;
+  };
+
+  Vec2.prototype.isNull = function() {
+    return this.x === 0 && this.y === 0;
+  };
+
+  Vec2.prototype.clone = function() {
+    return new Fz2D.Vec2(this.x, this.y);
+  };
+
+  return Vec2;
 
 })();
 
@@ -3488,6 +3812,9 @@ Fz2D.Game = (function() {
         plugin = ref[j];
         if (plugin.supported != null) {
           this.registerPlugin(new plugin(this));
+          console.log("Plugin: " + (plugin.getName()) + " << enabled >>");
+        } else {
+          console.log("Plugin: " + (plugin.getName()) + " << not supported or is disabled in the current environment >>");
         }
       }
     }
@@ -3604,6 +3931,37 @@ Fz2D.Game = (function() {
   };
 
   return Game;
+
+})();
+
+Fz2D.Random = (function() {
+  Random.UINT_MAX = 0xffffffff;
+
+  Random.UINT_MAX_INV = 1.0 / Random.UINT_MAX;
+
+  Random.BITS = 32;
+
+  function Random(seed) {
+    this.seed = seed;
+    if (this.seed == null) {
+      this.seed = Math.ceil(Math.random() * Fz2D.Random.UINT_MAX);
+    }
+  }
+
+  Random.prototype.next = function(n) {
+    return (this.nextFloat() * n) | 0;
+  };
+
+  Random.prototype.nextFloat = function() {
+    this.seed += (this.seed * this.seed) | 5;
+    return (this.seed >>> Fz2D.Random.BITS) * Fz2D.Random.UINT_MAX_INV;
+  };
+
+  Random.prototype.nextBool = function() {
+    return !!(((this.nextFloat() * Fz2D.Random.BITS) | 0) & 1);
+  };
+
+  return Random;
 
 })();
 
