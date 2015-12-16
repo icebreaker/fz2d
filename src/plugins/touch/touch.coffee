@@ -23,8 +23,6 @@ class Fz2D.Plugins.Touch extends Fz2D.Plugin
   #
   # game - {Fz2D.Game}
   constructor: (game) ->
-    console.log('Touch Plugin enabled ...')
-
     @_controls = []
 
     # Set default config if user configuration is missing

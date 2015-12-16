@@ -30,7 +30,7 @@ class Fz2D.Plugins.Stats extends Fz2D.Plugin
   # Public: Updates stats on every frame.
   update: (timer, input) ->
     if @_dt > 1000
-      @_div.innerHTML = "FPS: #{timer.fps} <br/> CTX: #{Fz2D.Renderer.supported} <br/> DRW: #{@_game.draw_call_count} <br/> AO: #{Fz2D.Audio.supported}"
+      @_div.innerHTML = "FPS: #{Math.min(timer.fps, 60)} <br/> CTX: #{Fz2D.Renderer.supported} <br/> DRW: #{@_game.draw_call_count} <br/> AO: #{Fz2D.Audio.supported}"
       @_dt = 0
     else
       @_dt += timer.dt
