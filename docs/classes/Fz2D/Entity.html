@@ -188,6 +188,16 @@
   </li>
   <li>
     <span class='signature'>
+      <a href='#isOutOfBounds-instance'>
+        ::<strong>isOutOfBounds</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      Returns true if the entity is out of bounds.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
       <a href='#play-instance'>
         Fz2D.Animation ::<strong>play</strong>(tag, looped)
       </a>
@@ -295,7 +305,7 @@ tag - name of the entity (default: object)
     <p class='signature' id='addAnimation-instance'>
       Fz2D.Animation ::<strong>addAnimation</strong>(tag, texture, count, delay)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L70'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L74'>Source</a>
     </p>
     <div class='docstring'>
    Public: Adds an animation.
@@ -360,7 +370,7 @@ Returns a <a href='../../classes/Fz2D/Entity.html'>Fz2D.Entity</a>.
     <p class='signature' id='draw-instance'>
       ::<strong>draw</strong>(ctx)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L76'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L80'>Source</a>
     </p>
     <div class='docstring'>
    Public: Draws entity on every frame.
@@ -383,7 +393,7 @@ ctx - <a href='../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a>
     <p class='signature' id='is-instance'>
       ::<strong>is</strong>(tag)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L59'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L63'>Source</a>
     </p>
     <div class='docstring'>
    Public: Is active animation?
@@ -411,10 +421,22 @@ Returns true if the current animation matches the given tag.
 </div>
   </div>
   <div class='method_details'>
+    <p class='signature' id='isOutOfBounds-instance'>
+      ::<strong>isOutOfBounds</strong>()
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L38'>Source</a>
+    </p>
+    <div class='docstring'>
+  Public: Returns true if the entity is out of bounds. 
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
     <p class='signature' id='play-instance'>
       Fz2D.Animation ::<strong>play</strong>(tag, looped)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L43'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L47'>Source</a>
     </p>
     <div class='docstring'>
    Public: Plays a given animation.
@@ -453,7 +475,7 @@ Returns a <a href='../../classes/Fz2D/Animation.html'>Fz2D.Animation</a>.
     <p class='signature' id='stop-instance'>
       ::<strong>stop</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L50'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L54'>Source</a>
     </p>
     <div class='docstring'>
    Public: Stops the active animation.
@@ -466,7 +488,7 @@ Returns a <a href='../../classes/Fz2D/Animation.html'>Fz2D.Animation</a>.
     <p class='signature' id='update-instance'>
       ::<strong>update</strong>(timer, input)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L92'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L99'>Source</a>
     </p>
     <div class='docstring'>
    Public: Updates entity on every frame.
@@ -496,11 +518,11 @@ input - <a href='../../classes/Fz2D/Input.html'>Fz2D.Input</a>
     </div>
     <div id='footer'>
   Generated on
-  Mon Aug 31 2015 02:17:45 GMT+0300 (EEST)
+  Wed Dec 16 2015 18:26:55 GMT+0200 (EET)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1
-  (Node.js v0.12.7).
+  (Node.js v4.1.1).
   &#10034;
   Press Ctrl-h to see the keyboard shortcuts
 </div>

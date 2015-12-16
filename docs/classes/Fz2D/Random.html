@@ -17,7 +17,7 @@
     &raquo;
     <a href='..&#47;..&#47;classes&#47;Fz2D.html' title='Fz2D'>Fz2D</a>
     &raquo;
-    <span class='title'>Input</span>
+    <span class='title'>Random</span>
     <nav>
       <ul>
         <li class='noframes'>
@@ -107,26 +107,53 @@
     <div id='content'>
       <h1>
         Class
-        Fz2D.Input
+        Fz2D.Random
       </h1>
       <table class='box'>
         <tr>
           <td>Defined in:</td>
-          <td>src&#47;input&#47;input.coffee</td>
+          <td>src&#47;sys&#47;random.coffee</td>
         </tr>
       </table>
       <h2>Overview</h2>
       <div class='docstring'>
-  Public: Input 
+  Public: Random 
 </div>
 <div class='tags'>
 </div>
+      <h2>Constant Summary</h2>
+      <dl class='constants'>
+        <dt id='UINT_MAX-constant'>
+          UINT_MAX
+          =
+          <div class='docstring'>
+  Private: Maximum Unsigned Integer. 
+</div>
+<div class='tags'>
+</div>
+        </dt>
+        <dd>
+          <pre><code class='coffee'>0xffffffff</code></pre>
+        </dd>
+        <dt id='BITS-constant'>
+          BITS
+          =
+          <div class='docstring'>
+  Private: Number of bits. 
+</div>
+<div class='tags'>
+</div>
+        </dt>
+        <dd>
+          <pre><code class='coffee'>32</code></pre>
+        </dd>
+      </dl>
       <h2>Instance Method Summary</h2>
       <ul class='summary'>
   <li>
     <span class='signature'>
       <a href='#constructor-instance'>
-        ::<strong>constructor</strong>(element, x = 0, y = 0)
+        ::<strong>constructor</strong>(seed)
       </a>
     </span>
     <span class='desc'>
@@ -135,12 +162,32 @@
   </li>
   <li>
     <span class='signature'>
-      <a href='#update-instance'>
-        ::<strong>update</strong>()
+      <a href='#next-instance'>
+        ::<strong>next</strong>(n)
       </a>
     </span>
     <span class='desc'>
-      Updates keyboard, mouse and touch states on every frame.
+      Returns a random integer between 0 and (n - 1).
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#nextBool-instance'>
+        ::<strong>nextBool</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      Returns a random bool.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#nextFloat-instance'>
+        ::<strong>nextFloat</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      Returns a random float between 0 and 1.
     </span>
   </li>
 </ul>
@@ -148,34 +195,22 @@
       <div class='methods'>
   <div class='method_details'>
     <p class='signature' id='constructor-instance'>
-      ::<strong>constructor</strong>(element, x = 0, y = 0)
+      ::<strong>constructor</strong>(seed)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;input&#47;input.coffee#L8'>Source</a>
+&#47;blob&#47;master/src&#47;sys&#47;random.coffee#L13'>Source</a>
     </p>
     <div class='docstring'>
    Public: Constructor.
 
-element - HTML DOM element
-x - initial position on the X axis (default: 0)
-y - initial position on the Y axis (default: 0) 
+seed - initial seed (default: random) 
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
   <ul class='param'>
     <li>
-      <span class='name'>element</span>
+      <span class='name'>seed</span>
       &mdash;
-      <span class='desc'>HTML DOM element</span>
-    </li>
-    <li>
-      <span class='name'>x</span>
-      &mdash;
-      <span class='desc'>initial position on the X axis (default: 0)</span>
-    </li>
-    <li>
-      <span class='name'>y</span>
-      &mdash;
-      <span class='desc'>initial position on the Y axis (default: 0)</span>
+      <span class='desc'>initial seed (default: random)</span>
     </li>
   </ul>
 </div>
@@ -184,13 +219,47 @@ y - initial position on the Y axis (default: 0)
       <h2>Instance Method Details</h2>
       <div class='methods'>
   <div class='method_details'>
-    <p class='signature' id='update-instance'>
-      ::<strong>update</strong>()
+    <p class='signature' id='next-instance'>
+      ::<strong>next</strong>(n)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;input&#47;input.coffee#L14'>Source</a>
+&#47;blob&#47;master/src&#47;sys&#47;random.coffee#L19'>Source</a>
     </p>
     <div class='docstring'>
-  Public: Updates keyboard, mouse and touch states on every frame. 
+   Public: Returns a random integer between 0 and (n - 1).
+
+n - integer 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>n</span>
+      &mdash;
+      <span class='desc'>integer</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='nextBool-instance'>
+      ::<strong>nextBool</strong>()
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;sys&#47;random.coffee#L28'>Source</a>
+    </p>
+    <div class='docstring'>
+  Public: Returns a random bool. 
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='nextFloat-instance'>
+      ::<strong>nextFloat</strong>()
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;sys&#47;random.coffee#L23'>Source</a>
+    </p>
+    <div class='docstring'>
+  Public: Returns a random float between 0 and 1. 
 </div>
 <div class='tags'>
 </div>

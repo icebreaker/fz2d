@@ -173,7 +173,7 @@
   <li>
     <span class='signature'>
       <a href='#reset-instance'>
-        ::<strong>reset</strong>(x = null, y = null)
+        ::<strong>reset</strong>(x = null, y = null, angle = null)
       </a>
     </span>
     <span class='desc'>
@@ -258,7 +258,7 @@ tag - name of the object (default: 'object')
     <p class='signature' id='draw-instance'>
       ::<strong>draw</strong>(ctx)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L51'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L54'>Source</a>
     </p>
     <div class='docstring'>
    Public: Draws the object on every frame.
@@ -281,7 +281,7 @@ ctx - <a href='../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a>
     <p class='signature' id='kill-instance'>
       ::<strong>kill</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L20'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L21'>Source</a>
     </p>
     <div class='docstring'>
   Public: Kills the object. 
@@ -293,7 +293,7 @@ ctx - <a href='../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a>
     <p class='signature' id='killAll-instance'>
       ::<strong>killAll</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L27'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L28'>Source</a>
     </p>
     <div class='docstring'>
   Public: Alias for kill. 
@@ -303,15 +303,16 @@ ctx - <a href='../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a>
   </div>
   <div class='method_details'>
     <p class='signature' id='reset-instance'>
-      ::<strong>reset</strong>(x = null, y = null)
+      ::<strong>reset</strong>(x = null, y = null, angle = null)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L34'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L36'>Source</a>
     </p>
     <div class='docstring'>
    Public: Resets the object.
 
 x - position on the X axis
-y - position on the Y axis 
+y - position on the Y axis
+angle - rotation angle 
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
@@ -326,6 +327,11 @@ y - position on the Y axis
       &mdash;
       <span class='desc'>position on the Y axis</span>
     </li>
+    <li>
+      <span class='name'>angle</span>
+      &mdash;
+      <span class='desc'>rotation angle</span>
+    </li>
   </ul>
 </div>
   </div>
@@ -333,7 +339,7 @@ y - position on the Y axis
     <p class='signature' id='resetAll-instance'>
       ::<strong>resetAll</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L45'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L48'>Source</a>
     </p>
     <div class='docstring'>
   Public: Alias for reset. 
@@ -345,7 +351,7 @@ y - position on the Y axis
     <p class='signature' id='update-instance'>
       ::<strong>update</strong>(timer, input)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L57'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L60'>Source</a>
     </p>
     <div class='docstring'>
    Public: Updates the object on every frame.
@@ -375,11 +381,11 @@ input - <a href='../../classes/Fz2D/Input.html'>Fz2D.Input</a>
     </div>
     <div id='footer'>
   Generated on
-  Mon Aug 31 2015 02:17:45 GMT+0300 (EEST)
+  Wed Dec 16 2015 18:26:55 GMT+0200 (EET)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1
-  (Node.js v0.12.7).
+  (Node.js v4.1.1).
   &#10034;
   Press Ctrl-h to see the keyboard shortcuts
 </div>

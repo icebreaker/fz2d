@@ -173,7 +173,7 @@
   <li>
     <span class='signature'>
       <a href='#draw-instance'>
-        ::<strong>draw</strong>(texture, sx, sy, sw, sh, x, y, w, h)
+        ::<strong>draw</strong>(texture, sx, sy, sw, sh, x, y, w, h, hw = (h / 2.0), hh = (h / 2.0), angle = 0.0)
       </a>
     </span>
     <span class='desc'>
@@ -227,7 +227,7 @@
     <p class='signature' id='createImage-class'>
       .<strong>createImage</strong>(w, h, color)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L58'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L59'>Source</a>
     </p>
     <div class='docstring'>
    Public: Creates an image filled with a solid color.
@@ -270,7 +270,7 @@ Returns the image.
     <p class='signature' id='getContext-class'>
       .<strong>getContext</strong>(w, h, color = null, selector = null, type = @supported, opts = @opts)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L25'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L26'>Source</a>
     </p>
     <div class='docstring'>
    Public: Requests and configures a context.
@@ -334,7 +334,7 @@ Returns the requested context or null.
     <p class='signature' id='constructor-instance'>
       ::<strong>constructor</strong>(w, h, color = null, selector = null)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L82'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L83'>Source</a>
     </p>
     <div class='docstring'>
    Public: Constructor.
@@ -377,7 +377,7 @@ selector - query selector or id (default: Fz2D.SELECTOR)
     <p class='signature' id='clear-instance'>
       ::<strong>clear</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L96'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L97'>Source</a>
     </p>
     <div class='docstring'>
   Public: Clears the canvas. 
@@ -387,9 +387,9 @@ selector - query selector or id (default: Fz2D.SELECTOR)
   </div>
   <div class='method_details'>
     <p class='signature' id='draw-instance'>
-      ::<strong>draw</strong>(texture, sx, sy, sw, sh, x, y, w, h)
+      ::<strong>draw</strong>(texture, sx, sy, sw, sh, x, y, w, h, hw = (h / 2.0), hh = (h / 2.0), angle = 0.0)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L115'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L119'>Source</a>
     </p>
     <div class='docstring'>
    Public: Draws a <a href='../../classes/Fz2D/Texture.html'>Fz2D.Texture</a>.
@@ -402,7 +402,10 @@ sh - source height
 x - desired position on the X axis
 y - desired position on the Y axis
 w - desired width
-h - desired height 
+h - desired height
+hw - desired half width (default: w/2.0)
+hh - desired half height (default: h/2.0)
+angle - rotation angle (default: 0.0) 
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
@@ -453,6 +456,21 @@ h - desired height
       &mdash;
       <span class='desc'>desired height</span>
     </li>
+    <li>
+      <span class='name'>hw</span>
+      &mdash;
+      <span class='desc'>desired half width (default: w/2.0)</span>
+    </li>
+    <li>
+      <span class='name'>hh</span>
+      &mdash;
+      <span class='desc'>desired half height (default: h/2.0)</span>
+    </li>
+    <li>
+      <span class='name'>angle</span>
+      &mdash;
+      <span class='desc'>rotation angle (default: 0.0)</span>
+    </li>
   </ul>
 </div>
   </div>
@@ -460,7 +478,7 @@ h - desired height
     <p class='signature' id='fill-instance'>
       ::<strong>fill</strong>(color)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L90'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L91'>Source</a>
     </p>
     <div class='docstring'>
    Public: Fills the canvas with a solid color.
@@ -482,7 +500,7 @@ color - HTML color code
     <p class='signature' id='flush-instance'>
       ::<strong>flush</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L102'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L103'>Source</a>
     </p>
     <div class='docstring'>
   Public: Flushes the canvas. 
@@ -494,7 +512,7 @@ color - HTML color code
     <p class='signature' id='toElement-instance'>
       ::<strong>toElement</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L125'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L136'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns the canvas as an HTML DOM element. 
@@ -506,7 +524,7 @@ color - HTML color code
     <p class='signature' id='toImage-instance'>
       ::<strong>toImage</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L121'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L132'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns the canvas as an image. 
@@ -518,11 +536,11 @@ color - HTML color code
     </div>
     <div id='footer'>
   Generated on
-  Mon Aug 31 2015 02:17:45 GMT+0300 (EEST)
+  Wed Dec 16 2015 18:26:55 GMT+0200 (EET)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1
-  (Node.js v0.12.7).
+  (Node.js v4.1.1).
   &#10034;
   Press Ctrl-h to see the keyboard shortcuts
 </div>

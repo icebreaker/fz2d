@@ -19,7 +19,7 @@
     &raquo;
     <span class='title'>Plugins</span>
     &raquo;
-    <span class='title'>Console</span>
+    <span class='title'>Box2D</span>
     <nav>
       <ul>
         <li class='noframes'>
@@ -109,12 +109,12 @@
     <div id='content'>
       <h1>
         Class
-        Fz2D.Plugins.Console
+        Fz2D.Plugins.Box2D
       </h1>
       <table class='box'>
         <tr>
           <td>Defined in:</td>
-          <td>src&#47;plugins&#47;console.coffee</td>
+          <td>src&#47;plugins&#47;box2d.coffee</td>
         </tr>
         <tr>
           <td>Inherits:</td>
@@ -125,7 +125,7 @@
       </table>
       <h2>Overview</h2>
       <div class='docstring'>
-  Public: Console 
+  Public: Box2D 
 </div>
 <div class='tags'>
 </div>
@@ -139,6 +139,16 @@
     </span>
     <span class='desc'>
       Constructor.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#update-instance'>
+        ::<strong>update</strong>(timer, input)
+      </a>
+    </span>
+    <span class='desc'>
+      Updates Box2D on every frame.
     </span>
   </li>
 </ul>
@@ -158,7 +168,7 @@
     <p class='signature' id='constructor-instance'>
       ::<strong>constructor</strong>(game)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;plugins&#47;console.coffee#L23'>Source</a>
+&#47;blob&#47;master/src&#47;plugins&#47;box2d.coffee#L11'>Source</a>
     </p>
     <div class='docstring'>
    Public: Constructor.
@@ -173,6 +183,39 @@ game - <a href='../../../classes/Fz2D/Game.html'>Fz2D.Game</a>
       <span class='name'>game</span>
       &mdash;
       <span class='desc'><a href='../../../classes/Fz2D/Game.html'>Fz2D.Game</a></span>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
+      <h2>Instance Method Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='update-instance'>
+      ::<strong>update</strong>(timer, input)
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;plugins&#47;box2d.coffee#L18'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: Updates Box2D on every frame.
+
+timer - <a href='../../../classes/Fz2D/Timer.html'>Fz2D.Timer</a>
+input - <a href='../../../classes/Fz2D/Input.html'>Fz2D.Input</a> 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='type'>(Fz2D.Timer)</span>
+      <span class='name'>timer</span>
+      &mdash;
+      <span class='desc'><a href='../../../classes/Fz2D/Timer.html'>Fz2D.Timer</a></span>
+    </li>
+    <li>
+      <span class='type'>(Fz2D.Input)</span>
+      <span class='name'>input</span>
+      &mdash;
+      <span class='desc'><a href='../../../classes/Fz2D/Input.html'>Fz2D.Input</a></span>
     </li>
   </ul>
 </div>

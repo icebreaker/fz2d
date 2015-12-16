@@ -139,7 +139,7 @@
 </div>
         </dt>
         <dd>
-          <pre><code class='coffee'>"precision highp float;\n\nuniform vec2 screen;\nuniform vec2 texture;\n\nattribute vec4 pos;\nvarying vec2 texture_coord;\n\nvoid main(void)\n{ \n  texture_coord = pos.zw * texture;\n  vec2 new_pos = pos.xy * screen;\n  gl_Position = vec4(new_pos.x - 1.0, 1.0 - new_pos.y, 0.0, 1.0);\n}"</code></pre>
+          <pre><code class='coffee'>"precision lowp float;\n\nuniform vec2 screen;\nuniform vec2 texture;\n\nattribute vec4 pos;\nattribute vec4 uv;\n\nvarying vec2 texture_coord;\n\nvoid main(void)\n{ \n  texture_coord = uv.st * texture;\n  \n  float r = radians(uv.z);\n  float cosr = cos(r);\n  float sinr = sin(r);\n\n  vec2 pp = pos.xy - pos.zw;\n  vec2 p  = vec2(pp.x * cosr - pp.y * sinr, pp.x * sinr + pp.y * cosr);\n\n  p += pos.zw;\n  p *= screen;\n\n  ###~Private~###\n  gl_Position = vec4(p.x - 1.0, 1.0 - p.y, 0.0, 1.0);\n}"</code></pre>
         </dd>
         <dt id='FRAGMENT_SHADER-constant'>
           FRAGMENT_SHADER
@@ -151,7 +151,7 @@
 </div>
         </dt>
         <dd>
-          <pre><code class='coffee'>"precision highp float;\n\nuniform sampler2D texture_id;\nvarying vec2 texture_coord;\n  \nvoid main(void)\n{\n  gl_FragColor = texture2D(texture_id, texture_coord);\n}"</code></pre>
+          <pre><code class='coffee'>"precision lowp float;\n\nuniform sampler2D texture_id;\nvarying vec2 texture_coord;\n  \nvoid main(void)\n{\n  gl_FragColor = texture2D(texture_id, texture_coord);\n}"</code></pre>
         </dd>
       </dl>
       <h2>Instance Method Summary</h2>
@@ -179,7 +179,7 @@
   <li>
     <span class='signature'>
       <a href='#draw-instance'>
-        ::<strong>draw</strong>(texture, sx, sy, sw, sh, x, y, w, h)
+        ::<strong>draw</strong>(texture, sx, sy, sw, sh, x, y, w, h, hw = (w / 2.0), hh = (h / 2.0), angle = 0.0)
       </a>
     </span>
     <span class='desc'>
@@ -231,7 +231,7 @@
     <p class='signature' id='constructor-instance'>
       ::<strong>constructor</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas_webgl.coffee#L60'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas_webgl.coffee#L72'>Source</a>
     </p>
     <div class='docstring'>
    Public: Constructor.
@@ -274,7 +274,7 @@ selector - query selector or id (default: Fz2D.SELECTOR)
     <p class='signature' id='clear-instance'>
       ::<strong>clear</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas_webgl.coffee#L101'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas_webgl.coffee#L120'>Source</a>
     </p>
     <div class='docstring'>
   Public: Clears the canvas. 
@@ -284,9 +284,9 @@ selector - query selector or id (default: Fz2D.SELECTOR)
   </div>
   <div class='method_details'>
     <p class='signature' id='draw-instance'>
-      ::<strong>draw</strong>(texture, sx, sy, sw, sh, x, y, w, h)
+      ::<strong>draw</strong>(texture, sx, sy, sw, sh, x, y, w, h, hw = (w / 2.0), hh = (h / 2.0), angle = 0.0)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas_webgl.coffee#L129'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas_webgl.coffee#L148'>Source</a>
     </p>
     <div class='docstring'>
    Public: Draws a <a href='../../classes/Fz2D/Texture.html'>Fz2D.Texture</a>.
@@ -299,7 +299,10 @@ sh - source height
 x - desired position on the X axis
 y - desired position on the Y axis
 w - desired width
-h - desired height 
+h - desired height
+hw - desired half width (default: w/2.0)
+hh - desired half height (default: h/2.0)
+angle - rotation angle (default: 0.0) 
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
@@ -350,6 +353,21 @@ h - desired height
       &mdash;
       <span class='desc'>desired height</span>
     </li>
+    <li>
+      <span class='name'>hw</span>
+      &mdash;
+      <span class='desc'>desired half width (default: w/2.0)</span>
+    </li>
+    <li>
+      <span class='name'>hh</span>
+      &mdash;
+      <span class='desc'>desired half height (default: h/2.0)</span>
+    </li>
+    <li>
+      <span class='name'>angle</span>
+      &mdash;
+      <span class='desc'>rotation angle (default: 0.0)</span>
+    </li>
   </ul>
 </div>
   </div>
@@ -357,7 +375,7 @@ h - desired height
     <p class='signature' id='fill-instance'>
       ::<strong>fill</strong>(color)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas_webgl.coffee#L96'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas_webgl.coffee#L115'>Source</a>
     </p>
     <div class='docstring'>
    Public: Fills the canvas with a solid color.
@@ -379,7 +397,7 @@ color - HTML color code
     <p class='signature' id='flush-instance'>
       ::<strong>flush</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas_webgl.coffee#L106'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas_webgl.coffee#L125'>Source</a>
     </p>
     <div class='docstring'>
   Public: Flushes the canvas. 
@@ -391,11 +409,11 @@ color - HTML color code
     </div>
     <div id='footer'>
   Generated on
-  Mon Aug 31 2015 02:17:45 GMT+0300 (EEST)
+  Wed Dec 16 2015 18:26:55 GMT+0200 (EET)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1
-  (Node.js v0.12.7).
+  (Node.js v4.1.1).
   &#10034;
   Press Ctrl-h to see the keyboard shortcuts
 </div>

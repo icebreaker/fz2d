@@ -173,6 +173,26 @@
   </li>
   <li>
     <span class='signature'>
+      <a href='#is-instance'>
+        ::<strong>is</strong>(text)
+      </a>
+    </span>
+    <span class='desc'>
+      Determines if the text is equal to a user provided text.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#setFormat-instance'>
+        ::<strong>setFormat</strong>(format)
+      </a>
+    </span>
+    <span class='desc'>
+      Sets the format.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
       <a href='#setText-instance'>
         ::<strong>setText</strong>(text)
       </a>
@@ -274,7 +294,7 @@ size - text size (default: font.size)
     <p class='signature' id='dec-instance'>
       ::<strong>dec</strong>(amount = 1)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L37'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L52'>Source</a>
     </p>
     <div class='docstring'>
    Public: Decrements the value by a given amount.
@@ -296,7 +316,7 @@ amount - amount to decrement by (default: 1)
     <p class='signature' id='draw-instance'>
       ::<strong>draw</strong>(ctx)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L47'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L62'>Source</a>
     </p>
     <div class='docstring'>
    Public: Draw label on every frame.
@@ -319,7 +339,7 @@ ctx - <a href='../../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a>
     <p class='signature' id='inc-instance'>
       ::<strong>inc</strong>(amount = 1)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L31'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L46'>Source</a>
     </p>
     <div class='docstring'>
    Public: Increments the value by a given amount.
@@ -338,10 +358,63 @@ amount - amount to increment by (default: 1)
 </div>
   </div>
   <div class='method_details'>
+    <p class='signature' id='is-instance'>
+      ::<strong>is</strong>(text)
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L40'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: Determines if the text is equal to a user provided text.
+
+text - user provided text
+
+Returns true or false depending on the result of the comparison. 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>text</span>
+      &mdash;
+      <span class='desc'>user provided text</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      <span class='desc'>Returns true or false depending on the result of the comparison.</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='setFormat-instance'>
+      ::<strong>setFormat</strong>(format)
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L20'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: Sets the format.
+
+format - text format 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>format</span>
+      &mdash;
+      <span class='desc'>text format</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
     <p class='signature' id='setText-instance'>
       ::<strong>setText</strong>(text)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L20'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L31'>Source</a>
     </p>
     <div class='docstring'>
    Public: Sets the text.
@@ -363,7 +436,7 @@ text - text to display
     <p class='signature' id='toInt-instance'>
       ::<strong>toInt</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L41'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L56'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns the value as an int. 
@@ -375,7 +448,7 @@ text - text to display
     <p class='signature' id='update-instance'>
       ::<strong>update</strong>(timer, input)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L54'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L69'>Source</a>
     </p>
     <div class='docstring'>
    Public: Updates label on every frame.
@@ -405,11 +478,11 @@ input - <a href='../../../classes/Fz2D/Input.html'>Fz2D.Input</a>
     </div>
     <div id='footer'>
   Generated on
-  Mon Aug 31 2015 02:17:45 GMT+0300 (EEST)
+  Wed Dec 16 2015 18:26:55 GMT+0200 (EET)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1
-  (Node.js v0.12.7).
+  (Node.js v4.1.1).
   &#10034;
   Press Ctrl-h to see the keyboard shortcuts
 </div>

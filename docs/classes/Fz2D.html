@@ -131,12 +131,15 @@
 </div>
         </dt>
         <dd>
-          <pre><code class='coffee'>'0.0.1'</code></pre>
+          <pre><code class='coffee'>'0.0.2'</code></pre>
         </dd>
         <dt id='NONE-constant'>
           NONE
           =
-          <div class='tags'>
+          <div class='docstring'>
+  Public: None. 
+</div>
+<div class='tags'>
 </div>
         </dt>
         <dd>
@@ -340,7 +343,7 @@
     <p class='signature' id='appendEl-class'>
       .<strong>appendEl</strong>(el, parent = document.body)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L345'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L351'>Source</a>
     </p>
     <div class='docstring'>
    Public: Adds a HTML DOM element to a parent HTML DOM element.
@@ -377,7 +380,7 @@ Returns the element itself.
     <p class='signature' id='clamp-class'>
       .<strong>clamp</strong>(d, min, max)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L117'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L123'>Source</a>
     </p>
     <div class='docstring'>
    Public: Clamps a given number between two limits.
@@ -420,7 +423,7 @@ Returns the clamped number.
     <p class='signature' id='collide-class'>
       .<strong>collide</strong>(o1, o2, callback)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L209'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L215'>Source</a>
     </p>
     <div class='docstring'>
    Public: Determines if there's a collision between two objects.
@@ -466,7 +469,7 @@ Returns true or false.
     <p class='signature' id='contains-class'>
       .<strong>contains</strong>(o, p)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L258'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L264'>Source</a>
     </p>
     <div class='docstring'>
    Public: Determines if an object or group contains a point.
@@ -503,7 +506,7 @@ Returns true or false.
     <p class='signature' id='createEl-class'>
       .<strong>createEl</strong>(type, attrs = {}, styles = {})
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L328'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L334'>Source</a>
     </p>
     <div class='docstring'>
    Public: Creates a new HTML DOM element.
@@ -546,7 +549,7 @@ Returns a new instance of a HTML DOM element of the given type.
     <p class='signature' id='dist-class'>
       .<strong>dist</strong>(o1, o2)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L140'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L146'>Source</a>
     </p>
     <div class='docstring'>
    Public: Determines the distance between two objects.
@@ -585,7 +588,7 @@ See also <a href='../classes/Fz2D.html#distSqr-class'>Fz2D.distSqr</a> for cases
     <p class='signature' id='distSqr-class'>
       .<strong>distSqr</strong>(o1, o2)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L160'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L166'>Source</a>
     </p>
     <div class='docstring'>
    Public: Determines the squared distance between two objects.
@@ -624,7 +627,7 @@ See also <a href='../classes/Fz2D.html#dist-class'>Fz2D.dist</a> for cases when 
     <p class='signature' id='getCollisionSide-class'>
       .<strong>getCollisionSide</strong>(o1, o2)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L178'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L184'>Source</a>
     </p>
     <div class='docstring'>
    Public: Determines the side of a collision.
@@ -661,7 +664,7 @@ Returns the sides of a collision.
     <p class='signature' id='getJSON-class'>
       .<strong>getJSON</strong>(url, callback)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L369'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L375'>Source</a>
     </p>
     <div class='docstring'>
    Public: Performs an asynchronous HTTP GET request.
@@ -700,7 +703,7 @@ Returns immediately with an undefined value.
     <p class='signature' id='overlap-class'>
       .<strong>overlap</strong>(o1, o2)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L275'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L281'>Source</a>
     </p>
     <div class='docstring'>
    Public: Determines if an object or group overlaps with another object or group.
@@ -741,7 +744,7 @@ Returns a true or false.
     <p class='signature' id='setStyleEl-class'>
       .<strong>setStyleEl</strong>(el, styles = {})
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L355'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L361'>Source</a>
     </p>
     <div class='docstring'>
    Public: Sets style properties of a HTML DOM element.
@@ -778,7 +781,7 @@ Returns the element itself.
     <p class='signature' id='step-class'>
       .<strong>step</strong>(t, d, min, max)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L128'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L134'>Source</a>
     </p>
     <div class='docstring'>
    Public: Linearly interpolates a number within two limits based on time.
@@ -827,7 +830,7 @@ Returns the interpolated value for the given timestamp (step).
     <p class='signature' id='swap-class'>
       .<strong>swap</strong>(a, b)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L293'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L299'>Source</a>
     </p>
     <div class='docstring'>
    Public: Swaps A with B.
@@ -864,7 +867,7 @@ Returns A and B swapped.
     <p class='signature' id='toRGB-class'>
       .<strong>toRGB</strong>(color)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L305'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L311'>Source</a>
     </p>
     <div class='docstring'>
    Public: Converts HTML color code into floating point RGB components.
@@ -895,11 +898,11 @@ Returns RGB converted to floating point components.
     </div>
     <div id='footer'>
   Generated on
-  Mon Aug 31 2015 02:17:45 GMT+0300 (EEST)
+  Wed Dec 16 2015 18:26:55 GMT+0200 (EET)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1
-  (Node.js v0.12.7).
+  (Node.js v4.1.1).
   &#10034;
   Press Ctrl-h to see the keyboard shortcuts
 </div>
