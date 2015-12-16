@@ -34,6 +34,10 @@ class Fz2D.Entity extends Fz2D.Object
   clone: () ->
     new Fz2D.Entity(@texture, @x, @y, @w, @h, @tag)
 
+  # Public: Returns true if the entity is out of bounds.
+  isOutOfBounds: () ->
+    @group and not Fz2D.overlap(@group, @)
+
   # Public: Plays a given animation.
   #
   # tag - name of the animation
@@ -82,7 +86,10 @@ class Fz2D.Entity extends Fz2D.Object
              @x,
              @y,
              @w,
-             @h)
+             @h,
+             @bounds.hw,
+             @bounds.hh
+             @angle)
     null
 
   # Public: Updates entity on every frame.
