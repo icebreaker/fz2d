@@ -15,6 +15,7 @@ class Fz2D.Object
     @visible = true
     @alive = true
     @exists = true
+    @angle = 0.0
   
   # Public: Kills the object.
   kill: () ->
@@ -31,9 +32,11 @@ class Fz2D.Object
   #
   # x - position on the X axis
   # y - position on the Y axis
-  reset: (x=null, y=null) ->
+  # angle - rotation angle
+  reset: (x=null, y=null, angle=null) ->
     @x = x if x?
     @y = y if y?
+    @angle = angle if angle?
 
     @visible = true
     @alive = true
