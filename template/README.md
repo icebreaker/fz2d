@@ -12,7 +12,7 @@ Contribute
 
 License
 -------
-Copyright (c) 2014, Mihail Szabolcs
+Copyright (c) 2014-2016, Mihail Szabolcs
 
 Fuzed is provided **as-is** under the **MIT** license. 
 For more information see LICENSE.
