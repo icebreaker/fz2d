@@ -23,6 +23,10 @@ class Fz2D.Loader
     @_outer = new Fz2D.Texture(game.fg, @w, @h)
     @_inner = new Fz2D.Texture(game.bg, @w, @h)
 
+    @_timeout = new Fz2D.Timeout()
+    @_timeout.onend = () =>
+      @onload()
+
     @_files = {}
     @_loaders = {}
 
@@ -31,7 +35,8 @@ class Fz2D.Loader
 
       _loader.onload = () =>
         if ++@loaded >= @total
-          @onload()
+          @pct = 1
+          @_timeout.set(500)
 
         console.log("Loaded: #{Math.ceil(@pct * 100)}%") if @pct > 0
 
@@ -73,6 +78,7 @@ class Fz2D.Loader
   # Public: Updates loader on every frame.
   update: (timer, input) ->
     @pct = @loaded / @total
+    @_timeout.update(timer)
 
   # Public: Returns true if still loading.
   isLoading: () ->

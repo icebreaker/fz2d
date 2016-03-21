@@ -844,6 +844,12 @@ Fz2D.Loader = (function() {
     this.y = (game.h - this.h) >> 1;
     this._outer = new Fz2D.Texture(game.fg, this.w, this.h);
     this._inner = new Fz2D.Texture(game.bg, this.w, this.h);
+    this._timeout = new Fz2D.Timeout();
+    this._timeout.onend = (function(_this) {
+      return function() {
+        return _this.onload();
+      };
+    })(this);
     this._files = {};
     this._loaders = {};
     ref = Fz2D.Loader.Loaders;
@@ -853,7 +859,8 @@ Fz2D.Loader = (function() {
       _loader.onload = (function(_this) {
         return function() {
           if (++_this.loaded >= _this.total) {
-            _this.onload();
+            _this.pct = 1;
+            _this._timeout.set(500);
           }
           if (_this.pct > 0) {
             return console.log("Loaded: " + (Math.ceil(_this.pct * 100)) + "%");
@@ -895,7 +902,8 @@ Fz2D.Loader = (function() {
   };
 
   Loader.prototype.update = function(timer, input) {
-    return this.pct = this.loaded / this.total;
+    this.pct = this.loaded / this.total;
+    return this._timeout.update(timer);
   };
 
   Loader.prototype.isLoading = function() {
@@ -3984,6 +3992,27 @@ Fz2D.Storage = (function() {
   };
 
   return Storage;
+
+})();
+
+Fz2D.Timeout = (function() {
+  function Timeout() {
+    this._dt = 0;
+  }
+
+  Timeout.prototype.set = function(delay) {
+    return this._dt = delay;
+  };
+
+  Timeout.prototype.onend = function() {};
+
+  Timeout.prototype.update = function(timer) {
+    if (this._dt > 0 && ((this._dt -= timer.dt) <= 0)) {
+      return this.onend();
+    }
+  };
+
+  return Timeout;
 
 })();
 
