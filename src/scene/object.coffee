@@ -16,6 +16,7 @@ class Fz2D.Object
     @alive = true
     @exists = true
     @angle = 0.0
+    @z = 0
   
   # Public: Kills the object.
   kill: () ->

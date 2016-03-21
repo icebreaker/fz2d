@@ -33,6 +33,10 @@ class Fz2D.Group extends Fz2D.Object
     @_objects.sort.apply(@_objects, arguments)
     @
 
+  # Public: Sorts objects by their z value.
+  sortByZ: () ->
+    @sort(@_compareZ)
+
   # Public: Recycle an object.
   # Returns first {Fz2D.Object} that doesn't exist.
   recycle: () ->
@@ -387,3 +391,12 @@ class Fz2D.Group extends Fz2D.Object
       o.update(timer, input) if o.exists and o.alive
 
     null
+
+  # Private: Compares the z value of two objects.
+  #
+  # o1 - {Fz2D.Object}
+  # o2 - {Fz2D.Object}
+  # 
+  # Returns negative if o1 is smaller, positive if o1 is bigger and zero if they are equal.
+  _compareZ: (o1, o2) ->
+    o1.z - o2.z
