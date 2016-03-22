@@ -175,3 +175,8 @@ task 'build', 'starts a server in development mode', (options) ->
 task 'server', 'starts a server on localhost', (options) ->
   port = options.port || default_port
   create_server port
+
+task 'assets', 'compiles assets', (options) ->
+  process.chdir('assets/textures')
+  process.env['ATLAS'] = 'sprites.png'
+  system_with_echo "./mkatlas sprites/* > ../json/sprites.atlas"
