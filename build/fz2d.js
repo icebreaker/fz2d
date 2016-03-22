@@ -1908,7 +1908,7 @@ Fz2D.Canvas = (function() {
 
   Canvas.prototype.flush = function() {};
 
-  Canvas.prototype.draw = function(texture, sx, sy, sw, sh, x, y, w, h, hw, hh, angle) {
+  Canvas.prototype.draw = function(texture, sx, sy, sw, sh, x, y, w, h, hw, hh, angle, alpha) {
     if (hw == null) {
       hw = h / 2.0;
     }
@@ -1918,10 +1918,14 @@ Fz2D.Canvas = (function() {
     if (angle == null) {
       angle = 0.0;
     }
+    if (alpha == null) {
+      alpha = 1.0;
+    }
     this.draw_call_count++;
     this._ctx.save();
     this._ctx.translate(x + hw, y + hh);
     this._ctx.rotate(angle * Fz2D.DEG2RAD);
+    this._ctx.globalAlpha = alpha;
     this._ctx.drawImage(texture._native, sx, sy, sw, sh, -hw, -hh, w, h);
     this._ctx.restore();
     return this._ctx;
@@ -1964,9 +1968,9 @@ Fz2D.CanvasWebGL = (function(superClass) {
 
   CanvasWebGL.VERTEX_CACHE_MAX_SIZE = 48 * 2048;
 
-  CanvasWebGL.VERTEX_SHADER = "precision lowp float;\n\nuniform vec2 screen;\nuniform vec2 texture;\n\nattribute vec4 pos;\nattribute vec4 uv;\n\nvarying vec2 texture_coord;\n\nvoid main(void)\n{ \n  texture_coord = uv.st * texture;\n  \n  float r = radians(uv.z);\n  float cosr = cos(r);\n  float sinr = sin(r);\n\n  vec2 pp = pos.xy - pos.zw;\n  vec2 p  = vec2(pp.x * cosr - pp.y * sinr, pp.x * sinr + pp.y * cosr);\n\n  p += pos.zw;\n  p *= screen;\n\n  gl_Position = vec4(p.x - 1.0, 1.0 - p.y, 0.0, 1.0);\n}";
+  CanvasWebGL.VERTEX_SHADER = "precision lowp float;\n\nuniform vec2 screen;\nuniform vec2 texture;\n\nattribute vec4 pos;\nattribute vec4 uv;\n\nvarying vec2 texture_coord;\nvarying float alpha;\n\nvoid main(void)\n{ \n  texture_coord = uv.st * texture;\n  alpha = uv.w;\n  \n  float r = radians(uv.z);\n  float cosr = cos(r);\n  float sinr = sin(r);\n\n  vec2 pp = pos.xy - pos.zw;\n  vec2 p  = vec2(pp.x * cosr - pp.y * sinr, pp.x * sinr + pp.y * cosr);\n\n  p += pos.zw;\n  p *= screen;\n\n  gl_Position = vec4(p.x - 1.0, 1.0 - p.y, 0.0, 1.0);\n}";
 
-  CanvasWebGL.FRAGMENT_SHADER = "precision lowp float;\n\nuniform sampler2D texture_id;\nvarying vec2 texture_coord;\n  \nvoid main(void)\n{\n  gl_FragColor = texture2D(texture_id, texture_coord);\n}";
+  CanvasWebGL.FRAGMENT_SHADER = "precision lowp float;\n\nuniform sampler2D texture_id;\nvarying vec2 texture_coord;\nvarying float alpha;\n  \nvoid main(void)\n{\n  vec4 color = texture2D(texture_id, texture_coord);\n  color.a *= alpha;\n\n  gl_FragColor = color;\n}";
 
   function CanvasWebGL() {
     CanvasWebGL.__super__.constructor.apply(this, arguments);
@@ -2016,7 +2020,7 @@ Fz2D.CanvasWebGL = (function(superClass) {
     return this._vertex_cache_size = 0;
   };
 
-  CanvasWebGL.prototype.draw = function(texture, sx, sy, sw, sh, x, y, w, h, hw, hh, angle) {
+  CanvasWebGL.prototype.draw = function(texture, sx, sy, sw, sh, x, y, w, h, hw, hh, angle, alpha) {
     var b, cx, cy, r, sb, sr;
     if (hw == null) {
       hw = w / 2.0;
@@ -2026,6 +2030,9 @@ Fz2D.CanvasWebGL = (function(superClass) {
     }
     if (angle == null) {
       angle = 0.0;
+    }
+    if (alpha == null) {
+      alpha = 1.0;
     }
     if (texture._native._texture_id !== this._texture_id) {
       this.flush();
@@ -2050,7 +2057,7 @@ Fz2D.CanvasWebGL = (function(superClass) {
     this._vertex_cache[this._vertex_cache_size++] = sx;
     this._vertex_cache[this._vertex_cache_size++] = sy;
     this._vertex_cache[this._vertex_cache_size++] = angle;
-    this._vertex_cache[this._vertex_cache_size++] = 0;
+    this._vertex_cache[this._vertex_cache_size++] = alpha;
     this._vertex_cache[this._vertex_cache_size++] = r;
     this._vertex_cache[this._vertex_cache_size++] = y;
     this._vertex_cache[this._vertex_cache_size++] = cx;
@@ -2058,7 +2065,7 @@ Fz2D.CanvasWebGL = (function(superClass) {
     this._vertex_cache[this._vertex_cache_size++] = sr;
     this._vertex_cache[this._vertex_cache_size++] = sy;
     this._vertex_cache[this._vertex_cache_size++] = angle;
-    this._vertex_cache[this._vertex_cache_size++] = 0;
+    this._vertex_cache[this._vertex_cache_size++] = alpha;
     this._vertex_cache[this._vertex_cache_size++] = x;
     this._vertex_cache[this._vertex_cache_size++] = b;
     this._vertex_cache[this._vertex_cache_size++] = cx;
@@ -2066,7 +2073,7 @@ Fz2D.CanvasWebGL = (function(superClass) {
     this._vertex_cache[this._vertex_cache_size++] = sx;
     this._vertex_cache[this._vertex_cache_size++] = sb;
     this._vertex_cache[this._vertex_cache_size++] = angle;
-    this._vertex_cache[this._vertex_cache_size++] = 0;
+    this._vertex_cache[this._vertex_cache_size++] = alpha;
     this._vertex_cache[this._vertex_cache_size++] = x;
     this._vertex_cache[this._vertex_cache_size++] = b;
     this._vertex_cache[this._vertex_cache_size++] = cx;
@@ -2074,7 +2081,7 @@ Fz2D.CanvasWebGL = (function(superClass) {
     this._vertex_cache[this._vertex_cache_size++] = sx;
     this._vertex_cache[this._vertex_cache_size++] = sb;
     this._vertex_cache[this._vertex_cache_size++] = angle;
-    this._vertex_cache[this._vertex_cache_size++] = 0;
+    this._vertex_cache[this._vertex_cache_size++] = alpha;
     this._vertex_cache[this._vertex_cache_size++] = r;
     this._vertex_cache[this._vertex_cache_size++] = y;
     this._vertex_cache[this._vertex_cache_size++] = cx;
@@ -2082,7 +2089,7 @@ Fz2D.CanvasWebGL = (function(superClass) {
     this._vertex_cache[this._vertex_cache_size++] = sr;
     this._vertex_cache[this._vertex_cache_size++] = sy;
     this._vertex_cache[this._vertex_cache_size++] = angle;
-    this._vertex_cache[this._vertex_cache_size++] = 0;
+    this._vertex_cache[this._vertex_cache_size++] = alpha;
     this._vertex_cache[this._vertex_cache_size++] = r;
     this._vertex_cache[this._vertex_cache_size++] = b;
     this._vertex_cache[this._vertex_cache_size++] = cx;
@@ -2090,7 +2097,7 @@ Fz2D.CanvasWebGL = (function(superClass) {
     this._vertex_cache[this._vertex_cache_size++] = sr;
     this._vertex_cache[this._vertex_cache_size++] = sb;
     this._vertex_cache[this._vertex_cache_size++] = angle;
-    this._vertex_cache[this._vertex_cache_size++] = 0;
+    this._vertex_cache[this._vertex_cache_size++] = alpha;
     if (this._vertex_cache_size === Fz2D.CanvasWebGL.VERTEX_CACHE_MAX_SIZE) {
       return this.flush();
     }
@@ -2632,6 +2639,29 @@ Fz2D.Font = (function() {
 
 })();
 
+Fz2D.Iso = (function() {
+  function Iso() {}
+
+  Iso.to = function(x, y) {
+    return this._toVec2(x - y, (x + y) >> 1);
+  };
+
+  Iso.from = function(x, y) {
+    return this._toVec2(((y << 1) + x) >> 1, ((y << 1) - x) >> 1);
+  };
+
+  Iso._toVec2 = function(x, y) {
+    if (this._temp == null) {
+      this._temp = Fz2D.Vec2();
+    }
+    this._temp.set(x, y);
+    return this._temp;
+  };
+
+  return Iso;
+
+})();
+
 Fz2D.Object = (function() {
   function Object(x3, y3, w1, h1, tag1) {
     this.x = x3;
@@ -2645,6 +2675,8 @@ Fz2D.Object = (function() {
     this.alive = true;
     this.exists = true;
     this.angle = 0.0;
+    this.alpha = 1.0;
+    this.z = 0;
   }
 
   Object.prototype.kill = function() {
@@ -2762,7 +2794,7 @@ Fz2D.Entity = (function(superClass) {
   };
 
   Entity.prototype.draw = function(ctx) {
-    ctx.draw(this.animation.texture, this.animation.frame.x, this.animation.frame.y, this.animation.frame.w, this.animation.frame.h, this.x, this.y, this.w, this.h, this.bounds.hw, this.bounds.hh, this.angle);
+    ctx.draw(this.animation.texture, this.animation.frame.x, this.animation.frame.y, this.animation.frame.w, this.animation.frame.h, this.x, this.y, this.w, this.h, this.bounds.hw, this.bounds.hh, this.angle, this.alpha);
     return null;
   };
 
@@ -2828,6 +2860,10 @@ Fz2D.Group = (function(superClass) {
   Group.prototype.sort = function(cb) {
     this._objects.sort.apply(this._objects, arguments);
     return this;
+  };
+
+  Group.prototype.sortByZ = function() {
+    return this.sort(this._compareZ);
   };
 
   Group.prototype.recycle = function() {
@@ -3252,6 +3288,10 @@ Fz2D.Group = (function(superClass) {
       }
     }
     return null;
+  };
+
+  Group.prototype._compareZ = function(o1, o2) {
+    return o1.z - o2.z;
   };
 
   return Group;
