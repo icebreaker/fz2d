@@ -31,10 +31,12 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
   attribute vec4 uv;
 
   varying vec2 texture_coord;
+  varying float alpha;
 
   void main(void)
   { 
     texture_coord = uv.st * texture;
+    alpha = uv.w;
     
     float r = radians(uv.z);
     float cosr = cos(r);
@@ -56,10 +58,14 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
 
   uniform sampler2D texture_id;
   varying vec2 texture_coord;
+  varying float alpha;
     
   void main(void)
   {
-    gl_FragColor = texture2D(texture_id, texture_coord);
+    vec4 color = texture2D(texture_id, texture_coord);
+    color.a *= alpha;
+
+    gl_FragColor = color;
   }
   """
 
@@ -145,7 +151,8 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
   # hw - desired half width (default: w/2.0)
   # hh - desired half height (default: h/2.0)
   # angle - rotation angle (default: 0.0)
-  draw: (texture, sx, sy, sw, sh, x, y, w, h, hw=w/2.0, hh=h/2.0, angle=0.0) ->
+  # alpha - alpha value (default: 1.0)
+  draw: (texture, sx, sy, sw, sh, x, y, w, h, hw=w/2.0, hh=h/2.0, angle=0.0, alpha=1.0) ->
     if texture._native._texture_id != @_texture_id
       @flush()
 
@@ -175,7 +182,7 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
     @_vertex_cache[@_vertex_cache_size++] = sx
     @_vertex_cache[@_vertex_cache_size++] = sy
     @_vertex_cache[@_vertex_cache_size++] = angle
-    @_vertex_cache[@_vertex_cache_size++] = 0
+    @_vertex_cache[@_vertex_cache_size++] = alpha
     
     @_vertex_cache[@_vertex_cache_size++] = r
     @_vertex_cache[@_vertex_cache_size++] = y
@@ -185,7 +192,7 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
     @_vertex_cache[@_vertex_cache_size++] = sr
     @_vertex_cache[@_vertex_cache_size++] = sy
     @_vertex_cache[@_vertex_cache_size++] = angle
-    @_vertex_cache[@_vertex_cache_size++] = 0
+    @_vertex_cache[@_vertex_cache_size++] = alpha
     
     @_vertex_cache[@_vertex_cache_size++] = x
     @_vertex_cache[@_vertex_cache_size++] = b
@@ -195,7 +202,7 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
     @_vertex_cache[@_vertex_cache_size++] = sx
     @_vertex_cache[@_vertex_cache_size++] = sb
     @_vertex_cache[@_vertex_cache_size++] = angle
-    @_vertex_cache[@_vertex_cache_size++] = 0
+    @_vertex_cache[@_vertex_cache_size++] = alpha
  
     @_vertex_cache[@_vertex_cache_size++] = x
     @_vertex_cache[@_vertex_cache_size++] = b
@@ -205,7 +212,7 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
     @_vertex_cache[@_vertex_cache_size++] = sx
     @_vertex_cache[@_vertex_cache_size++] = sb
     @_vertex_cache[@_vertex_cache_size++] = angle
-    @_vertex_cache[@_vertex_cache_size++] = 0
+    @_vertex_cache[@_vertex_cache_size++] = alpha
  
     @_vertex_cache[@_vertex_cache_size++] = r
     @_vertex_cache[@_vertex_cache_size++] = y
@@ -215,7 +222,7 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
     @_vertex_cache[@_vertex_cache_size++] = sr
     @_vertex_cache[@_vertex_cache_size++] = sy
     @_vertex_cache[@_vertex_cache_size++] = angle
-    @_vertex_cache[@_vertex_cache_size++] = 0
+    @_vertex_cache[@_vertex_cache_size++] = alpha
  
     @_vertex_cache[@_vertex_cache_size++] = r
     @_vertex_cache[@_vertex_cache_size++] = b
@@ -225,7 +232,7 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
     @_vertex_cache[@_vertex_cache_size++] = sr
     @_vertex_cache[@_vertex_cache_size++] = sb
     @_vertex_cache[@_vertex_cache_size++] = angle
-    @_vertex_cache[@_vertex_cache_size++] = 0
+    @_vertex_cache[@_vertex_cache_size++] = alpha
  
     if @_vertex_cache_size == Fz2D.CanvasWebGL.VERTEX_CACHE_MAX_SIZE
       @flush()

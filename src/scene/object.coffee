@@ -11,12 +11,13 @@ class Fz2D.Object
   constructor: (@x, @y, @w, @h, @tag='object') ->
     @bounds = new Fz2D.BBox(0, 0, @w, @h)
 
-    @solid = true
-    @visible = true
-    @alive = true
-    @exists = true
-    @angle = 0.0
-    @z = 0
+    @solid    = true
+    @visible  = true
+    @alive    = true
+    @exists   = true
+    @angle    = 0.0
+    @alpha    = 1.0
+    @z        = 0
   
   # Public: Kills the object.
   kill: () ->

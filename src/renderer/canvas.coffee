@@ -118,12 +118,14 @@ class Fz2D.Canvas
   # hw - desired half width (default: w/2.0)
   # hh - desired half height (default: h/2.0)
   # angle - rotation angle (default: 0.0)
-  draw: (texture, sx, sy, sw, sh, x, y, w, h, hw=h/2.0, hh=h/2.0, angle=0.0) ->
+  # alpha - alpha value (default: 1.0)
+  draw: (texture, sx, sy, sw, sh, x, y, w, h, hw=h/2.0, hh=h/2.0, angle=0.0, alpha=1.0) ->
     @draw_call_count++
     @_ctx.save()
 
     @_ctx.translate(x + hw, y + hh)
     @_ctx.rotate(angle * Fz2D.DEG2RAD)
+    @_ctx.globalAlpha = alpha
 
     @_ctx.drawImage(texture._native, sx, sy, sw, sh, -hw, -hh, w, h)
 

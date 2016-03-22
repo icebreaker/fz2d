@@ -89,7 +89,8 @@ class Fz2D.Entity extends Fz2D.Object
              @h,
              @bounds.hw,
              @bounds.hh
-             @angle)
+             @angle,
+             @alpha)
     null
 
   # Public: Updates entity on every frame.
