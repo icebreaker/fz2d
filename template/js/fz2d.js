@@ -8,7 +8,7 @@ var Fz2D,
 Fz2D = (function() {
   function Fz2D() {}
 
-  Fz2D.VERSION = '0.0.2';
+  Fz2D.VERSION = '0.0.3';
 
   Fz2D.NONE = 0;
 
