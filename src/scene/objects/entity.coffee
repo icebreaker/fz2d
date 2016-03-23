@@ -7,8 +7,8 @@ class Fz2D.Entity extends Fz2D.Object
   # y - position on the Y axis (default: 0)
   # w - width of entity (default: texture width)
   # h - height of entity (default: texture height)
-  # tag - name of the entity (default: object)
-  constructor: (@texture, x=0, y=0, w=null, h=null, tag=null) ->
+  # tag - name of the entity (default: '_default')
+  constructor: (@texture, x=0, y=0, w=null, h=null, tag='_default') ->
     h ?= @texture.h
 
     unless w?
@@ -26,8 +26,8 @@ class Fz2D.Entity extends Fz2D.Object
 
     @animations = {}
 
-    @addAnimation('_default', @texture)
-    @play('_default', true)
+    @addAnimation(@tag, @texture)
+    @play(@tag, true)
 
   # Public: Clones entity.
   # Returns a {Fz2D.Entity}.

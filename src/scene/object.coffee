@@ -6,9 +6,9 @@ class Fz2D.Object
   # y - position on the Y axis
   # w - width
   # h - height
-  # tag - name of the object (default: 'object')
+  # tag - name of the object (default: '_default')
   # 
-  constructor: (@x, @y, @w, @h, @tag='object') ->
+  constructor: (@x, @y, @w, @h, @tag='_default') ->
     @bounds = new Fz2D.BBox(0, 0, @w, @h)
 
     @solid    = true
