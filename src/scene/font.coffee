@@ -27,8 +27,9 @@ class Fz2D.Font
 
     @invalid_char = @chars[String.fromCharCode(end)]
 
-    @linesize   = @size + (@size >> 2)
-    @tabsize    = @size << 2
+    @spaceSize  = @size
+    @lineSize   = @spaceSize + (@spaceSize >> 2)
+    @tabSize    = @spaceSize << 2
 
   # Public: Centers text inside the given rect.
   #
@@ -57,15 +58,15 @@ class Fz2D.Font
     for c in text
       switch c
         when ' '
-          w += @size
+          w += @spaceSize
           continue
         when '\n'
           maxWidth = w if w > maxWidth
           w = 0
-          h += @linesize
+          h += @lineSize
           continue
         when '\t'
-          w += @tabsize
+          w += @tabSize
           continue
 
       char = @chars[c] || @invalid_char
@@ -95,14 +96,14 @@ class Fz2D.Font
     for c in text
       switch c
         when ' '
-          xx += @size
+          xx += @spaceSize
           continue
         when '\n'
           xx = x
-          yy += @linesize
+          yy += @lineSize
           continue
         when '\t'
-          xx += @tabsize
+          xx += @tabSize
           continue
  
       char = @chars[c] || @invalid_char
