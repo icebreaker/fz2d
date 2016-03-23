@@ -27,7 +27,7 @@ class Fz2D.Font
 
     @invalid_char = @chars[String.fromCharCode(end)]
 
-    @linesize   = @size << 1
+    @linesize   = @size + (@size >> 2)
     @tabsize    = @size << 2
 
   # Public: Centers text inside the given rect.
