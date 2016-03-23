@@ -23,6 +23,6 @@ class Fz2D.Iso
   # x - value on the X axis
   # y - value on the Y axis
   @_toVec2: (x, y) ->
-    @_temp ?= Fz2D.Vec2()
+    @_temp ?= new Fz2D.Vec2()
     @_temp.set(x, y)
     @_temp
