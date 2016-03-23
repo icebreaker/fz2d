@@ -63,6 +63,10 @@ class Fz2D.Entity extends Fz2D.Object
   is: (tag) ->
     @animation.tag == tag
 
+  # Public: Returns the name of the active animation.
+  active: () ->
+    @animation.tag
+
   # Public: Adds an animation.
   #
   # tag - name of the animation
