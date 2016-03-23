@@ -27,18 +27,17 @@ class Fz2D.Font
 
     @invalid_char = @chars[String.fromCharCode(end)]
 
-  
+    @linesize   = @size << 1
+    @tabsize    = @size << 2
+
   # Public: Centers text inside the given rect.
   #
   # ro - {Fz2D.Rect}, {Fz2D.Object} or {Fz2D.Group}
   # text - text to measure
-  # size - text size (default: font size)
-  # line_spacing - desired line spacing (default: 2 * size)
-  # word_spacing - desired word spacing (default: size)
   #
   # Returns a {Fz2D.Rect}.
-  centerText: (ro, text, size=@size, line_spacing=size+size, word_spacing=size) ->
-    m = @measureText(text, size, line_spacing, word_spacing)
+  centerText: (ro, text) ->
+    m = @measureText(text)
     
     new Fz2D.Rect(ro.x + ((ro.w - m.w) >> 1),
                   ro.y + ((ro.h - m.h) >> 1)
@@ -48,12 +47,9 @@ class Fz2D.Font
   # Public: Measures text.
   #
   # text - text to measure
-  # size - text size (default: font size)
-  # line_spacing - desired line spacing (default: 2 * size)
-  # word_spacing - desired word spacing (default: size)
   #
   # Returns a {Fz2D.Rect}.
-  measureText: (text, size=@size, line_spacing=size+size, word_spacing=size) ->
+  measureText: (text) ->
     w = 0
     h = 0
     maxWidth = 0
@@ -61,24 +57,26 @@ class Fz2D.Font
     for c in text
       switch c
         when ' '
-          w += word_spacing
+          w += @size
           continue
         when '\n'
           maxWidth = w if w > maxWidth
           w = 0
-          h += line_spacing
+          h += @linesize
           continue
         when '\t'
-          w += 3 * word_spacing
+          w += @tabsize
           continue
 
-      w += size
+      char = @chars[c] || @invalid_char
+
+      w += char.w
 
     if w > 0 and maxWidth == 0
       maxWidth = w
 
     if maxWidth > 0 and h == 0
-      h = size
+      h = @size
 
     new Fz2D.Rect(0, 0, maxWidth, h)
 
@@ -88,32 +86,29 @@ class Fz2D.Font
   # text - text to measure
   # x - position on the X axis
   # y - position on the Y axis
-  # size - text size (default: font size)
-  # line_spacing - desired line spacing (default: 2 * size)
-  # word_spacing - desired word spacing (default: size)
   #
   # Returns a last position.
-  drawText: (ctx, text, x, y, size=@size, line_spacing=size+size, word_spacing=size) ->
+  drawText: (ctx, text, x, y) ->
     xx = x
     yy = y
 
     for c in text
       switch c
         when ' '
-          xx += word_spacing
+          xx += @size
           continue
         when '\n'
           xx = x
-          yy += line_spacing
+          yy += @linesize
           continue
         when '\t'
-          xx += 3 * word_spacing
+          xx += @tabsize
           continue
  
       char = @chars[c] || @invalid_char
 
-      ctx.draw(@texture, char.x, char.y, char.w, char.h, xx, yy, size, size)
+      ctx.draw(@texture, char.x, char.y, char.w, char.h, xx, yy, char.w, char.h)
 
-      xx += size
+      xx += char.w
 
     xx
