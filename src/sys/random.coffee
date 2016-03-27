@@ -27,3 +27,10 @@ class Fz2D.Random
   # Public: Returns a random bool.
   nextBool: () ->
     !!(((@nextFloat() * Fz2D.Random.BITS) | 0) & 1)
+
+  # Public: Returns a random integer between min and max.
+  #
+  # min - integer
+  # max - integer
+  nextBetween: (min, max) ->
+    min + @next((max + 1) - min)
