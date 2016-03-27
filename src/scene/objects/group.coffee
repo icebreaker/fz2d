@@ -10,7 +10,21 @@ class Fz2D.Group extends Fz2D.Object
     super(x, y, w, h)
     @_objects = []
 
+  # Public: Iterates over each object and calls the given callback.
+  #
+  # cb - iteration callback function
+  # arg - additional argument to be passed to the callback function
+  #
+  # Returns the first object for which the callback function returned true.
+  find: (cb, arg) ->
+    for o in @_objects
+      if cb(o, arg) is true
+        return o
+
+    null
+
   # Public: Iterates over each object.
+  #
   # cb - iteration callback function
   each: (cb) ->
     for o in @_objects
@@ -20,6 +34,9 @@ class Fz2D.Group extends Fz2D.Object
     null
 
   # Public: Iterates over each object of a given class.
+  #
+  # klass - a class
+  # cb - iteration callback function
   eachByClass: (klass, cb) ->
     for o in @_objects
       if o instanceof klass and cb(o) is false
@@ -28,6 +45,7 @@ class Fz2D.Group extends Fz2D.Object
     null
 
   # Public: Sorts objects.
+  #
   # cb - compare callback function
   sort: (cb) ->
     @_objects.sort.apply(@_objects, arguments)
