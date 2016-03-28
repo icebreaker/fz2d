@@ -6,8 +6,7 @@ class Fz2D.Gui.Label extends Fz2D.Object
   # x - position on the X axis
   # y - position on the Y axis
   # font - {Fz2D.Font}
-  # size - text size (default: font.size)
-  constructor: (text, x, y, @font, @size=@font.size) ->
+  constructor: (text, x, y, @font) ->
     super(x, y)
     @setText(text)
 
@@ -60,7 +59,7 @@ class Fz2D.Gui.Label extends Fz2D.Object
   #
   # ctx - {Fz2D.Canvas}
   draw: (ctx) ->
-    @font.drawText(ctx, @_text, @x, @y, @size, null, null)
+    @font.drawText(ctx, @_text, @x, @y)
 
   # Public: Updates label on every frame.
   #
@@ -82,7 +81,7 @@ class Fz2D.Gui.Label extends Fz2D.Object
       length = @format.length - @text.length
       @_text = @format.substring(0, length) + @_text if length > 0
 
-    size = @font.measureText(@_text, @size)
+    size = @font.measureText(@_text)
     @bounds.w = @w = size.w
     @bounds.h = @h = size.h
     @

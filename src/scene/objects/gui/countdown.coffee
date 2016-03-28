@@ -6,8 +6,7 @@ class Fz2D.Gui.Countdown extends Fz2D.Object
   # x - position on the X axis
   # y - position on the Y axis
   # font - {Fz2D.Font}
-  # size - text size (default: font.size)
-  constructor: (@count, x, y, @font, @size=@font.size) ->
+  constructor: (@count, x, y, @font) ->
     super(x, y)
 
     @count ?= 0
@@ -37,7 +36,7 @@ class Fz2D.Gui.Countdown extends Fz2D.Object
   #
   # ctx - {Fz2D.Canvas}
   draw: (ctx) ->
-    @font.drawText(ctx, @_count.toString(), @x, @y, @size)
+    @font.drawText(ctx, @_count.toString(), @x, @y)
 
     null
 
