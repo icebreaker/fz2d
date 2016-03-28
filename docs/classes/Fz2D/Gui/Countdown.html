@@ -134,7 +134,7 @@
   <li>
     <span class='signature'>
       <a href='#constructor-instance'>
-        ::<strong>constructor</strong>(count, x, y, font, size = @font)
+        ::<strong>constructor</strong>(count, x, y, font)
       </a>
     </span>
     <span class='desc'>
@@ -202,9 +202,9 @@
       <div class='methods'>
   <div class='method_details'>
     <p class='signature' id='constructor-instance'>
-      ::<strong>constructor</strong>(count, x, y, font, size = @font)
+      ::<strong>constructor</strong>(count, x, y, font)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;countdown.coffee#L10'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;countdown.coffee#L9'>Source</a>
     </p>
     <div class='docstring'>
    Public: Constructor
@@ -212,8 +212,7 @@
 count - initial number to count down from
 x - position on the X axis
 y - position on the Y axis
-font - <a href='../../../classes/Fz2D/Font.html'>Fz2D.Font</a>
-size - text size (default: font.size) 
+font - <a href='../../../classes/Fz2D/Font.html'>Fz2D.Font</a> 
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
@@ -239,11 +238,6 @@ size - text size (default: font.size)
       &mdash;
       <span class='desc'><a href='../../../classes/Fz2D/Font.html'>Fz2D.Font</a></span>
     </li>
-    <li>
-      <span class='name'>size</span>
-      &mdash;
-      <span class='desc'>text size (default: font.size)</span>
-    </li>
   </ul>
 </div>
   </div>
@@ -254,7 +248,7 @@ size - text size (default: font.size)
     <p class='signature' id='draw-instance'>
       ::<strong>draw</strong>(ctx)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;countdown.coffee#L38'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;countdown.coffee#L37'>Source</a>
     </p>
     <div class='docstring'>
    Public: Draw counter on every frame.
@@ -277,7 +271,7 @@ ctx - <a href='../../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a>
     <p class='signature' id='onend-instance'>
       ::<strong>onend</strong>(countdown)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;countdown.coffee#L24'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;countdown.coffee#L23'>Source</a>
     </p>
     <div class='docstring'>
    Public: On end(ed) callback.
@@ -300,7 +294,7 @@ countdown - <a href='../../../classes/Fz2D/Gui/Countdown.html'>Fz2D.Gui.Countdow
     <p class='signature' id='reset-instance'>
       ::<strong>reset</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;countdown.coffee#L27'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;countdown.coffee#L26'>Source</a>
     </p>
     <div class='docstring'>
   Public: Resets the counter. 
@@ -312,7 +306,7 @@ countdown - <a href='../../../classes/Fz2D/Gui/Countdown.html'>Fz2D.Gui.Countdow
     <p class='signature' id='update-instance'>
       ::<strong>update</strong>(timer, input)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;countdown.coffee#L47'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;countdown.coffee#L46'>Source</a>
     </p>
     <div class='docstring'>
    Public: Updates counter on every frame.
@@ -342,11 +336,11 @@ input - <a href='../../../classes/Fz2D/Input.html'>Fz2D.Input</a>
     </div>
     <div id='footer'>
   Generated on
-  Wed Dec 16 2015 18:26:55 GMT+0200 (EET)
+  Tue Mar 29 2016 00:27:36 GMT+0300 (EEST)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1
-  (Node.js v4.1.1).
+  (Node.js v5.7.0).
   &#10034;
   Press Ctrl-h to see the keyboard shortcuts
 </div>

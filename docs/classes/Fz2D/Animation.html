@@ -125,6 +125,16 @@
       <ul class='summary'>
   <li>
     <span class='signature'>
+      <a href='#clone-instance'>
+        ::<strong>clone</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      Clones animation.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
       <a href='#constructor-instance'>
         ::<strong>constructor</strong>(tag, texture, count, delay)
       </a>
@@ -221,10 +231,23 @@ delay - delay in miliseconds between each frame (default: 1000.0 / count)
       <h2>Instance Method Details</h2>
       <div class='methods'>
   <div class='method_details'>
+    <p class='signature' id='clone-instance'>
+      ::<strong>clone</strong>()
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;scene&#47;animation.coffee#L39'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: Clones animation.
+Returns a <a href='../../classes/Fz2D/Animation.html'>Fz2D.Animation</a>. 
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
     <p class='signature' id='onend-instance'>
       ::<strong>onend</strong>(animation)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;animation.coffee#L40'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;animation.coffee#L45'>Source</a>
     </p>
     <div class='docstring'>
    Public: On end(ed) callback.
@@ -247,7 +270,7 @@ animation - <a href='../../classes/Fz2D/Animation.html'>Fz2D.Animation</a>
     <p class='signature' id='play-instance'>
       ::<strong>play</strong>(looped)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;animation.coffee#L45'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;animation.coffee#L50'>Source</a>
     </p>
     <div class='docstring'>
    Public: Plays the animation.
@@ -269,7 +292,7 @@ looped - loop state (default: false)
     <p class='signature' id='stop-instance'>
       ::<strong>stop</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;animation.coffee#L54'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;animation.coffee#L59'>Source</a>
     </p>
     <div class='docstring'>
   Public: Stops the animation. 
@@ -281,7 +304,7 @@ looped - loop state (default: false)
     <p class='signature' id='update-instance'>
       ::<strong>update</strong>(timer, input)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;animation.coffee#L62'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;animation.coffee#L67'>Source</a>
     </p>
     <div class='docstring'>
    Public: Updates animation on every frame.
@@ -311,11 +334,11 @@ input - <a href='../../classes/Fz2D/Input.html'>Fz2D.Input</a>
     </div>
     <div id='footer'>
   Generated on
-  Wed Dec 16 2015 18:26:55 GMT+0200 (EET)
+  Tue Mar 29 2016 00:27:36 GMT+0300 (EEST)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1
-  (Node.js v4.1.1).
+  (Node.js v5.7.0).
   &#10034;
   Press Ctrl-h to see the keyboard shortcuts
 </div>

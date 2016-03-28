@@ -19,7 +19,7 @@
     &raquo;
     <span class='title'>Gui</span>
     &raquo;
-    <span class='title'>Button</span>
+    <span class='title'>TextButton</span>
     <nav>
       <ul>
         <li class='noframes'>
@@ -109,36 +109,32 @@
     <div id='content'>
       <h1>
         Class
-        Fz2D.Gui.Button
+        Fz2D.Gui.TextButton
       </h1>
       <table class='box'>
         <tr>
           <td>Defined in:</td>
-          <td>src&#47;scene&#47;objects&#47;gui&#47;button.coffee</td>
+          <td>src&#47;scene&#47;objects&#47;gui&#47;text_button.coffee</td>
         </tr>
         <tr>
           <td>Inherits:</td>
           <td>
-            <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Entity.html'>Fz2D.Entity</a>
+            <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Gui&#47;Button.html'>Fz2D.Gui.Button</a>
           </td>
         </tr>
       </table>
       <h2>Overview</h2>
       <div class='docstring'>
-  Public: Button 
+  Public: Text Button 
 </div>
 <div class='tags'>
 </div>
-      <h2>Subclasses</h2>
-      <p class='children'>
-        <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Gui&#47;TextButton.html'>Fz2D.Gui.TextButton</a>
-      </p>
       <h2>Instance Method Summary</h2>
       <ul class='summary'>
   <li>
     <span class='signature'>
       <a href='#constructor-instance'>
-        ::<strong>constructor</strong>(x, y, up, down = up, over = down)
+        ::<strong>constructor</strong>(x, y, text, font, up, down = up, over = down)
       </a>
     </span>
     <span class='desc'>
@@ -147,28 +143,37 @@
   </li>
   <li>
     <span class='signature'>
-      <a href='#onclick-instance'>
-        ::<strong>onclick</strong>(button)
+      <a href='#draw-instance'>
+        ::<strong>draw</strong>(ctx)
       </a>
     </span>
     <span class='desc'>
-      On click(ed) callback.
+      Draws button on every frame.
     </span>
   </li>
   <li>
     <span class='signature'>
-      <a href='#update-instance'>
-        ::<strong>update</strong>(timer, input)
+      <a href='#setText-instance'>
+        ::<strong>setText</strong>(text)
       </a>
     </span>
     <span class='desc'>
-      Updates button on every frame.
+      Sets the text of the label.
     </span>
   </li>
 </ul>
       <h2>
         <small>Inherited Method Summary</small>
       </h2>
+      <h3 class='inherited'>
+        Methods inherited from
+        <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Gui&#47;Button.html'>Fz2D.Gui.Button</a>
+      </h3>
+      <p class='inherited'>
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Gui&#47;Button.html#constructor-instance'>.constructor</a>,
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Gui&#47;Button.html#onclick-instance'>.onclick</a>,
+        <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Gui&#47;Button.html#update-instance'>.update</a>
+      </p>
       <h3 class='inherited'>
         Methods inherited from
         <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Entity.html'>Fz2D.Entity</a>
@@ -202,15 +207,17 @@
       <div class='methods'>
   <div class='method_details'>
     <p class='signature' id='constructor-instance'>
-      ::<strong>constructor</strong>(x, y, up, down = up, over = down)
+      ::<strong>constructor</strong>(x, y, text, font, up, down = up, over = down)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;button.coffee#L10'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;text_button.coffee#L12'>Source</a>
     </p>
     <div class='docstring'>
    Public: Constructor
 
 x - position on the X axis
 y - position on the Y axis
+text - label text
+font - label font
 up - <a href='../../../classes/Fz2D/Texture.html'>Fz2D.Texture</a>
 down - <a href='../../../classes/Fz2D/Texture.html'>Fz2D.Texture</a> (default: up)
 over - <a href='../../../classes/Fz2D/Texture.html'>Fz2D.Texture</a> (default: down) 
@@ -227,6 +234,16 @@ over - <a href='../../../classes/Fz2D/Texture.html'>Fz2D.Texture</a> (default: d
       <span class='name'>y</span>
       &mdash;
       <span class='desc'>position on the Y axis</span>
+    </li>
+    <li>
+      <span class='name'>text</span>
+      &mdash;
+      <span class='desc'>label text</span>
+    </li>
+    <li>
+      <span class='name'>font</span>
+      &mdash;
+      <span class='desc'>label font</span>
     </li>
     <li>
       <span class='type'>(Fz2D.Texture)</span>
@@ -253,54 +270,46 @@ over - <a href='../../../classes/Fz2D/Texture.html'>Fz2D.Texture</a> (default: d
       <h2>Instance Method Details</h2>
       <div class='methods'>
   <div class='method_details'>
-    <p class='signature' id='onclick-instance'>
-      ::<strong>onclick</strong>(button)
+    <p class='signature' id='draw-instance'>
+      ::<strong>draw</strong>(ctx)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;button.coffee#L19'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;text_button.coffee#L34'>Source</a>
     </p>
     <div class='docstring'>
-   Public: On click(ed) callback.
+   Public: Draws button on every frame.
 
-button - <a href='../../../classes/Fz2D/Gui/Button.html'>Fz2D.Gui.Button</a> 
+ctx - <a href='../../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a> 
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
   <ul class='param'>
     <li>
-      <span class='type'>(Fz2D.Gui.Button)</span>
-      <span class='name'>button</span>
+      <span class='type'>(Fz2D.Canvas)</span>
+      <span class='name'>ctx</span>
       &mdash;
-      <span class='desc'><a href='../../../classes/Fz2D/Gui/Button.html'>Fz2D.Gui.Button</a></span>
+      <span class='desc'><a href='../../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a></span>
     </li>
   </ul>
 </div>
   </div>
   <div class='method_details'>
-    <p class='signature' id='update-instance'>
-      ::<strong>update</strong>(timer, input)
+    <p class='signature' id='setText-instance'>
+      ::<strong>setText</strong>(text)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;button.coffee#L25'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;text_button.coffee#L21'>Source</a>
     </p>
     <div class='docstring'>
-   Public: Updates button on every frame.
+   Public: Sets the text of the label.
 
-timer - <a href='../../../classes/Fz2D/Timer.html'>Fz2D.Timer</a>
-input - <a href='../../../classes/Fz2D/Input.html'>Fz2D.Input</a> 
+text - the actual label 
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
   <ul class='param'>
     <li>
-      <span class='type'>(Fz2D.Timer)</span>
-      <span class='name'>timer</span>
+      <span class='name'>text</span>
       &mdash;
-      <span class='desc'><a href='../../../classes/Fz2D/Timer.html'>Fz2D.Timer</a></span>
-    </li>
-    <li>
-      <span class='type'>(Fz2D.Input)</span>
-      <span class='name'>input</span>
-      &mdash;
-      <span class='desc'><a href='../../../classes/Fz2D/Input.html'>Fz2D.Input</a></span>
+      <span class='desc'>the actual label</span>
     </li>
   </ul>
 </div>

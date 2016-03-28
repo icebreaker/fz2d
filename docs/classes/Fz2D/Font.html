@@ -126,7 +126,7 @@
   <li>
     <span class='signature'>
       <a href='#centerText-instance'>
-        Fz2D.Rect ::<strong>centerText</strong>(ro, text, size = @size, line_spacing = (size + size), word_spacing = size)
+        Fz2D.Rect ::<strong>centerText</strong>(ro, text)
       </a>
     </span>
     <span class='desc'>
@@ -146,7 +146,7 @@
   <li>
     <span class='signature'>
       <a href='#drawText-instance'>
-        ::<strong>drawText</strong>(ctx, text, x, y, size = @size, line_spacing = (size + size), word_spacing = size)
+        ::<strong>drawText</strong>(ctx, text, x, y)
       </a>
     </span>
     <span class='desc'>
@@ -156,7 +156,7 @@
   <li>
     <span class='signature'>
       <a href='#measureText-instance'>
-        Fz2D.Rect ::<strong>measureText</strong>(text, size = @size, line_spacing = (size + size), word_spacing = size)
+        Fz2D.Rect ::<strong>measureText</strong>(text)
       </a>
     </span>
     <span class='desc'>
@@ -212,7 +212,7 @@ e - end letter (default: '~')
       <div class='methods'>
   <div class='method_details'>
     <p class='signature' id='centerText-instance'>
-      Fz2D.Rect ::<strong>centerText</strong>(ro, text, size = @size, line_spacing = (size + size), word_spacing = size)
+      Fz2D.Rect ::<strong>centerText</strong>(ro, text)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
 &#47;blob&#47;master/src&#47;scene&#47;font.coffee#L40'>Source</a>
     </p>
@@ -221,9 +221,6 @@ e - end letter (default: '~')
 
 ro - <a href='../../classes/Fz2D/Rect.html'>Fz2D.Rect</a>, <a href='../../classes/Fz2D/Object.html'>Fz2D.Object</a> or <a href='../../classes/Fz2D/Group.html'>Fz2D.Group</a>
 text - text to measure
-size - text size (default: font size)
-line_spacing - desired line spacing (default: 2 * size)
-word_spacing - desired word spacing (default: size)
 
 Returns a <a href='../../classes/Fz2D/Rect.html'>Fz2D.Rect</a>. 
 </div>
@@ -241,21 +238,6 @@ Returns a <a href='../../classes/Fz2D/Rect.html'>Fz2D.Rect</a>.
       &mdash;
       <span class='desc'>text to measure</span>
     </li>
-    <li>
-      <span class='name'>size</span>
-      &mdash;
-      <span class='desc'>text size (default: font size)</span>
-    </li>
-    <li>
-      <span class='name'>line_spacing</span>
-      &mdash;
-      <span class='desc'>desired line spacing (default: 2 * size)</span>
-    </li>
-    <li>
-      <span class='name'>word_spacing</span>
-      &mdash;
-      <span class='desc'>desired word spacing (default: size)</span>
-    </li>
   </ul>
   <h3>Returns:</h3>
   <ul class='return'>
@@ -270,9 +252,9 @@ Returns a <a href='../../classes/Fz2D/Rect.html'>Fz2D.Rect</a>.
   </div>
   <div class='method_details'>
     <p class='signature' id='drawText-instance'>
-      ::<strong>drawText</strong>(ctx, text, x, y, size = @size, line_spacing = (size + size), word_spacing = size)
+      ::<strong>drawText</strong>(ctx, text, x, y)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;font.coffee#L96'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;font.coffee#L92'>Source</a>
     </p>
     <div class='docstring'>
    Public: Draws Text.
@@ -281,9 +263,6 @@ ctx - <a href='../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a>
 text - text to measure
 x - position on the X axis
 y - position on the Y axis
-size - text size (default: font size)
-line_spacing - desired line spacing (default: 2 * size)
-word_spacing - desired word spacing (default: size)
 
 Returns a last position. 
 </div>
@@ -311,21 +290,6 @@ Returns a last position.
       &mdash;
       <span class='desc'>position on the Y axis</span>
     </li>
-    <li>
-      <span class='name'>size</span>
-      &mdash;
-      <span class='desc'>text size (default: font size)</span>
-    </li>
-    <li>
-      <span class='name'>line_spacing</span>
-      &mdash;
-      <span class='desc'>desired line spacing (default: 2 * size)</span>
-    </li>
-    <li>
-      <span class='name'>word_spacing</span>
-      &mdash;
-      <span class='desc'>desired word spacing (default: size)</span>
-    </li>
   </ul>
   <h3>Returns:</h3>
   <ul class='return'>
@@ -338,17 +302,14 @@ Returns a last position.
   </div>
   <div class='method_details'>
     <p class='signature' id='measureText-instance'>
-      Fz2D.Rect ::<strong>measureText</strong>(text, size = @size, line_spacing = (size + size), word_spacing = size)
+      Fz2D.Rect ::<strong>measureText</strong>(text)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;font.coffee#L56'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;font.coffee#L53'>Source</a>
     </p>
     <div class='docstring'>
    Public: Measures text.
 
 text - text to measure
-size - text size (default: font size)
-line_spacing - desired line spacing (default: 2 * size)
-word_spacing - desired word spacing (default: size)
 
 Returns a <a href='../../classes/Fz2D/Rect.html'>Fz2D.Rect</a>. 
 </div>
@@ -359,21 +320,6 @@ Returns a <a href='../../classes/Fz2D/Rect.html'>Fz2D.Rect</a>.
       <span class='name'>text</span>
       &mdash;
       <span class='desc'>text to measure</span>
-    </li>
-    <li>
-      <span class='name'>size</span>
-      &mdash;
-      <span class='desc'>text size (default: font size)</span>
-    </li>
-    <li>
-      <span class='name'>line_spacing</span>
-      &mdash;
-      <span class='desc'>desired line spacing (default: 2 * size)</span>
-    </li>
-    <li>
-      <span class='name'>word_spacing</span>
-      &mdash;
-      <span class='desc'>desired word spacing (default: size)</span>
     </li>
   </ul>
   <h3>Returns:</h3>
@@ -391,11 +337,11 @@ Returns a <a href='../../classes/Fz2D/Rect.html'>Fz2D.Rect</a>.
     </div>
     <div id='footer'>
   Generated on
-  Wed Dec 16 2015 18:26:55 GMT+0200 (EET)
+  Tue Mar 29 2016 00:27:36 GMT+0300 (EEST)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1
-  (Node.js v4.1.1).
+  (Node.js v5.7.0).
   &#10034;
   Press Ctrl-h to see the keyboard shortcuts
 </div>

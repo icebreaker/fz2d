@@ -173,7 +173,7 @@
   <li>
     <span class='signature'>
       <a href='#draw-instance'>
-        ::<strong>draw</strong>(texture, sx, sy, sw, sh, x, y, w, h, hw = (h / 2.0), hh = (h / 2.0), angle = 0.0)
+        ::<strong>draw</strong>(texture, sx, sy, sw, sh, x, y, w, h, hw, hh, angle, alpha)
       </a>
     </span>
     <span class='desc'>
@@ -387,9 +387,9 @@ selector - query selector or id (default: Fz2D.SELECTOR)
   </div>
   <div class='method_details'>
     <p class='signature' id='draw-instance'>
-      ::<strong>draw</strong>(texture, sx, sy, sw, sh, x, y, w, h, hw = (h / 2.0), hh = (h / 2.0), angle = 0.0)
+      ::<strong>draw</strong>(texture, sx, sy, sw, sh, x, y, w, h, hw, hh, angle, alpha)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L119'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L120'>Source</a>
     </p>
     <div class='docstring'>
    Public: Draws a <a href='../../classes/Fz2D/Texture.html'>Fz2D.Texture</a>.
@@ -403,9 +403,10 @@ x - desired position on the X axis
 y - desired position on the Y axis
 w - desired width
 h - desired height
-hw - desired half width (default: w/2.0)
-hh - desired half height (default: h/2.0)
-angle - rotation angle (default: 0.0) 
+hw - desired half width
+hh - desired half height
+angle - rotation angle
+alpha - alpha value 
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
@@ -459,17 +460,22 @@ angle - rotation angle (default: 0.0)
     <li>
       <span class='name'>hw</span>
       &mdash;
-      <span class='desc'>desired half width (default: w/2.0)</span>
+      <span class='desc'>desired half width</span>
     </li>
     <li>
       <span class='name'>hh</span>
       &mdash;
-      <span class='desc'>desired half height (default: h/2.0)</span>
+      <span class='desc'>desired half height</span>
     </li>
     <li>
       <span class='name'>angle</span>
       &mdash;
-      <span class='desc'>rotation angle (default: 0.0)</span>
+      <span class='desc'>rotation angle</span>
+    </li>
+    <li>
+      <span class='name'>alpha</span>
+      &mdash;
+      <span class='desc'>alpha value</span>
     </li>
   </ul>
 </div>
@@ -512,7 +518,7 @@ color - HTML color code
     <p class='signature' id='toElement-instance'>
       ::<strong>toElement</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L136'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L138'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns the canvas as an HTML DOM element. 
@@ -524,7 +530,7 @@ color - HTML color code
     <p class='signature' id='toImage-instance'>
       ::<strong>toImage</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L132'>Source</a>
+&#47;blob&#47;master/src&#47;renderer&#47;canvas.coffee#L134'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns the canvas as an image. 
@@ -536,11 +542,11 @@ color - HTML color code
     </div>
     <div id='footer'>
   Generated on
-  Wed Dec 16 2015 18:26:55 GMT+0200 (EET)
+  Tue Mar 29 2016 00:27:36 GMT+0300 (EEST)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1
-  (Node.js v4.1.1).
+  (Node.js v5.7.0).
   &#10034;
   Press Ctrl-h to see the keyboard shortcuts
 </div>

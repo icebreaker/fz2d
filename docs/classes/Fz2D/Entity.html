@@ -130,12 +130,21 @@
       <h2>Subclasses</h2>
       <p class='children'>
                 <a href='..&#47;..&#47;classes/Fz2D&#47;Gui&#47;Button.html'>Fz2D.Gui.Button</a>,
-                <a href='..&#47;..&#47;classes/Fz2D&#47;Gui&#47;Mouse.html'>Fz2D.Gui.Mouse</a>,
-                <a href='..&#47;..&#47;classes/Fz2D&#47;HorizontalScroller.html'>Fz2D.HorizontalScroller</a>,
-        <a href='..&#47;..&#47;classes/Fz2D&#47;VerticalScroller.html'>Fz2D.VerticalScroller</a>
+                <a href='..&#47;..&#47;classes/Fz2D&#47;Gui&#47;Checkbox.html'>Fz2D.Gui.Checkbox</a>,
+        <a href='..&#47;..&#47;classes/Fz2D&#47;Gui&#47;Mouse.html'>Fz2D.Gui.Mouse</a>
       </p>
       <h2>Instance Method Summary</h2>
       <ul class='summary'>
+  <li>
+    <span class='signature'>
+      <a href='#active-instance'>
+        ::<strong>active</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      Returns the name of the active animation.
+    </span>
+  </li>
   <li>
     <span class='signature'>
       <a href='#addAnimation-instance'>
@@ -159,7 +168,7 @@
   <li>
     <span class='signature'>
       <a href='#constructor-instance'>
-        ::<strong>constructor</strong>(texture, x = 0, y = 0, w = null, h = null, tag = null)
+        ::<strong>constructor</strong>(texture, x, y, tag)
       </a>
     </span>
     <span class='desc'>
@@ -247,19 +256,17 @@
       <div class='methods'>
   <div class='method_details'>
     <p class='signature' id='constructor-instance'>
-      ::<strong>constructor</strong>(texture, x = 0, y = 0, w = null, h = null, tag = null)
+      ::<strong>constructor</strong>(texture, x, y, tag)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L11'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L9'>Source</a>
     </p>
     <div class='docstring'>
    Public: Constructor.
 
 texture - <a href='../../classes/Fz2D/Texture.html'>Fz2D.Texture</a>
-x - position on the X axis (default: 0)
-y - position on the Y axis (default: 0)
-w - width of entity (default: texture width)
-h - height of entity (default: texture height)
-tag - name of the entity (default: object) 
+x - position on the X axis
+y - position on the Y axis
+tag - name of the entity (default: '_default') 
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
@@ -273,27 +280,17 @@ tag - name of the entity (default: object)
     <li>
       <span class='name'>x</span>
       &mdash;
-      <span class='desc'>position on the X axis (default: 0)</span>
+      <span class='desc'>position on the X axis</span>
     </li>
     <li>
       <span class='name'>y</span>
       &mdash;
-      <span class='desc'>position on the Y axis (default: 0)</span>
-    </li>
-    <li>
-      <span class='name'>w</span>
-      &mdash;
-      <span class='desc'>width of entity (default: texture width)</span>
-    </li>
-    <li>
-      <span class='name'>h</span>
-      &mdash;
-      <span class='desc'>height of entity (default: texture height)</span>
+      <span class='desc'>position on the Y axis</span>
     </li>
     <li>
       <span class='name'>tag</span>
       &mdash;
-      <span class='desc'>name of the entity (default: object)</span>
+      <span class='desc'>name of the entity (default: &#39;_default&#39;)</span>
     </li>
   </ul>
 </div>
@@ -302,10 +299,22 @@ tag - name of the entity (default: object)
       <h2>Instance Method Details</h2>
       <div class='methods'>
   <div class='method_details'>
+    <p class='signature' id='active-instance'>
+      ::<strong>active</strong>()
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L77'>Source</a>
+    </p>
+    <div class='docstring'>
+  Public: Returns the name of the active animation. 
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
     <p class='signature' id='addAnimation-instance'>
       Fz2D.Animation ::<strong>addAnimation</strong>(tag, texture, count, delay)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L74'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L88'>Source</a>
     </p>
     <div class='docstring'>
    Public: Adds an animation.
@@ -357,7 +366,7 @@ Returns a <a href='../../classes/Fz2D/Animation.html'>Fz2D.Animation</a>.
     <p class='signature' id='clone-instance'>
       ::<strong>clone</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L34'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L29'>Source</a>
     </p>
     <div class='docstring'>
    Public: Clones entity.
@@ -370,7 +379,7 @@ Returns a <a href='../../classes/Fz2D/Entity.html'>Fz2D.Entity</a>.
     <p class='signature' id='draw-instance'>
       ::<strong>draw</strong>(ctx)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L80'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L94'>Source</a>
     </p>
     <div class='docstring'>
    Public: Draws entity on every frame.
@@ -393,7 +402,7 @@ ctx - <a href='../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a>
     <p class='signature' id='is-instance'>
       ::<strong>is</strong>(tag)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L63'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L73'>Source</a>
     </p>
     <div class='docstring'>
    Public: Is active animation?
@@ -424,7 +433,7 @@ Returns true if the current animation matches the given tag.
     <p class='signature' id='isOutOfBounds-instance'>
       ::<strong>isOutOfBounds</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L38'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L48'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns true if the entity is out of bounds. 
@@ -436,7 +445,7 @@ Returns true if the current animation matches the given tag.
     <p class='signature' id='play-instance'>
       Fz2D.Animation ::<strong>play</strong>(tag, looped)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L47'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L57'>Source</a>
     </p>
     <div class='docstring'>
    Public: Plays a given animation.
@@ -475,7 +484,7 @@ Returns a <a href='../../classes/Fz2D/Animation.html'>Fz2D.Animation</a>.
     <p class='signature' id='stop-instance'>
       ::<strong>stop</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L54'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L64'>Source</a>
     </p>
     <div class='docstring'>
    Public: Stops the active animation.
@@ -488,7 +497,7 @@ Returns a <a href='../../classes/Fz2D/Animation.html'>Fz2D.Animation</a>.
     <p class='signature' id='update-instance'>
       ::<strong>update</strong>(timer, input)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L99'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;entity.coffee#L114'>Source</a>
     </p>
     <div class='docstring'>
    Public: Updates entity on every frame.
@@ -518,11 +527,11 @@ input - <a href='../../classes/Fz2D/Input.html'>Fz2D.Input</a>
     </div>
     <div id='footer'>
   Generated on
-  Wed Dec 16 2015 18:26:55 GMT+0200 (EET)
+  Tue Mar 29 2016 00:27:36 GMT+0300 (EEST)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1
-  (Node.js v4.1.1).
+  (Node.js v5.7.0).
   &#10034;
   Press Ctrl-h to see the keyboard shortcuts
 </div>

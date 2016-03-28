@@ -17,9 +17,9 @@
     &raquo;
     <a href='..&#47;..&#47;..&#47;classes&#47;Fz2D.html' title='Fz2D'>Fz2D</a>
     &raquo;
-    <span class='title'>Plugins</span>
+    <span class='title'>Gui</span>
     &raquo;
-    <span class='title'>Touch</span>
+    <span class='title'>Checkbox</span>
     <nav>
       <ul>
         <li class='noframes'>
@@ -109,23 +109,23 @@
     <div id='content'>
       <h1>
         Class
-        Fz2D.Plugins.Touch
+        Fz2D.Gui.Checkbox
       </h1>
       <table class='box'>
         <tr>
           <td>Defined in:</td>
-          <td>src&#47;plugins&#47;touch&#47;touch.coffee</td>
+          <td>src&#47;scene&#47;objects&#47;gui&#47;checkbox.coffee</td>
         </tr>
         <tr>
           <td>Inherits:</td>
           <td>
-            <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Plugin.html'>Fz2D.Plugin</a>
+            <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Entity.html'>Fz2D.Entity</a>
           </td>
         </tr>
       </table>
       <h2>Overview</h2>
       <div class='docstring'>
-  Public: Touch 
+  Public: Checkbox 
 </div>
 <div class='tags'>
 </div>
@@ -134,21 +134,21 @@
   <li>
     <span class='signature'>
       <a href='#constructor-instance'>
-        ::<strong>constructor</strong>(game)
+        ::<strong>constructor</strong>(x, y, checked, unchecked)
       </a>
     </span>
     <span class='desc'>
-      Constructor.
+      Constructor
     </span>
   </li>
   <li>
     <span class='signature'>
-      <a href='#draw-instance'>
-        ::<strong>draw</strong>(ctx)
+      <a href='#onclick-instance'>
+        ::<strong>onclick</strong>(checkbox)
       </a>
     </span>
     <span class='desc'>
-      Draws controls on every frame.
+      On click(ed) callback.
     </span>
   </li>
   <li>
@@ -158,7 +158,7 @@
       </a>
     </span>
     <span class='desc'>
-      Updates controls on every frame.
+      Updates checkbox on every frame.
     </span>
   </li>
 </ul>
@@ -167,32 +167,73 @@
       </h2>
       <h3 class='inherited'>
         Methods inherited from
-        <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Plugin.html'>Fz2D.Plugin</a>
+        <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Entity.html'>Fz2D.Entity</a>
       </h3>
       <p class='inherited'>
-        <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Plugin.html#getName-class'>@getName</a>
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Entity.html#constructor-instance'>.constructor</a>,
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Entity.html#clone-instance'>.clone</a>,
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Entity.html#isOutOfBounds-instance'>.isOutOfBounds</a>,
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Entity.html#play-instance'>.play</a>,
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Entity.html#stop-instance'>.stop</a>,
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Entity.html#is-instance'>.is</a>,
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Entity.html#active-instance'>.active</a>,
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Entity.html#addAnimation-instance'>.addAnimation</a>,
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Entity.html#draw-instance'>.draw</a>,
+        <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Entity.html#update-instance'>.update</a>
+      </p>
+      <h3 class='inherited'>
+        Methods inherited from
+        <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Object.html'>Fz2D.Object</a>
+      </h3>
+      <p class='inherited'>
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Object.html#constructor-instance'>.constructor</a>,
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Object.html#kill-instance'>.kill</a>,
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Object.html#killAll-instance'>.killAll</a>,
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Object.html#reset-instance'>.reset</a>,
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Object.html#resetAll-instance'>.resetAll</a>,
+                <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Object.html#draw-instance'>.draw</a>,
+        <a href='..&#47;..&#47;..&#47;classes/Fz2D&#47;Object.html#update-instance'>.update</a>
       </p>
       <h2>Constructor Details</h2>
       <div class='methods'>
   <div class='method_details'>
     <p class='signature' id='constructor-instance'>
-      ::<strong>constructor</strong>(game)
+      ::<strong>constructor</strong>(x, y, checked, unchecked)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;plugins&#47;touch&#47;touch.coffee#L23'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;checkbox.coffee#L9'>Source</a>
     </p>
     <div class='docstring'>
-   Public: Constructor.
+   Public: Constructor
 
-game - <a href='../../../classes/Fz2D/Game.html'>Fz2D.Game</a> 
+x - position on the X axis
+y - position on the Y axis
+checked - <a href='../../../classes/Fz2D/Texture.html'>Fz2D.Texture</a>
+unchecked - <a href='../../../classes/Fz2D/Texture.html'>Fz2D.Texture</a> 
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
   <ul class='param'>
     <li>
-      <span class='type'>(Fz2D.Game)</span>
-      <span class='name'>game</span>
+      <span class='name'>x</span>
       &mdash;
-      <span class='desc'><a href='../../../classes/Fz2D/Game.html'>Fz2D.Game</a></span>
+      <span class='desc'>position on the X axis</span>
+    </li>
+    <li>
+      <span class='name'>y</span>
+      &mdash;
+      <span class='desc'>position on the Y axis</span>
+    </li>
+    <li>
+      <span class='type'>(Fz2D.Texture)</span>
+      <span class='name'>checked</span>
+      &mdash;
+      <span class='desc'><a href='../../../classes/Fz2D/Texture.html'>Fz2D.Texture</a></span>
+    </li>
+    <li>
+      <span class='type'>(Fz2D.Texture)</span>
+      <span class='name'>unchecked</span>
+      &mdash;
+      <span class='desc'><a href='../../../classes/Fz2D/Texture.html'>Fz2D.Texture</a></span>
     </li>
   </ul>
 </div>
@@ -201,24 +242,24 @@ game - <a href='../../../classes/Fz2D/Game.html'>Fz2D.Game</a>
       <h2>Instance Method Details</h2>
       <div class='methods'>
   <div class='method_details'>
-    <p class='signature' id='draw-instance'>
-      ::<strong>draw</strong>(ctx)
+    <p class='signature' id='onclick-instance'>
+      ::<strong>onclick</strong>(checkbox)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;plugins&#47;touch&#47;touch.coffee#L48'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;checkbox.coffee#L16'>Source</a>
     </p>
     <div class='docstring'>
-   Public: Draws controls on every frame.
+   Public: On click(ed) callback.
 
-ctx - <a href='../../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a> 
+button - <a href='../../../classes/Fz2D/Gui/Checkbox.html'>Fz2D.Gui.Checkbox</a> 
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
   <ul class='param'>
     <li>
-      <span class='type'>(Fz2D.Canvas)</span>
-      <span class='name'>ctx</span>
+      <span class='type'>(Fz2D.Gui.Checkbox)</span>
+      <span class='name'>button</span>
       &mdash;
-      <span class='desc'><a href='../../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a></span>
+      <span class='desc'><a href='../../../classes/Fz2D/Gui/Checkbox.html'>Fz2D.Gui.Checkbox</a></span>
     </li>
   </ul>
 </div>
@@ -227,10 +268,10 @@ ctx - <a href='../../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a>
     <p class='signature' id='update-instance'>
       ::<strong>update</strong>(timer, input)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;plugins&#47;touch&#47;touch.coffee#L41'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;checkbox.coffee#L22'>Source</a>
     </p>
     <div class='docstring'>
-   Public: Updates controls on every frame.
+   Public: Updates checkbox on every frame.
 
 timer - <a href='../../../classes/Fz2D/Timer.html'>Fz2D.Timer</a>
 input - <a href='../../../classes/Fz2D/Input.html'>Fz2D.Input</a> 

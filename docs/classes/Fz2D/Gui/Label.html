@@ -134,7 +134,7 @@
   <li>
     <span class='signature'>
       <a href='#constructor-instance'>
-        ::<strong>constructor</strong>(text, x, y, font, size = @font)
+        ::<strong>constructor</strong>(text, x, y, font)
       </a>
     </span>
     <span class='desc'>
@@ -242,9 +242,9 @@
       <div class='methods'>
   <div class='method_details'>
     <p class='signature' id='constructor-instance'>
-      ::<strong>constructor</strong>(text, x, y, font, size = @font)
+      ::<strong>constructor</strong>(text, x, y, font)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L10'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L9'>Source</a>
     </p>
     <div class='docstring'>
    Public: Constructor
@@ -252,8 +252,7 @@
 text - text to display
 x - position on the X axis
 y - position on the Y axis
-font - <a href='../../../classes/Fz2D/Font.html'>Fz2D.Font</a>
-size - text size (default: font.size) 
+font - <a href='../../../classes/Fz2D/Font.html'>Fz2D.Font</a> 
 </div>
 <div class='tags'>
   <h3>Parameters:</h3>
@@ -279,11 +278,6 @@ size - text size (default: font.size)
       &mdash;
       <span class='desc'><a href='../../../classes/Fz2D/Font.html'>Fz2D.Font</a></span>
     </li>
-    <li>
-      <span class='name'>size</span>
-      &mdash;
-      <span class='desc'>text size (default: font.size)</span>
-    </li>
   </ul>
 </div>
   </div>
@@ -294,7 +288,7 @@ size - text size (default: font.size)
     <p class='signature' id='dec-instance'>
       ::<strong>dec</strong>(amount = 1)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L52'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L51'>Source</a>
     </p>
     <div class='docstring'>
    Public: Decrements the value by a given amount.
@@ -316,7 +310,7 @@ amount - amount to decrement by (default: 1)
     <p class='signature' id='draw-instance'>
       ::<strong>draw</strong>(ctx)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L62'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L61'>Source</a>
     </p>
     <div class='docstring'>
    Public: Draw label on every frame.
@@ -339,7 +333,7 @@ ctx - <a href='../../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a>
     <p class='signature' id='inc-instance'>
       ::<strong>inc</strong>(amount = 1)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L46'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L45'>Source</a>
     </p>
     <div class='docstring'>
    Public: Increments the value by a given amount.
@@ -361,7 +355,7 @@ amount - amount to increment by (default: 1)
     <p class='signature' id='is-instance'>
       ::<strong>is</strong>(text)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L40'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L39'>Source</a>
     </p>
     <div class='docstring'>
    Public: Determines if the text is equal to a user provided text.
@@ -392,7 +386,7 @@ Returns true or false depending on the result of the comparison.
     <p class='signature' id='setFormat-instance'>
       ::<strong>setFormat</strong>(format)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L20'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L19'>Source</a>
     </p>
     <div class='docstring'>
    Public: Sets the format.
@@ -414,7 +408,7 @@ format - text format
     <p class='signature' id='setText-instance'>
       ::<strong>setText</strong>(text)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L31'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L30'>Source</a>
     </p>
     <div class='docstring'>
    Public: Sets the text.
@@ -436,7 +430,7 @@ text - text to display
     <p class='signature' id='toInt-instance'>
       ::<strong>toInt</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L56'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L55'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns the value as an int. 
@@ -448,7 +442,7 @@ text - text to display
     <p class='signature' id='update-instance'>
       ::<strong>update</strong>(timer, input)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L69'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;objects&#47;gui&#47;label.coffee#L68'>Source</a>
     </p>
     <div class='docstring'>
    Public: Updates label on every frame.
@@ -478,11 +472,11 @@ input - <a href='../../../classes/Fz2D/Input.html'>Fz2D.Input</a>
     </div>
     <div id='footer'>
   Generated on
-  Wed Dec 16 2015 18:26:55 GMT+0200 (EET)
+  Tue Mar 29 2016 00:27:36 GMT+0300 (EEST)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1
-  (Node.js v4.1.1).
+  (Node.js v5.7.0).
   &#10034;
   Press Ctrl-h to see the keyboard shortcuts
 </div>
