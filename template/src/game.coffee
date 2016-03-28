@@ -36,7 +36,7 @@ class Game extends Fz2D.Game
     menu = new Menu(scene.w, scene.h, sprites)
     hud = new Hud(scene.w, scene.h, sprites)
 
-    background = new Fz2D.Entity(sprites.getTexture('bg'))
+    background = new Fz2D.Entity(sprites.getTexture('bg'), 0, 0)
     background.exists = false
 
     exit_post = new ExitPost(sprites.getTexture('exitpost_appear'),
@@ -58,9 +58,9 @@ class Game extends Fz2D.Game
     player = new Player(sprites, assets.jump)
 
     map = new Map(scene.x, scene.y, scene.w, scene.h)
-    map.addType(1, new Fz2D.Entity(tiles.getSubTexture(30, 32)))
-    map.addType(2, new Fz2D.Entity(tiles.getSubTexture(31, 32)))
-    map.addType(3, new Fz2D.Entity(tiles.getSubTexture(5, 32)))
+    map.addType(1, new Fz2D.Entity(tiles.getSubTexture(30, 32), 0, 0))
+    map.addType(2, new Fz2D.Entity(tiles.getSubTexture(31, 32), 0, 0))
+    map.addType(3, new Fz2D.Entity(tiles.getSubTexture(5, 32), 0, 0))
     map.addType(4, exit_post)
     map.addType(5, coin)
     map.addType(6, player)
