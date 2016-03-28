@@ -115,11 +115,11 @@ class Fz2D.Canvas
   # y - desired position on the Y axis
   # w - desired width
   # h - desired height
-  # hw - desired half width (default: w/2.0)
-  # hh - desired half height (default: h/2.0)
-  # angle - rotation angle (default: 0.0)
-  # alpha - alpha value (default: 1.0)
-  draw: (texture, sx, sy, sw, sh, x, y, w, h, hw=h/2.0, hh=h/2.0, angle=0.0, alpha=1.0) ->
+  # hw - desired half width
+  # hh - desired half height
+  # angle - rotation angle
+  # alpha - alpha value
+  draw: (texture, sx, sy, sw, sh, x, y, w, h, hw, hh, angle, alpha) ->
     @draw_call_count++
     @_ctx.save()
 

@@ -23,7 +23,7 @@ class Fz2D.Loader
     @_outer = new Fz2D.Texture(game.fg, @w, @h)
     @_inner = new Fz2D.Texture(game.bg, @w, @h)
 
-    @_timeout = new Fz2D.Timeout()
+    @_timeout = new Fz2D.Timeout(400)
     @_timeout.onend = () =>
       @onload()
 
@@ -36,7 +36,7 @@ class Fz2D.Loader
       _loader.onload = () =>
         if ++@loaded >= @total
           @pct = 1
-          @_timeout.set(500)
+          @_timeout.reset()
 
         console.log("Loaded: #{Math.ceil(@pct * 100)}%") if @pct > 0
 
@@ -71,9 +71,9 @@ class Fz2D.Loader
   # Public: Draws loader on every frame.
   draw: (ctx) ->
     # FIXME: allow user to configure these borders
-    ctx.draw(@_outer, 0, 0, @w, @h, @x, @y, @w, @h)
-    ctx.draw(@_inner, 0, 0, @w-4, @h-4, @x+2, @y+2, @w-4, @h-4)
-    ctx.draw(@_outer, 0, 0, @w-12, @h-12, @x+6, @y+6, @pct * (@w-12), @h-12)
+    ctx.draw(@_outer, 0, 0, @w, @h, @x, @y, @w, @h, @w/2, @h/2, 0.0, 1.0)
+    ctx.draw(@_inner, 0, 0, @w-4, @h-4, @x+2, @y+2, @w-4, @h-4, (@w-4)/2, (@h-4)/2, 0.0, 1.0)
+    ctx.draw(@_outer, 0, 0, @w-12, @h-12, @x+6, @y+6, @pct * (@w-12), @h-12, (@pct * (@w - 12) / 2), (@h - 12 / 2), 0.0, 1.0)
 
   # Public: Updates loader on every frame.
   update: (timer, input) ->
