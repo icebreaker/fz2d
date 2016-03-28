@@ -139,7 +139,7 @@ Game = (function(superClass) {
     assets.winter_snow.play(true);
     menu = new Menu(scene.w, scene.h, sprites);
     hud = new Hud(scene.w, scene.h, sprites);
-    background = new Fz2D.Entity(sprites.getTexture('bg'));
+    background = new Fz2D.Entity(sprites.getTexture('bg'), 0, 0);
     background.exists = false;
     exit_post = new ExitPost(sprites.getTexture('exitpost_appear'), sprites.getTexture('exitpost_disappear'), assets.exitpost_appear, assets.exitpost_disappear);
     coin = new Coin(sprites.getTexture('spinning_coin_gold'), sprites.getTexture('picked_up'), assets.pickup);
@@ -151,9 +151,9 @@ Game = (function(superClass) {
     };
     player = new Player(sprites, assets.jump);
     map = new Map(scene.x, scene.y, scene.w, scene.h);
-    map.addType(1, new Fz2D.Entity(tiles.getSubTexture(30, 32)));
-    map.addType(2, new Fz2D.Entity(tiles.getSubTexture(31, 32)));
-    map.addType(3, new Fz2D.Entity(tiles.getSubTexture(5, 32)));
+    map.addType(1, new Fz2D.Entity(tiles.getSubTexture(30, 32), 0, 0));
+    map.addType(2, new Fz2D.Entity(tiles.getSubTexture(31, 32), 0, 0));
+    map.addType(3, new Fz2D.Entity(tiles.getSubTexture(5, 32), 0, 0));
     map.addType(4, exit_post);
     map.addType(5, coin);
     map.addType(6, player);
@@ -258,21 +258,20 @@ Menu = (function(superClass) {
   extend(Menu, superClass);
 
   function Menu(w, h, sprites) {
-    var button, cx, cy, font, icons;
+    var button, cx, cy, icons;
     Menu.__super__.constructor.call(this, 0, 0, w, h);
-    this.add(new Fz2D.Entity(sprites.getTexture('title')));
-    font = new Fz2D.Font(sprites.getTexture('16x16_font'), null, ' ', 'Z');
+    this.add(new Fz2D.Entity(sprites.getTexture('title'), 0, 0));
     icons = sprites.getTexture('icons_left');
     cx = (w - icons.h) >> 1;
     cy = (h - icons.h) >> 1;
-    button = new Fz2D.Gui.Button(cx, cy, "PLAY", font, null, icons.getSubTexture(0), icons.getSubTexture(2), icons.getSubTexture(1));
+    button = new Fz2D.Gui.Button(cx, cy, icons.getSubTexture(0), icons.getSubTexture(2), icons.getSubTexture(1));
     button.onclick = (function(_this) {
       return function() {
         return _this.onplay(_this);
       };
     })(this);
     this.add(button);
-    this.add(new Fz2D.Gui.Mouse(sprites.getTexture('pointer')));
+    this.add(new Fz2D.Gui.Mouse(sprites.getTexture('pointer'), 0, 0));
   }
 
   Menu.prototype.onplay = function(menu) {};

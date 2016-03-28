@@ -8,7 +8,7 @@ var Fz2D,
 Fz2D = (function() {
   function Fz2D() {}
 
-  Fz2D.VERSION = '0.0.3';
+  Fz2D.VERSION = '0.0.4';
 
   Fz2D.NONE = 0;
 
@@ -125,6 +125,25 @@ Fz2D = (function() {
       return null;
     }
   })();
+
+  Fz2D.any = function(o) {
+    return !this.empty(o);
+  };
+
+  Fz2D.empty = function(o) {
+    var k, v;
+    if (o == null) {
+      return true;
+    }
+    if ((o.length != null) && o.length === 0) {
+      return true;
+    }
+    for (k in o) {
+      v = o[k];
+      return false;
+    }
+    return true;
+  };
 
   Fz2D.clamp = function(d, min, max) {
     return Math.min(Math.max(d, min), max);
@@ -844,7 +863,7 @@ Fz2D.Loader = (function() {
     this.y = (game.h - this.h) >> 1;
     this._outer = new Fz2D.Texture(game.fg, this.w, this.h);
     this._inner = new Fz2D.Texture(game.bg, this.w, this.h);
-    this._timeout = new Fz2D.Timeout();
+    this._timeout = new Fz2D.Timeout(600);
     this._timeout.onend = (function(_this) {
       return function() {
         return _this.onload();
@@ -859,8 +878,7 @@ Fz2D.Loader = (function() {
       _loader.onload = (function(_this) {
         return function() {
           if (++_this.loaded >= _this.total) {
-            _this.pct = 1;
-            _this._timeout.set(500);
+            _this.complete();
           }
           if (_this.pct > 0) {
             return console.log("Loaded: " + (Math.ceil(_this.pct * 100)) + "%");
@@ -871,6 +889,17 @@ Fz2D.Loader = (function() {
       this._loaders[_loader.extension] = _loader;
     }
   }
+
+  Loader.prototype.complete = function() {
+    this.pct = 1;
+    if (this.loaded < 1) {
+      this.loaded = 1;
+    }
+    if (this.total < 1) {
+      this.total = 1;
+    }
+    return this._timeout.reset();
+  };
 
   Loader.prototype.onload = function() {};
 
@@ -896,9 +925,9 @@ Fz2D.Loader = (function() {
   };
 
   Loader.prototype.draw = function(ctx) {
-    ctx.draw(this._outer, 0, 0, this.w, this.h, this.x, this.y, this.w, this.h);
-    ctx.draw(this._inner, 0, 0, this.w - 4, this.h - 4, this.x + 2, this.y + 2, this.w - 4, this.h - 4);
-    return ctx.draw(this._outer, 0, 0, this.w - 12, this.h - 12, this.x + 6, this.y + 6, this.pct * (this.w - 12), this.h - 12);
+    ctx.draw(this._outer, 0, 0, this.w, this.h, this.x, this.y, this.w, this.h, this.w / 2, this.h / 2, 0.0, 1.0);
+    ctx.draw(this._inner, 0, 0, this.w - 4, this.h - 4, this.x + 2, this.y + 2, this.w - 4, this.h - 4, (this.w - 4) / 2, (this.h - 4) / 2, 0.0, 1.0);
+    return ctx.draw(this._outer, 0, 0, this.w - 12, this.h - 12, this.x + 6, this.y + 6, this.pct * (this.w - 12), this.h - 12, this.pct * (this.w - 12) / 2, this.h - 12 / 2, 0.0, 1.0);
   };
 
   Loader.prototype.update = function(timer, input) {
@@ -1909,18 +1938,6 @@ Fz2D.Canvas = (function() {
   Canvas.prototype.flush = function() {};
 
   Canvas.prototype.draw = function(texture, sx, sy, sw, sh, x, y, w, h, hw, hh, angle, alpha) {
-    if (hw == null) {
-      hw = h / 2.0;
-    }
-    if (hh == null) {
-      hh = h / 2.0;
-    }
-    if (angle == null) {
-      angle = 0.0;
-    }
-    if (alpha == null) {
-      alpha = 1.0;
-    }
     this.draw_call_count++;
     this._ctx.save();
     this._ctx.translate(x + hw, y + hh);
@@ -2022,18 +2039,6 @@ Fz2D.CanvasWebGL = (function(superClass) {
 
   CanvasWebGL.prototype.draw = function(texture, sx, sy, sw, sh, x, y, w, h, hw, hh, angle, alpha) {
     var b, cx, cy, r, sb, sr;
-    if (hw == null) {
-      hw = w / 2.0;
-    }
-    if (hh == null) {
-      hh = h / 2.0;
-    }
-    if (angle == null) {
-      angle = 0.0;
-    }
-    if (alpha == null) {
-      alpha = 1.0;
-    }
     if (texture._native._texture_id !== this._texture_id) {
       this.flush();
       if (texture._native._texture_id) {
@@ -2417,6 +2422,10 @@ Fz2D.Animation = (function() {
     }
   }
 
+  Animation.prototype.clone = function() {
+    return new Fz2D.Animation(this.tag, this.texture, this.count, this.delay);
+  };
+
   Animation.prototype.onend = function(animation) {};
 
   Animation.prototype.play = function(looped) {
@@ -2539,37 +2548,22 @@ Fz2D.Font = (function() {
       yy = (i - xx) / w;
       x = this.texture.x + (xx * this.size);
       y = this.texture.y + (yy * this.size);
-      this.chars[String.fromCharCode(c)] = new Fz2D.Rect(x, y, this.size, this.size);
+      this.chars[String.fromCharCode(c)] = new Fz2D.BBox(x, y, this.size, this.size);
     }
     this.invalid_char = this.chars[String.fromCharCode(end)];
+    this.spaceSize = this.size;
+    this.lineSize = this.spaceSize + (this.spaceSize >> 2);
+    this.tabSize = this.spaceSize << 2;
   }
 
-  Font.prototype.centerText = function(ro, text, size, line_spacing, word_spacing) {
+  Font.prototype.centerText = function(ro, text) {
     var m;
-    if (size == null) {
-      size = this.size;
-    }
-    if (line_spacing == null) {
-      line_spacing = size + size;
-    }
-    if (word_spacing == null) {
-      word_spacing = size;
-    }
-    m = this.measureText(text, size, line_spacing, word_spacing);
+    m = this.measureText(text);
     return new Fz2D.Rect(ro.x + ((ro.w - m.w) >> 1), ro.y + ((ro.h - m.h) >> 1), ro.w, ro.h);
   };
 
-  Font.prototype.measureText = function(text, size, line_spacing, word_spacing) {
-    var c, h, j, len, maxWidth, w;
-    if (size == null) {
-      size = this.size;
-    }
-    if (line_spacing == null) {
-      line_spacing = size + size;
-    }
-    if (word_spacing == null) {
-      word_spacing = size;
-    }
+  Font.prototype.measureText = function(text) {
+    var c, char, h, j, len, maxWidth, w;
     w = 0;
     h = 0;
     maxWidth = 0;
@@ -2577,60 +2571,52 @@ Fz2D.Font = (function() {
       c = text[j];
       switch (c) {
         case ' ':
-          w += word_spacing;
+          w += this.spaceSize;
           continue;
         case '\n':
           if (w > maxWidth) {
             maxWidth = w;
           }
           w = 0;
-          h += line_spacing;
+          h += this.lineSize;
           continue;
         case '\t':
-          w += 3 * word_spacing;
+          w += this.tabSize;
           continue;
       }
-      w += size;
+      char = this.chars[c] || this.invalid_char;
+      w += char.w;
     }
     if (w > 0 && maxWidth === 0) {
       maxWidth = w;
     }
     if (maxWidth > 0 && h === 0) {
-      h = size;
+      h = this.size;
     }
     return new Fz2D.Rect(0, 0, maxWidth, h);
   };
 
-  Font.prototype.drawText = function(ctx, text, x, y, size, line_spacing, word_spacing) {
+  Font.prototype.drawText = function(ctx, text, x, y) {
     var c, char, j, len, xx, yy;
-    if (size == null) {
-      size = this.size;
-    }
-    if (line_spacing == null) {
-      line_spacing = size + size;
-    }
-    if (word_spacing == null) {
-      word_spacing = size;
-    }
     xx = x;
     yy = y;
     for (j = 0, len = text.length; j < len; j++) {
       c = text[j];
       switch (c) {
         case ' ':
-          xx += word_spacing;
+          xx += this.spaceSize;
           continue;
         case '\n':
           xx = x;
-          yy += line_spacing;
+          yy += this.lineSize;
           continue;
         case '\t':
-          xx += 3 * word_spacing;
+          xx += this.tabSize;
           continue;
       }
       char = this.chars[c] || this.invalid_char;
-      ctx.draw(this.texture, char.x, char.y, char.w, char.h, xx, yy, size, size);
-      xx += size;
+      ctx.draw(this.texture, char.x, char.y, char.w, char.h, xx, yy, char.w, char.h, char.hw, char.hh, 0.0, 1.0);
+      xx += char.w;
     }
     return xx;
   };
@@ -2652,7 +2638,7 @@ Fz2D.Iso = (function() {
 
   Iso._toVec2 = function(x, y) {
     if (this._temp == null) {
-      this._temp = Fz2D.Vec2();
+      this._temp = new Fz2D.Vec2();
     }
     this._temp.set(x, y);
     return this._temp;
@@ -2668,7 +2654,7 @@ Fz2D.Object = (function() {
     this.y = y3;
     this.w = w1;
     this.h = h1;
-    this.tag = tag1 != null ? tag1 : 'object';
+    this.tag = tag1 != null ? tag1 : '_default';
     this.bounds = new Fz2D.BBox(0, 0, this.w, this.h);
     this.solid = true;
     this.visible = true;
@@ -2730,44 +2716,42 @@ Fz2D.Object = (function() {
 Fz2D.Entity = (function(superClass) {
   extend(Entity, superClass);
 
-  function Entity(texture1, x, y, w, h, tag) {
+  function Entity(texture1, x, y, tag) {
+    var h, w;
     this.texture = texture1;
-    if (x == null) {
-      x = 0;
-    }
-    if (y == null) {
-      y = 0;
-    }
-    if (w == null) {
-      w = null;
-    }
-    if (h == null) {
-      h = null;
-    }
-    if (tag == null) {
-      tag = null;
-    }
-    if (h == null) {
-      h = this.texture.h;
-    }
-    if (w == null) {
-      if ((this.texture.w % h === 0) && (this.texture.w / h > 2)) {
-        w = h;
-      } else {
-        w = this.texture.w;
-      }
+    w = this.texture.w;
+    h = this.texture.h;
+    if ((w % h === 0) && (w / h > 2)) {
+      w = h;
     }
     Entity.__super__.constructor.call(this, x, y, w, h, tag);
     this.dx = 0;
     this.dy = 0;
     this.moving = false;
     this.animations = {};
-    this.addAnimation('_default', this.texture);
-    this.play('_default', true);
+    this.addAnimation(this.tag, this.texture);
+    this.play(this.tag, true);
   }
 
   Entity.prototype.clone = function() {
-    return new Fz2D.Entity(this.texture, this.x, this.y, this.w, this.h, this.tag);
+    var animation, instance, ref, tag;
+    instance = new Fz2D.Entity(this.texture, this.x, this.y, this.tag);
+    instance.dx = this.dx;
+    instance.dy = this.dy;
+    instance.moving = this.moving;
+    instance.solid = this.solid;
+    instance.visible = this.visible;
+    instance.alive = this.alive;
+    instance.exists = this["true"];
+    instance.angle = this.angle;
+    instance.alpha = this.alpha;
+    instance.z = this;
+    ref = this.animations;
+    for (tag in ref) {
+      animation = ref[tag];
+      instance.animations[tag] = animation.clone();
+    }
+    return instance;
   };
 
   Entity.prototype.isOutOfBounds = function() {
@@ -2787,6 +2771,10 @@ Fz2D.Entity = (function(superClass) {
 
   Entity.prototype.is = function(tag) {
     return this.animation.tag === tag;
+  };
+
+  Entity.prototype.active = function() {
+    return this.animation.tag;
   };
 
   Entity.prototype.addAnimation = function(tag, texture, count, delay) {
@@ -2832,6 +2820,18 @@ Fz2D.Group = (function(superClass) {
     Group.__super__.constructor.call(this, x, y, w, h);
     this._objects = [];
   }
+
+  Group.prototype.find = function(cb, arg) {
+    var j, len, o, ref;
+    ref = this._objects;
+    for (j = 0, len = ref.length; j < len; j++) {
+      o = ref[j];
+      if (cb(o, arg) === true) {
+        return o;
+      }
+    }
+    return null;
+  };
 
   Group.prototype.each = function(cb) {
     var j, len, o, ref;
@@ -3301,59 +3301,32 @@ Fz2D.Group = (function(superClass) {
 Fz2D.Gui.Button = (function(superClass) {
   extend(Button, superClass);
 
-  function Button(x, y, text, font, size1, texture_up, texture_down, texture_over) {
-    this.font = font;
-    this.size = size1 != null ? size1 : this.font.size;
-    if (texture_down == null) {
-      texture_down = texture_up;
+  function Button(x, y, up, down, over) {
+    if (down == null) {
+      down = up;
     }
-    if (texture_over == null) {
-      texture_over = texture_down;
+    if (over == null) {
+      over = down;
     }
-    Button.__super__.constructor.call(this, texture_up, x, y);
-    this.addAnimation("up", texture_up);
-    this.addAnimation("down", texture_down);
-    this.addAnimation("over", texture_over);
-    this.label = new Fz2D.Gui.Label('', x, y, this.font, this.size);
-    this.setText(text);
+    Button.__super__.constructor.call(this, up, x, y, 'up');
+    this.addAnimation('down', down);
+    this.addAnimation('over', over);
   }
 
-  Button.prototype.setText = function(text) {
-    var c;
-    c = this.font.centerText(this, text, this.size);
-    this.label.setText(text);
-    this.label.x = c.x;
-    this.label.y = c.y;
-    this.text = text;
-    return this;
-  };
-
   Button.prototype.onclick = function(button) {};
-
-  Button.prototype.draw = function(ctx) {
-    Button.__super__.draw.apply(this, arguments);
-    if (this.is("down")) {
-      this.label.y++;
-      this.label.draw(ctx);
-      this.label.y--;
-    } else {
-      this.label.draw(ctx);
-    }
-    return null;
-  };
 
   Button.prototype.update = function(timer, input) {
     if (Fz2D.contains(this, input.mouse.position)) {
       if (input.mouse[Fz2D.Input.Mouse.Button.LEFT]) {
-        this.play("down");
+        this.play('down');
       } else {
-        this.play("over");
+        this.play('over');
       }
       if (input.mouse.released[Fz2D.Input.Mouse.Button.LEFT]) {
         this.onclick(this);
       }
-    } else if (!this.is("up")) {
-      this.play("up");
+    } else if (!this.is('up')) {
+      this.play('up');
     }
     return null;
   };
@@ -3362,13 +3335,42 @@ Fz2D.Gui.Button = (function(superClass) {
 
 })(Fz2D.Entity);
 
+Fz2D.Gui.Checkbox = (function(superClass) {
+  extend(Checkbox, superClass);
+
+  function Checkbox(x, y, checked, unchecked) {
+    Checkbox.__super__.constructor.call(this, checked, x, y, 'checked');
+    this.addAnimation('unchecked', unchecked);
+  }
+
+  Checkbox.prototype.onclick = function(checkbox) {};
+
+  Checkbox.prototype.update = function(timer, input) {
+    if (!Fz2D.contains(this, input.mouse.position)) {
+      return null;
+    }
+    if (!input.mouse.released[Fz2D.Input.Mouse.Button.LEFT]) {
+      return null;
+    }
+    if (this.is('checked')) {
+      this.play('unchecked');
+    } else if (this.is('unchecked')) {
+      this.play('checked');
+    }
+    this.onclick(this);
+    return null;
+  };
+
+  return Checkbox;
+
+})(Fz2D.Entity);
+
 Fz2D.Gui.Countdown = (function(superClass) {
   extend(Countdown, superClass);
 
-  function Countdown(count1, x, y, font, size1) {
+  function Countdown(count1, x, y, font) {
     this.count = count1;
     this.font = font;
-    this.size = size1 != null ? size1 : this.font.size;
     Countdown.__super__.constructor.call(this, x, y);
     if (this.count == null) {
       this.count = 0;
@@ -3391,7 +3393,7 @@ Fz2D.Gui.Countdown = (function(superClass) {
   };
 
   Countdown.prototype.draw = function(ctx) {
-    this.font.drawText(ctx, this._count.toString(), this.x, this.y, this.size);
+    this.font.drawText(ctx, this._count.toString(), this.x, this.y);
     return null;
   };
 
@@ -3419,9 +3421,8 @@ Fz2D.Gui.Countdown = (function(superClass) {
 Fz2D.Gui.Label = (function(superClass) {
   extend(Label, superClass);
 
-  function Label(text, x, y, font, size1) {
+  function Label(text, x, y, font) {
     this.font = font;
-    this.size = size1 != null ? size1 : this.font.size;
     Label.__super__.constructor.call(this, x, y);
     this.setText(text);
     this.blink = 0;
@@ -3473,7 +3474,7 @@ Fz2D.Gui.Label = (function(superClass) {
   };
 
   Label.prototype.draw = function(ctx) {
-    return this.font.drawText(ctx, this._text, this.x, this.y, this.size, null, null);
+    return this.font.drawText(ctx, this._text, this.x, this.y);
   };
 
   Label.prototype.update = function(timer, input) {
@@ -3497,7 +3498,7 @@ Fz2D.Gui.Label = (function(superClass) {
         this._text = this.format.substring(0, length) + this._text;
       }
     }
-    size = this.font.measureText(this._text, this.size);
+    size = this.font.measureText(this._text);
     this.bounds.w = this.w = size.w;
     this.bounds.h = this.h = size.h;
     return this;
@@ -3511,71 +3512,77 @@ Fz2D.Gui.Mouse = (function(superClass) {
   extend(Mouse, superClass);
 
   function Mouse() {
-    return Mouse.__super__.constructor.apply(this, arguments);
+    Mouse.__super__.constructor.apply(this, arguments);
+    this.position = new Fz2D.Vec2(this.x, this.y);
+    this.button = null;
   }
 
+  Mouse.prototype.onclick = function(mouse) {};
+
   Mouse.prototype.update = function(timer, input) {
+    var i, j, ref, results;
     this.x = input.mouse.x;
-    return this.y = input.mouse.y;
+    this.y = input.mouse.y;
+    this.position.set(this.x, this.y);
+    this.button = null;
+    results = [];
+    for (i = j = 0, ref = Fz2D.Input.Mouse.Button.MAX; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+      if (input.mouse.released[i]) {
+        this.button = i;
+        this.onclick(this);
+        break;
+      } else {
+        results.push(void 0);
+      }
+    }
+    return results;
   };
 
   return Mouse;
 
 })(Fz2D.Entity);
 
-Fz2D.HorizontalScroller = (function(superClass) {
-  extend(HorizontalScroller, superClass);
+Fz2D.Gui.TextButton = (function(superClass) {
+  extend(TextButton, superClass);
 
-  function HorizontalScroller() {
-    HorizontalScroller.__super__.constructor.apply(this, arguments);
-    this.dx = -0.3;
-    this.sx = this.w;
-    this.wf = this.w * 1.0;
+  function TextButton(x, y, text, font, up, down, over) {
+    this.font = font;
+    if (down == null) {
+      down = up;
+    }
+    if (over == null) {
+      over = down;
+    }
+    TextButton.__super__.constructor.call(this, x, y, up, down, over);
+    this.label = new Fz2D.Gui.Label('', x, y, this.font);
+    this.setText(text);
   }
 
-  HorizontalScroller.prototype.draw = function(ctx) {
-    ctx.draw(this.texture, this.w - this.sx, this.y, this.sx, this.h, this.x, this.y, this.sx, this.h);
-    return ctx.draw(this.texture, this.x, this.y, this.w - this.sx, this.h, this.sx, this.y, this.w - this.sx, this.h);
+  TextButton.prototype.setText = function(text) {
+    var c;
+    c = this.font.centerText(this, text);
+    this.label.setText(text);
+    this.label.x = c.x;
+    this.label.y = c.y;
+    this.text = text;
+    return this;
   };
 
-  HorizontalScroller.prototype.update = function(timer, input) {
-    if (this.sx <= 0) {
-      return this.sx = this.w;
+  TextButton.prototype.draw = function(ctx) {
+    TextButton.__super__.draw.apply(this, arguments);
+    if (this.is('down')) {
+      this.label.y++;
+      this.label.draw(ctx);
+      this.label.y--;
     } else {
-      return this.sx = Fz2D.clamp(this.sx + timer.dt * this.dx, 0.0, this.wf);
+      this.label.draw(ctx);
     }
+    return null;
   };
 
-  return HorizontalScroller;
+  return TextButton;
 
-})(Fz2D.Entity);
-
-Fz2D.VerticalScroller = (function(superClass) {
-  extend(VerticalScroller, superClass);
-
-  function VerticalScroller() {
-    VerticalScroller.__super__.constructor.apply(this, arguments);
-    this.dy = 0.3;
-    this.sy = 0.0;
-    this.hf = this.h * 1.0;
-  }
-
-  VerticalScroller.prototype.draw = function(ctx) {
-    ctx.draw(this.texture, this.x, this.h - this.sy, this.w, this.sy, this.x, this.y, this.w, this.sy);
-    return ctx.draw(this.texture, this.x, this.y, this.w, this.h - this.sy, this.x, this.sy, this.w, this.h - this.sy);
-  };
-
-  VerticalScroller.prototype.update = function(timer, input) {
-    if (this.sy >= this.h) {
-      return this.sy = 0.0;
-    } else {
-      return this.sy = Fz2D.clamp(this.sy + timer.dt * this.dy, 0.0, this.hf);
-    }
-  };
-
-  return VerticalScroller;
-
-})(Fz2D.Entity);
+})(Fz2D.Gui.Button);
 
 Fz2D.Rect = (function() {
   function Rect(x3, y3, w1, h1) {
@@ -3871,7 +3878,7 @@ Fz2D.Game = (function() {
     this.input = new Fz2D.Input(this._ctx.toElement());
     this.scene = new Fz2D.Group(0, 0, this.w, this.h);
     this.draw_call_count = 0;
-    this._loader = new Fz2D.Loader(this);
+    this._loader = this.scene.add(new Fz2D.Loader(this));
     this._loader.onload = (function(_this) {
       return function() {
         _this.update(_this._timer, _this._input);
@@ -3883,13 +3890,10 @@ Fz2D.Game = (function() {
       };
     })(this);
     this._loop();
-    if (this.assets != null) {
-      this.scene.add(this._loader);
-      this._loadAssets(this.assets);
+    if (Fz2D.empty(this.assets)) {
+      this._loader.complete();
     } else {
-      this.loaded = true;
-      this._onloadPlugins();
-      this.onload(this);
+      this._loadAssets(this.assets);
     }
   }
 
@@ -4009,6 +4013,10 @@ Fz2D.Random = (function() {
     return !!(((this.nextFloat() * Fz2D.Random.BITS) | 0) & 1);
   };
 
+  Random.prototype.nextBetween = function(min, max) {
+    return min + this.next((max + 1) - min);
+  };
+
   return Random;
 
 })();
@@ -4036,20 +4044,41 @@ Fz2D.Storage = (function() {
 })();
 
 Fz2D.Timeout = (function() {
-  function Timeout() {
+  function Timeout(delay1, loop) {
+    this.delay = delay1;
+    this.loop = loop != null ? loop : false;
     this._dt = 0;
+    this.visible = false;
+    this.exists = true;
+    this.alive = true;
   }
-
-  Timeout.prototype.set = function(delay) {
-    return this._dt = delay;
-  };
 
   Timeout.prototype.onend = function() {};
 
+  Timeout.prototype.reset = function() {
+    this.exists = true;
+    this.alive = true;
+    this._dt = this.delay;
+    return this;
+  };
+
+  Timeout.prototype.kill = function() {
+    this.exists = false;
+    this.alive = false;
+    this._dt = 0;
+    return this;
+  };
+
   Timeout.prototype.update = function(timer) {
     if (this._dt > 0 && ((this._dt -= timer.dt) <= 0)) {
-      return this.onend();
+      this.onend(this);
+      if (this.loop) {
+        this.reset();
+      } else {
+        this.kill();
+      }
     }
+    return null;
   };
 
   return Timeout;
