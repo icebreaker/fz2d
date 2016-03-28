@@ -23,7 +23,7 @@ class Fz2D.Font
       x = (@texture.x + (xx * @size))
       y = (@texture.y + (yy * @size))
 
-      @chars[String.fromCharCode(c)] = new Fz2D.Rect(x, y, @size, @size)
+      @chars[String.fromCharCode(c)] = new Fz2D.BBox(x, y, @size, @size)
 
     @invalid_char = @chars[String.fromCharCode(end)]
 
@@ -108,7 +108,7 @@ class Fz2D.Font
  
       char = @chars[c] || @invalid_char
 
-      ctx.draw(@texture, char.x, char.y, char.w, char.h, xx, yy, char.w, char.h)
+      ctx.draw(@texture, char.x, char.y, char.w, char.h, xx, yy, char.w, char.h, char.hw, char.hh, 0.0, 1.0)
 
       xx += char.w
 
