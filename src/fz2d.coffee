@@ -114,6 +114,24 @@ class Fz2D
       null
   )()
 
+  # Public: Returns true if an array, hash or string is not empty.
+  #
+  # o - array, hash or string
+  @any: (o) ->
+    not @empty(o)
+
+  # Public: Returns true if an array, hash or string is empty.
+  #
+  # o - array, hash or string
+  @empty: (o) ->
+    return true unless o?
+    return true if o.length? and o.length == 0
+
+    for k, v of o
+      return false
+    
+    true
+
   # Public: Clamps a given number between two limits.
   #
   # d   - number

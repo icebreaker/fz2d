@@ -23,7 +23,7 @@ class Fz2D.Loader
     @_outer = new Fz2D.Texture(game.fg, @w, @h)
     @_inner = new Fz2D.Texture(game.bg, @w, @h)
 
-    @_timeout = new Fz2D.Timeout(400)
+    @_timeout = new Fz2D.Timeout(600)
     @_timeout.onend = () =>
       @onload()
 
@@ -35,13 +35,19 @@ class Fz2D.Loader
 
       _loader.onload = () =>
         if ++@loaded >= @total
-          @pct = 1
-          @_timeout.reset()
+          @complete()
 
         console.log("Loaded: #{Math.ceil(@pct * 100)}%") if @pct > 0
 
       console.log("Registered loader #{k} for the `#{_loader.extension}` extension.")
       @_loaders[_loader.extension] = _loader
+
+  # Public: Triggers the on load(ed) callback.
+  complete: () ->
+    @pct    = 1
+    @loaded = 1 if @loaded < 1
+    @total  = 1 if @total < 1
+    @_timeout.reset()
 
   # Public: On load(ed) callback.
   onload: () ->

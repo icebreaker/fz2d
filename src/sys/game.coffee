@@ -53,7 +53,7 @@ class Fz2D.Game
 
     @draw_call_count = 0
 
-    @_loader  = new Fz2D.Loader(@)
+    @_loader  = @scene.add(new Fz2D.Loader(@))
     @_loader.onload = () =>
       @update(@_timer, @_input)
       @draw(@_ctx)
@@ -66,13 +66,10 @@ class Fz2D.Game
 
     @_loop()
 
-    if @assets?
-      @scene.add(@_loader)
-      @_loadAssets(@assets)
+    if Fz2D.empty(@assets)
+      @_loader.complete()
     else
-      @loaded = true
-      @_onloadPlugins()
-      @onload(@)
+      @_loadAssets(@assets)
 
   # Public: Registers a plugin dynamically.
   #
