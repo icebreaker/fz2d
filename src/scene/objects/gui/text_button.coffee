@@ -6,11 +6,11 @@ class Fz2D.Gui.TextButton extends Fz2D.Gui.Button
   # y - position on the Y axis
   # text - label text
   # font - label font
-  # texture_up - {Fz2D.Texture}
-  # texture_down - {Fz2D.Texture} (default: texture_up)
-  # texture_over - {Fz2D.Texture} (default: texture_down)
-  constructor: (x, y, text, @font, texture_up, texture_down=texture_up, texture_over=texture_down) ->
-    super(x, y, texture_up, texture_down, texture_over)
+  # up - {Fz2D.Texture}
+  # down - {Fz2D.Texture} (default: up)
+  # over - {Fz2D.Texture} (default: down)
+  constructor: (x, y, text, @font, up, down=up, over=down) ->
+    super(x, y, up, down, over)
 
     @label = new Fz2D.Gui.Label('', x, y, @font)
     @setText(text)

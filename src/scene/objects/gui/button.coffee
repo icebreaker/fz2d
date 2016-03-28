@@ -4,14 +4,14 @@ class Fz2D.Gui.Button extends Fz2D.Entity
   #
   # x - position on the X axis
   # y - position on the Y axis
-  # texture_up - {Fz2D.Texture}
-  # texture_down - {Fz2D.Texture} (default: texture_up)
-  # texture_over - {Fz2D.Texture} (default: texture_down)
-  constructor: (x, y, texture_up, texture_down=texture_up, texture_over=texture_down) ->
-    super(texture_up, x, y, 'up')
+  # up - {Fz2D.Texture}
+  # down - {Fz2D.Texture} (default: up)
+  # over - {Fz2D.Texture} (default: down)
+  constructor: (x, y, up, down=up, over=down) ->
+    super(up, x, y, 'up')
 
-    @addAnimation('down', texture_down)
-    @addAnimation('over', texture_over)
+    @addAnimation('down', down)
+    @addAnimation('over', over)
 
   # Public: On click(ed) callback.
   #
