@@ -35,6 +35,11 @@ class Fz2D.Animation
       @play = () =>
         @
 
+  # Public: Clones animation.
+  # Returns a {Fz2D.Animation}.
+  clone: () ->
+    new Fz2D.Animation(@tag, @texture, @count, @delay)
+
   # Public: On end(ed) callback.
   #
   # animation - {Fz2D.Animation}

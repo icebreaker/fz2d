@@ -7,7 +7,6 @@ class Fz2D.Object
   # w - width
   # h - height
   # tag - name of the object (default: '_default')
-  # 
   constructor: (@x, @y, @w, @h, @tag='_default') ->
     @bounds = new Fz2D.BBox(0, 0, @w, @h)
 
