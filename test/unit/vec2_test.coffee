@@ -1,5 +1,4 @@
 require '../test_helper'
-require '../../src/fz2d'
 
 Fz2D.require('scene/vec2')
 

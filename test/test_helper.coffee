@@ -62,7 +62,8 @@ process.on 'exit', ->
         test.failure_count++
         process.stdout.write('F')
 
-        file = e.stack.split('\n')[2].match(/\((.*?):(.*?):(.*?),.*?\)/)
+        line = e.stack.split('\n')[2]
+        file = line.match(/\((.*?):(.*?):(.*?)(,.*?)?\)/)
 
         message = e.message
         eq = message.match(/^(.*?)\s+==\s+(.*?)$/)

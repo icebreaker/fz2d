@@ -17,11 +17,11 @@ class Fz2D.Size
  
   # Public: Compares size to another size.
   # 
-  # p - {Fz2D.Size}
+  # s - {Fz2D.Size}
   #
   # Returns the result of the comparison.
-  equals: (p) ->
-    @w == p.w and @h == p.y
+  equals: (s) ->
+    @w == s.w and @h == s.h
  
   # Public: Returns true if the size is null, otherwise false.
   isNull: () ->
