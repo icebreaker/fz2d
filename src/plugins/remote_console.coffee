@@ -25,7 +25,7 @@ class Fz2D.Plugins.RemoteConsole extends Fz2D.Plugin
       args = []
 
       for arg in arguments
-        if typeof arg == 'object'
+        if Fz2D.object(arg)
           args.push(JSON.stringify(arg, null, ' '))
         else
           args.push(arg)

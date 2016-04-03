@@ -31,7 +31,7 @@ class Fz2D.Plugins.Console extends Fz2D.Plugin
       text = []
 
       for arg in arguments
-        if typeof arg == 'object'
+        if Fz2D.object(arg)
           text.push(JSON.stringify(arg, null, ' '))
         else
           text.push(arg)

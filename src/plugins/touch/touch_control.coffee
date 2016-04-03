@@ -12,7 +12,10 @@ class Fz2D.Plugins.Touch.TouchControl
     @_radius2= @_radius * @_radius
 
     @_outer_size = @_radius * 2
+    @_outer_half_size = @_outer_size >> 1
+
     @_inner_size = @_outer_size - 20
+    @_inner_half_size = @_inner_size >> 1
 
     # FIXME: make colors configurable
     @_outer = new Fz2D.Texture("rgba(224, 224, 224, 0.2):circle", @_outer_size, @_outer_size)
@@ -81,7 +84,7 @@ class Fz2D.Plugins.Touch.TouchControl
       touch = input.touch.collection.first()
       dx = touch.offsetX - @cx
       dy = touch.offsetY - @cy
-      if dx * dx + dy * dy < 50*50
+      if dx * dx + dy * dy < @_radius2
         @id = touch.id
         @dx = 0
         @dy = 0
@@ -91,5 +94,5 @@ class Fz2D.Plugins.Touch.TouchControl
   #
   # ctx - {Fz2D.Canvas}
   draw: (ctx) ->
-    ctx.draw(@_outer, 0, 0, @_outer.w, @_outer.h,       @_outer_x,       @_outer_y, @_outer_size, @_outer_size)
-    ctx.draw(@_inner, 0, 0, @_inner.w, @_inner.h, @dx + @_inner_x, @dy + @_inner_y, @_inner_size, @_inner_size)
+    ctx.draw(@_outer, 0, 0, @_outer.w, @_outer.h,       @_outer_x,       @_outer_y, @_outer_size, @_outer_size, @_outer_half_size, @_outer_half_size, 0.0, 1.0)
+    ctx.draw(@_inner, 0, 0, @_inner.w, @_inner.h, @dx + @_inner_x, @dy + @_inner_y, @_inner_size, @_inner_size, @_inner_half_size, @_inner_half_size, 0.0, 1.0)

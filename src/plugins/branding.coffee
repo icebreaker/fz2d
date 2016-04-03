@@ -51,4 +51,8 @@ class Fz2D.Plugins.Branding extends Fz2D.Plugin
              @x,
              @y,
              @w,
-             @h)
+             @h,
+             @w >> 1,
+             @h >> 1,
+             0.0,
+             1.0)
