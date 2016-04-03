@@ -1,15 +1,27 @@
 # Public: Audio
 class Fz2D.Audio
+  # Public: Maximum volume value.
+  @MAX_VOLUME: 100.0
+  # Public: Inverse of maximum volume value.
+  @INV_MAX_VOLUME: 1.0 / @MAX_VOLUME
+
+  # Public: Audio Formats.
+  @FORMATS:
+    'audio/ogg'   : 'ogg'
+    'audio/aac'   : 'm4a'
+    'audio/x-m4a' : 'm4a'
+    'audio/wav'   : 'wav'
+
   # Public: Static "audio extension" property.
-  @extension: ((audio) ->
-    if audio.canPlayType('audio/ogg')
-      'ogg'
-    else if audio.canPlayType('audio/mp3')
-      'mp3'
-    else
-      console.log("No support for audio :(")
-      null
-  )(new window.Audio())
+  @extension: ((audio, formats) ->
+    for format, extension of formats
+      if Fz2D.present(audio.canPlayType(format))
+        console.log("Audio: #{format}")
+        return extension
+
+    console.log('No audio support :(')
+    null
+  )(new window.Audio(), @FORMATS)
   
   # Public: Static "supported" property.
   @supported: (() ->
@@ -88,7 +100,7 @@ class Fz2D.Audio
   #
   # volume - number in the range of 0 to 100
   setVolume: (volume) ->
-    @_native.volume = parseFloat(Fz2D.clamp(volume, 0.0, 100.0) / 100.0)
+    @_native.volume = parseFloat(Fz2D.clamp(volume, 0.0, Fz2D.Audio.MAX_VOLUME) * Fz2D.Audio.INV_MAX_VOLUME)
     @
 
   # Public: Clones audio
