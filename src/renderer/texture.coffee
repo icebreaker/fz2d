@@ -22,7 +22,7 @@ class Fz2D.Texture
         @iw = image.iw
         @ih = image.ih
         return
-      else if typeof image == 'string'
+      else if Fz2D.string(image)
         w = x
         x = 0
 

@@ -75,13 +75,13 @@ class Fz2D.Game
   #
   # plugin - {Fz2D.Plugin}
   registerPlugin: (plugin) ->
-    if typeof plugin.onload == 'function'
+    if Fz2D.callable(plugin.onload)
       @_plugins_onloadable.push(plugin) unless plugin in @_plugins_onloadable
 
-    if typeof plugin.update == 'function'
+    if Fz2D.callable(plugin.update)
       @_plugins_updateable.push(plugin) unless plugin in @_plugins_updateable
 
-    if typeof plugin.draw == 'function'
+    if Fz2D.callable(plugin.draw)
       @_plugins_drawable.push(plugin) unless plugin in @_plugins_drawable
 
     plugin
@@ -92,17 +92,22 @@ class Fz2D.Game
   onload: (game) ->
     # empty
 
-  # Public: Loads an asset via the loader.
+  # Public: Loads one or more asset via the loader.
   #
-  # path - partial relative path
+  # path - one or more partial relative paths
   #
   # Returns an instance of the asset.
   load: (path) ->
-    unless @_loader.group?
+    return if Fz2D.empty(path)
+
+    if not @_loader.group?
       @loaded = false
       @scene.add(@_loader)
 
-    @_loader.load(path)
+    if Fz2D.enumerable(path)
+      @_loadAssets(path)
+    else
+      @_loader.load(path)
 
   # Public: Draws scene on every frame.
   #
@@ -130,7 +135,7 @@ class Fz2D.Game
   # Private: Load all assets recursively.
   _loadAssets: (assets) ->
     for k, url of assets
-      if typeof url == 'object'
+      if Fz2D.enumerable(url)
         @_loadAssets(url)
       else
         assets[k] = @_loader.load(url)

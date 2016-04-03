@@ -1,7 +1,7 @@
 # Public: Fz2D
 class Fz2D
   # Public: Version Number.
-  @VERSION: '0.0.4'
+  @VERSION: '0.0.5'
 
   # Public: None.
   @NONE:    0
@@ -88,11 +88,19 @@ class Fz2D
     null
   )()
 
-  # Public: Is mobile device?
+  # Public: Is a Mobile device?
   @mobile: (() ->
     m = window.navigator.userAgent.match(/(iphone|ipod|ipad|android|iemobile|blackberry|bada)/i)
     if m
       m[1]
+    else
+      null
+  )()
+
+  # Public: Is iPad?
+  @ipad: (() ->
+    if /ipad/i.test(window.navigator.userAgent)
+      'ipad'
     else
       null
   )()
@@ -114,10 +122,40 @@ class Fz2D
       null
   )()
 
+  # Public: Returns true if the argument is an object.
+  #
+  # o - argument
+  @object: (o) ->
+    typeof o == 'object'
+
+  # Public: Returns true if the argument is enumerable.
+  #
+  # o - argument
+  @enumerable: (o) ->
+    typeof o == 'object'
+
+  # Public: Returns true if the argument is a string.
+  #
+  # o - argument
+  @string: (o) ->
+    typeof o == 'string'
+
+  # Public: Returns true if the argument if a callable.
+  #
+  # o - argument
+  @callable: (o) ->
+    typeof o == 'function'
+
   # Public: Returns true if an array, hash or string is not empty.
   #
   # o - array, hash or string
   @any: (o) ->
+    not @empty(o)
+
+  # Public: Returns true if an array, hash or string is not empty.
+  #
+  # o - array, hash or string
+  @present: (o) ->
     not @empty(o)
 
   # Public: Returns true if an array, hash or string is empty.
@@ -223,15 +261,15 @@ class Fz2D
 
   # Public: Determines if there's a collision between two objects.
   #
-  # o1        - object or group
-  # o2        - object or group
-  # callback  - callback function to be called on each collision
+  # o1 - object or group
+  # o2 - object or group
+  # cb - callback function to be called on each collision
   #
   # Unlike {Fz2D.overlap}, if `o1` and/or `o2` are groups, it *will* call 
   # `collide` against all of their children.
   #
   # Returns true or false.
-  @collide: (o1, o2, callback) ->
+  @collide: (o1, o2, cb) ->
     # 1. Both objects must exist and they cannot be the 'same'
     return false unless o1.exists and o1.solid and o2.exists and o2.solid and o1 != o2
 
@@ -242,7 +280,7 @@ class Fz2D
       collide = false
 
       for o3 in o1._objects
-        if Fz2D.collide(o3, o2, callback)
+        if Fz2D.collide(o3, o2, cb)
           collide = true
 
       return collide
@@ -264,7 +302,7 @@ class Fz2D
       collide = false
 
       for o3 in o2._objects
-        if Fz2D.collide(o1, o3, callback)
+        if Fz2D.collide(o1, o3, cb)
           collide = true
 
       return collide
@@ -279,7 +317,7 @@ class Fz2D
          (y1 > y2 + o2.bounds.h) or
          (x1 + o1.bounds.w < x2) or
          (y1 + o1.bounds.h < y2))
-      callback(o1, o2)
+      cb(o1, o2)
       true
     else
       false
@@ -396,47 +434,51 @@ class Fz2D
   # Public: Performs an asynchronous HTTP GET request.
   #
   # url - url to perform the request for
-  # callback - ready callback function
+  # cb - ready callback function
   #
   # Parses `responseText` as JSON before passing it to `callback`.
   #
   # Returns immediately with an undefined value.
-  @getJSON: (url, callback) ->
+  @getJSON: (url, cb) ->
     req = new XMLHttpRequest()
     req.open('GET', url, true)
     req.setRequestHeader('Content-type', 'application/json')
     req.onreadystatechange = () ->
       if req.readyState == 4
         if req.status == 200
-          callback(window.JSON.parse(req.responseText), req.status)
+          cb(window.JSON.parse(req.responseText), req.status)
         else
-          callback(req.responseText, req.status)
+          cb(req.responseText, req.status)
     req.send(null)
-  
-   # Public: Plugin namespace.
-   @Plugins: {}
 
-   # Public: Plugin.
-   class Fz2D.Plugin
-     # Public: Supported?
-     @supported: true
+  # Public: Requires a single class of Fz2D, used by tests.
+  #
+  # file - filename
+  @require: (file) ->
+    require("#{__dirname}/#{file}")
 
-     # Public: Returns plugin name.
-     @getName: () ->
-       try
-         @prototype.constructor.name
-       catch
-         "Generic"
+  # Public: Plugin namespace.
+  @Plugins: {}
 
-   # Public: Gui namespace.
-   @Gui: {}
+  # Public: Plugin.
+  class Fz2D.Plugin
+    # Public: Supported?
+    @supported: true
+
+    # Public: Returns plugin name.
+    @getName: () ->
+      return @_name if @_name?
+
+      try
+        @_name = @prototype.constructor.name || @prototype.constructor.toString().match(/function\s(.*?)\(/)[1]
+      catch
+        @_name = "Unknown"
+
+  # Public: Gui namespace.
+  @Gui: {}
 
 ############### BEGIN HACKS ####################
-if global? and typeof global == 'object' # for tests :)
-  Fz2D.__path = require('path')
-  Fz2D.require = (file) ->
-    require(Fz2D.__path.join(__dirname, file))
-  global.Fz2D = Fz2D
+window.Fz2D ?= Fz2D
 
 unless window.requestAnimationFrame?
   window.requestAnimationFrame = ((window) ->
@@ -444,8 +486,8 @@ unless window.requestAnimationFrame?
       window.mozRequestAnimationFrame ||
       window.oRequestAnimationFrame ||
       window.msRequestAnimationFrame ||
-      (callback, element) ->
-        window.setTimeout(callback, 1000 / 60)
+      (cb, element) ->
+        window.setTimeout(cb, 1000 / 60)
   )(window)
 
 unless window.console?
