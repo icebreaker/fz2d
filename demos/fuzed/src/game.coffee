@@ -22,6 +22,9 @@ class Game extends Fz2D.Game
     username: 'icebreaker'
     repository: 'fz2d'
 
+  ga:
+    id: 'UA-3042007-2'
+  
   onload: (game) ->
     game.input.mouse.hide()
 
