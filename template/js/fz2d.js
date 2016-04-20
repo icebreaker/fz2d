@@ -2366,58 +2366,6 @@ Fz2D.TextureInput = (function() {
     });
   };
 
-  TextureInput.prototype.addMosaic = function(alpha, size) {
-    return this.add((function(_this) {
-      return function(ctx, w, h) {
-        return _this._build_mosaic(ctx, w, h, size, alpha);
-      };
-    })(this));
-  };
-
-  TextureInput.prototype._build_mosaic = function(ctx, w, h, tw, alpha) {
-    var buffer, i, image_data, j, l, ref, ref1, ref2, results, twl, u, x, xx, y, yy;
-    image_data = ctx.getImageData(0, 0, tw, tw);
-    buffer = image_data.data;
-    twl = tw - 1;
-    buffer._set = function(x, y, r, g, b, a) {
-      var i;
-      i = (x << 2) + ((y << 2) * tw);
-      buffer[i + 0] = r;
-      buffer[i + 1] = g;
-      buffer[i + 2] = b;
-      return buffer[i + 3] = a;
-    };
-    for (i = j = 0, ref = twl; j <= ref; i = j += 4) {
-      buffer[i + 0] = 128;
-      buffer[i + 1] = 128;
-      buffer[i + 2] = 128;
-      buffer[i + 3] = alpha;
-    }
-    buffer._set(0, 0, 255, 255, 255, alpha);
-    for (i = l = 1, ref1 = twl; 1 <= ref1 ? l <= ref1 : l >= ref1; i = 1 <= ref1 ? ++l : --l) {
-      buffer._set(i, 0, 224, 224, 224, alpha);
-      buffer._set(i, 1, 255, 255, 255, alpha);
-      buffer._set(i, twl, 0, 0, 0, alpha);
-      buffer._set(0, i, 255, 255, 255, alpha);
-      buffer._set(twl, i, 0, 0, 0, alpha);
-    }
-    xx = ((w / tw) | 0) - 1;
-    yy = ((h / tw) | 0) - 1;
-    console.log(xx, yy);
-    results = [];
-    for (x = u = 0, ref2 = xx; 0 <= ref2 ? u <= ref2 : u >= ref2; x = 0 <= ref2 ? ++u : --u) {
-      results.push((function() {
-        var ref3, results1, z;
-        results1 = [];
-        for (y = z = 0, ref3 = yy; 0 <= ref3 ? z <= ref3 : z >= ref3; y = 0 <= ref3 ? ++z : --z) {
-          results1.push(ctx.putImageData(image_data, x * tw, y * tw));
-        }
-        return results1;
-      })());
-    }
-    return results;
-  };
-
   return TextureInput;
 
 })();
