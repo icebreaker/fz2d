@@ -121,6 +121,38 @@
 </div>
 <div class='tags'>
 </div>
+      <h2>Constant Summary</h2>
+      <dl class='constants'>
+        <dt id='MAX_VOLUME-constant'>
+          MAX_VOLUME
+          =
+          <div class='docstring'>
+  Public: Maximum volume value. 
+</div>
+<div class='tags'>
+</div>
+        </dt>
+        <dd>
+          <pre><code class='coffee'>100.0</code></pre>
+        </dd>
+        <dt id='FORMATS-constant'>
+          FORMATS
+          =
+          <div class='docstring'>
+  Public: Audio Formats. 
+</div>
+<div class='tags'>
+</div>
+        </dt>
+        <dd>
+          <pre><code class='coffee'>{
+  'audio/ogg': 'ogg',
+  'audio/aac': 'm4a',
+  'audio/x-m4a': 'm4a',
+  'audio/wav': 'wav'
+}</code></pre>
+        </dd>
+      </dl>
       <h2>Instance Method Summary</h2>
       <ul class='summary'>
   <li>
@@ -240,7 +272,7 @@
     <p class='signature' id='constructor-instance'>
       ::<strong>constructor</strong>(audio = null)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L29'>Source</a>
+&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L41'>Source</a>
     </p>
     <div class='docstring'>
    Public: Constructor.
@@ -266,7 +298,7 @@ audio - <a href='../../classes/Fz2D/Audio.html'>Fz2D.Audio</a> (default: null)
     <p class='signature' id='clone-instance'>
       Fz2D.Audio ::<strong>clone</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L96'>Source</a>
+&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L108'>Source</a>
     </p>
     <div class='docstring'>
    Public: Clones audio
@@ -289,7 +321,7 @@ Returns a <a href='../../classes/Fz2D/Audio.html'>Fz2D.Audio</a> pointing to the
     <p class='signature' id='load-instance'>
       ::<strong>load</strong>(path)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L51'>Source</a>
+&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L63'>Source</a>
     </p>
     <div class='docstring'>
    Public: Loads an audio.
@@ -311,7 +343,7 @@ path - relative path
     <p class='signature' id='onload-instance'>
       ::<strong>onload</strong>(audio)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L46'>Source</a>
+&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L58'>Source</a>
     </p>
     <div class='docstring'>
    Public: On load(ed) callback.
@@ -334,7 +366,7 @@ audio - <a href='../../classes/Fz2D/Audio.html'>Fz2D.Audio</a>
     <p class='signature' id='pause-instance'>
       ::<strong>pause</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L69'>Source</a>
+&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L81'>Source</a>
     </p>
     <div class='docstring'>
   Public: Pauses the audio. 
@@ -346,7 +378,7 @@ audio - <a href='../../classes/Fz2D/Audio.html'>Fz2D.Audio</a>
     <p class='signature' id='play-instance'>
       ::<strong>play</strong>(looped)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L57'>Source</a>
+&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L69'>Source</a>
     </p>
     <div class='docstring'>
   Public: Play the audio. 
@@ -358,7 +390,7 @@ audio - <a href='../../classes/Fz2D/Audio.html'>Fz2D.Audio</a>
     <p class='signature' id='replay-instance'>
       ::<strong>replay</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L63'>Source</a>
+&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L75'>Source</a>
     </p>
     <div class='docstring'>
   Public: Replay the audio. 
@@ -370,7 +402,7 @@ audio - <a href='../../classes/Fz2D/Audio.html'>Fz2D.Audio</a>
     <p class='signature' id='setLoop-instance'>
       ::<strong>setLoop</strong>(state)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L82'>Source</a>
+&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L94'>Source</a>
     </p>
     <div class='docstring'>
    Public: Sets loop state.
@@ -392,7 +424,7 @@ state - true or false
     <p class='signature' id='setVolume-instance'>
       ::<strong>setVolume</strong>(volume)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L89'>Source</a>
+&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L101'>Source</a>
     </p>
     <div class='docstring'>
    Public: Sets volume.
@@ -414,7 +446,7 @@ volume - number in the range of 0 to 100
     <p class='signature' id='stop-instance'>
       ::<strong>stop</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L74'>Source</a>
+&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L86'>Source</a>
     </p>
     <div class='docstring'>
   Public: Stops the audio. 
@@ -426,7 +458,7 @@ volume - number in the range of 0 to 100
     <p class='signature' id='toAudio-instance'>
       ::<strong>toAudio</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L100'>Source</a>
+&#47;blob&#47;master/src&#47;sys&#47;audio.coffee#L112'>Source</a>
     </p>
     <div class='docstring'>
   Public: Returns "native" audio instance. 
@@ -438,7 +470,7 @@ volume - number in the range of 0 to 100
     </div>
     <div id='footer'>
   Generated on
-  Tue Mar 29 2016 00:27:36 GMT+0300 (EEST)
+  Thu Apr 21 2016 00:12:36 GMT+0300 (EEST)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1

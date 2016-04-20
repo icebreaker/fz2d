@@ -20,8 +20,8 @@ class Fz2D.Loader
     @x = (game.w - @w) >> 1 # center X
     @y = (game.h - @h) >> 1 # center Y
 
-    @_outer = new Fz2D.Texture(game.fg, @w, @h)
-    @_inner = new Fz2D.Texture(game.bg, @w, @h)
+    @_outer = new Fz2D.Texture(new Fz2D.TextureInput().addFill(game.fg), @w, @h)
+    @_inner = new Fz2D.Texture(new Fz2D.TextureInput().addFill(game.bg), @w, @h)
 
     @_timeout = new Fz2D.Timeout(600)
     @_timeout.onend = () =>

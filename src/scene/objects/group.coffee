@@ -10,6 +10,10 @@ class Fz2D.Group extends Fz2D.Object
     super(x, y, w, h)
     @_objects = []
 
+  # Public: Returns true if the group has at least one object.
+  any: () ->
+    @_objects.length > 0
+
   # Public: Iterates over each object and calls the given callback.
   #
   # cb - iteration callback function
@@ -324,28 +328,40 @@ class Fz2D.Group extends Fz2D.Object
     null
 
   # Public: Kills all objects.
-  killAll: () ->
+  kill: () ->
+    super
+
     for o in @_objects
-      o.killAll()
+      o.kill()
     
-    null
+    @
 
   # Public: Resets all objects.
-  resetAll: () ->
+  reset: () ->
+    super
+
     for o in @_objects
-      o.resetAll()
+      o.reset()
     
-    null
+    @
 
   # Public: Hides all objects.
-  hideAll: () ->
+  hide: () ->
+    super
+
     for o in @_objects
-      o.visible = false
+      o.hide()
+
+    @
 
   # Public: Shows all objects.
-  showAll: () ->
+  show: () ->
+    super
+
     for o in @_objects
-      o.visible = true
+      o.show()
+
+    @
 
   # Public: Finds an object by tag.
   #

@@ -1,7 +1,7 @@
 # Public: Texture Atlas Loader
 class Fz2D.Loader.Loaders.TextureAtlas extends Fz2D.Loader.Base
-  # Public: Respond to '.atlas'.
-  extension: 'atlas'
+  # Public: Respond to '.atl'.
+  extension: 'atl'
   # Public: Relative 'texture atlas' root path.
   path: 'json'
   

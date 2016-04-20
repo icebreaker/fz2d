@@ -131,7 +131,7 @@
 </div>
         </dt>
         <dd>
-          <pre><code class='coffee'>'0.0.4'</code></pre>
+          <pre><code class='coffee'>'0.0.5'</code></pre>
         </dd>
         <dt id='NONE-constant'>
           NONE
@@ -167,7 +167,7 @@
 </div>
         </dt>
         <dd>
-          <pre><code class='coffee'>'#000000'</code></pre>
+          <pre><code class='coffee'>'#3F7CB6'</code></pre>
         </dd>
         <dt id='SELECTOR-constant'>
           SELECTOR
@@ -218,6 +218,16 @@
   </li>
   <li>
     <span class='signature'>
+      <a href='#callable-class'>
+        .<strong>callable</strong>(o)
+      </a>
+    </span>
+    <span class='desc'>
+      Returns true if the argument if a callable.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
       <a href='#clamp-class'>
         .<strong>clamp</strong>(d, min, max)
       </a>
@@ -229,7 +239,7 @@
   <li>
     <span class='signature'>
       <a href='#collide-class'>
-        .<strong>collide</strong>(o1, o2, callback)
+        .<strong>collide</strong>(o1, o2, cb)
       </a>
     </span>
     <span class='desc'>
@@ -288,6 +298,16 @@
   </li>
   <li>
     <span class='signature'>
+      <a href='#enumerable-class'>
+        .<strong>enumerable</strong>(o)
+      </a>
+    </span>
+    <span class='desc'>
+      Returns true if the argument is enumerable.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
       <a href='#getCollisionSide-class'>
         .<strong>getCollisionSide</strong>(o1, o2)
       </a>
@@ -299,11 +319,21 @@
   <li>
     <span class='signature'>
       <a href='#getJSON-class'>
-        .<strong>getJSON</strong>(url, callback)
+        .<strong>getJSON</strong>(url, cb)
       </a>
     </span>
     <span class='desc'>
       Performs an asynchronous HTTP GET request.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#object-class'>
+        .<strong>object</strong>(o)
+      </a>
+    </span>
+    <span class='desc'>
+      Returns true if the argument is an object.
     </span>
   </li>
   <li>
@@ -314,6 +344,26 @@
     </span>
     <span class='desc'>
       Determines if an object or group overlaps with another object or group.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#present-class'>
+        .<strong>present</strong>(o)
+      </a>
+    </span>
+    <span class='desc'>
+      Returns true if an array, hash or string is not empty.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#require-class'>
+        .<strong>require</strong>(file)
+      </a>
+    </span>
+    <span class='desc'>
+      Requires a single class of Fz2D, used by tests.
     </span>
   </li>
   <li>
@@ -334,6 +384,16 @@
     </span>
     <span class='desc'>
       Linearly interpolates a number within two limits based on time.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#string-class'>
+        .<strong>string</strong>(o)
+      </a>
+    </span>
+    <span class='desc'>
+      Returns true if the argument is a string.
     </span>
   </li>
   <li>
@@ -363,7 +423,7 @@
     <p class='signature' id='any-class'>
       .<strong>any</strong>(o)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L119'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L151'>Source</a>
     </p>
     <div class='docstring'>
    Public: Returns true if an array, hash or string is not empty.
@@ -385,7 +445,7 @@ o - array, hash or string
     <p class='signature' id='appendEl-class'>
       .<strong>appendEl</strong>(el, parent = document.body)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L369'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L407'>Source</a>
     </p>
     <div class='docstring'>
    Public: Adds a HTML DOM element to a parent HTML DOM element.
@@ -419,10 +479,32 @@ Returns the element itself.
 </div>
   </div>
   <div class='method_details'>
+    <p class='signature' id='callable-class'>
+      .<strong>callable</strong>(o)
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;fz2d.coffee#L145'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: Returns true if the argument if a callable.
+
+o - argument 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>o</span>
+      &mdash;
+      <span class='desc'>argument</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
     <p class='signature' id='clamp-class'>
       .<strong>clamp</strong>(d, min, max)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L141'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L179'>Source</a>
     </p>
     <div class='docstring'>
    Public: Clamps a given number between two limits.
@@ -463,16 +545,16 @@ Returns the clamped number.
   </div>
   <div class='method_details'>
     <p class='signature' id='collide-class'>
-      .<strong>collide</strong>(o1, o2, callback)
+      .<strong>collide</strong>(o1, o2, cb)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L233'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L271'>Source</a>
     </p>
     <div class='docstring'>
    Public: Determines if there's a collision between two objects.
 
-o1        - object or group
-o2        - object or group
-callback  - callback function to be called on each collision
+o1 - object or group
+o2 - object or group
+cb - callback function to be called on each collision
 
 Unlike <a href='../classes/Fz2D.html#overlap-class'>Fz2D.overlap</a>, if `o1` and/or `o2` are groups, it *will* call 
 `collide` against all of their children.
@@ -493,7 +575,7 @@ Returns true or false.
       <span class='desc'>object or group</span>
     </li>
     <li>
-      <span class='name'>callback</span>
+      <span class='name'>cb</span>
       &mdash;
       <span class='desc'>callback function to be called on each collision</span>
     </li>
@@ -511,7 +593,7 @@ Returns true or false.
     <p class='signature' id='contains-class'>
       .<strong>contains</strong>(o, p)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L282'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L320'>Source</a>
     </p>
     <div class='docstring'>
    Public: Determines if an object or group contains a point.
@@ -548,7 +630,7 @@ Returns true or false.
     <p class='signature' id='createEl-class'>
       .<strong>createEl</strong>(type, attrs = {}, styles = {})
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L352'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L390'>Source</a>
     </p>
     <div class='docstring'>
    Public: Creates a new HTML DOM element.
@@ -591,7 +673,7 @@ Returns a new instance of a HTML DOM element of the given type.
     <p class='signature' id='dist-class'>
       .<strong>dist</strong>(o1, o2)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L164'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L202'>Source</a>
     </p>
     <div class='docstring'>
    Public: Determines the distance between two objects.
@@ -630,7 +712,7 @@ See also <a href='../classes/Fz2D.html#distSqr-class'>Fz2D.distSqr</a> for cases
     <p class='signature' id='distSqr-class'>
       .<strong>distSqr</strong>(o1, o2)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L184'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L222'>Source</a>
     </p>
     <div class='docstring'>
    Public: Determines the squared distance between two objects.
@@ -669,7 +751,7 @@ See also <a href='../classes/Fz2D.html#dist-class'>Fz2D.dist</a> for cases when 
     <p class='signature' id='empty-class'>
       .<strong>empty</strong>(o)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L125'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L163'>Source</a>
     </p>
     <div class='docstring'>
    Public: Returns true if an array, hash or string is empty.
@@ -688,10 +770,32 @@ o - array, hash or string
 </div>
   </div>
   <div class='method_details'>
+    <p class='signature' id='enumerable-class'>
+      .<strong>enumerable</strong>(o)
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;fz2d.coffee#L133'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: Returns true if the argument is enumerable.
+
+o - argument 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>o</span>
+      &mdash;
+      <span class='desc'>argument</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
     <p class='signature' id='getCollisionSide-class'>
       .<strong>getCollisionSide</strong>(o1, o2)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L202'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L240'>Source</a>
     </p>
     <div class='docstring'>
    Public: Determines the side of a collision.
@@ -726,15 +830,15 @@ Returns the sides of a collision.
   </div>
   <div class='method_details'>
     <p class='signature' id='getJSON-class'>
-      .<strong>getJSON</strong>(url, callback)
+      .<strong>getJSON</strong>(url, cb)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L393'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L431'>Source</a>
     </p>
     <div class='docstring'>
    Public: Performs an asynchronous HTTP GET request.
 
 url - url to perform the request for
-callback - ready callback function
+cb - ready callback function
 
 Parses `responseText` as JSON before passing it to `callback`.
 
@@ -749,7 +853,7 @@ Returns immediately with an undefined value.
       <span class='desc'>url to perform the request for</span>
     </li>
     <li>
-      <span class='name'>callback</span>
+      <span class='name'>cb</span>
       &mdash;
       <span class='desc'>ready callback function</span>
     </li>
@@ -764,10 +868,32 @@ Returns immediately with an undefined value.
 </div>
   </div>
   <div class='method_details'>
+    <p class='signature' id='object-class'>
+      .<strong>object</strong>(o)
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;fz2d.coffee#L127'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: Returns true if the argument is an object.
+
+o - argument 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>o</span>
+      &mdash;
+      <span class='desc'>argument</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
     <p class='signature' id='overlap-class'>
       .<strong>overlap</strong>(o1, o2)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L299'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L337'>Source</a>
     </p>
     <div class='docstring'>
    Public: Determines if an object or group overlaps with another object or group.
@@ -805,10 +931,54 @@ Returns a true or false.
 </div>
   </div>
   <div class='method_details'>
+    <p class='signature' id='present-class'>
+      .<strong>present</strong>(o)
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;fz2d.coffee#L157'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: Returns true if an array, hash or string is not empty.
+
+o - array, hash or string 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>o</span>
+      &mdash;
+      <span class='desc'>array, hash or string</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='require-class'>
+      .<strong>require</strong>(file)
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;fz2d.coffee#L446'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: Requires a single class of Fz2D, used by tests.
+
+file - filename 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>file</span>
+      &mdash;
+      <span class='desc'>filename</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
     <p class='signature' id='setStyleEl-class'>
       .<strong>setStyleEl</strong>(el, styles = {})
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L379'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L417'>Source</a>
     </p>
     <div class='docstring'>
    Public: Sets style properties of a HTML DOM element.
@@ -845,7 +1015,7 @@ Returns the element itself.
     <p class='signature' id='step-class'>
       .<strong>step</strong>(t, d, min, max)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L152'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L190'>Source</a>
     </p>
     <div class='docstring'>
    Public: Linearly interpolates a number within two limits based on time.
@@ -891,10 +1061,32 @@ Returns the interpolated value for the given timestamp (step).
 </div>
   </div>
   <div class='method_details'>
+    <p class='signature' id='string-class'>
+      .<strong>string</strong>(o)
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;fz2d.coffee#L139'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: Returns true if the argument is a string.
+
+o - argument 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>o</span>
+      &mdash;
+      <span class='desc'>argument</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
     <p class='signature' id='swap-class'>
       .<strong>swap</strong>(a, b)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L317'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L355'>Source</a>
     </p>
     <div class='docstring'>
    Public: Swaps A with B.
@@ -931,7 +1123,7 @@ Returns A and B swapped.
     <p class='signature' id='toRGB-class'>
       .<strong>toRGB</strong>(color)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;fz2d.coffee#L329'>Source</a>
+&#47;blob&#47;master/src&#47;fz2d.coffee#L367'>Source</a>
     </p>
     <div class='docstring'>
    Public: Converts HTML color code into floating point RGB components.
@@ -962,7 +1154,7 @@ Returns RGB converted to floating point components.
     </div>
     <div id='footer'>
   Generated on
-  Tue Mar 29 2016 00:27:36 GMT+0300 (EEST)
+  Thu Apr 21 2016 00:12:36 GMT+0300 (EEST)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1

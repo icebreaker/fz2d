@@ -17,7 +17,7 @@ class Fz2D
   # Public: Default foreground color.
   @FG: '#FFFFFF'
   # Public: Default background color.
-  @BG: '#000000'
+  @BG: '#3F7CB6'
 
   # Public: Default canvas selector.
   @SELECTOR: '#canvas'

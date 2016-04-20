@@ -25,10 +25,6 @@ class Fz2D.Object
     @exists = false
     @
 
-  # Public: Alias for kill.
-  killAll: () ->
-    @kill()
-
   # Public: Resets the object.
   #
   # x - position on the X axis
@@ -44,10 +40,16 @@ class Fz2D.Object
     @exists = true
 
     @
-  
-  # Public: Alias for reset.
-  resetAll: () ->
-    @reset()
+
+  # Public: Shows the object.
+  show: () ->
+    @visible = true
+    @
+
+  # Public: Hides the object.
+  hide: () ->
+    @visible = false
+    @
 
   # Public: Draws the object on every frame.
   #

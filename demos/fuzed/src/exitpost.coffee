@@ -29,7 +29,7 @@ class ExitPost extends Fz2D.Entity
       super
       @onexit(@)
     else
-      @sound_disappear.play()
+      @sound_disappear.play() if @group and @group.alive
       @play('disappear')
 
   clone: () ->

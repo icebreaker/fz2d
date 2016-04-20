@@ -5,7 +5,8 @@ class Coin extends Fz2D.Entity
     @sound = sound
 
     picked_up_anim = @addAnimation('picked_up', texture_picked_up)
-    picked_up_anim.onend = @kill
+    picked_up_anim.onend = () =>
+      @kill()
 
   oncollect: () ->
     # empty
@@ -15,7 +16,7 @@ class Coin extends Fz2D.Entity
     y += @bounds.hh if y?
     super
 
-  kill: () =>
+  kill: () ->
     if @is('picked_up') and not @solid
       super
       @play('_default', true)
@@ -23,7 +24,7 @@ class Coin extends Fz2D.Entity
       @oncollect(@)
     else
       @play('picked_up')
-      @sound.play()
+      @sound.play() if @group and @group.alive
       @solid = false
 
   clone: () ->

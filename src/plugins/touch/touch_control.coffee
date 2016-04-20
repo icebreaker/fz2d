@@ -18,8 +18,11 @@ class Fz2D.Plugins.Touch.TouchControl
     @_inner_half_size = @_inner_size >> 1
 
     # FIXME: make colors configurable
-    @_outer = new Fz2D.Texture("rgba(224, 224, 224, 0.2):circle", @_outer_size, @_outer_size)
-    @_inner = new Fz2D.Texture("rgba(224, 224, 224, 0.4):circle", @_inner_size, @_inner_size)
+    input = new Fz2D.TextureInput().addCircle('rgba(224, 224, 224, 0.2)')
+    @_outer = new Fz2D.Texture(input, @_outer_size, @_outer_size)
+
+    input = new Fz2D.TextureInput().addCircle('rgba(224, 224, 224, 0.4)')
+    @_inner = new Fz2D.Texture(input, @_inner_size, @_inner_size)
 
     # FIXME: make position configurable
     if config.left?

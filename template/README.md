@@ -1,7 +1,8 @@
-Fuzed
-=====
-A simple 'platformer' template that demonstrates some of the current
-features of [Fz2D](https://github.com/icebreaker/fz2d).
+Game Fz2D
+=========
+A simple *template* game project.
+
+**Powered by [Fz2D](https://github.com/icebreaker/fz2d)**.
 
 Contribute
 ----------
@@ -10,14 +11,13 @@ Contribute
 * Do **not** bump the version number.
 * Send me a pull request. Bonus points for topic branches.
 
+Credits
+-------
+* Music by [Alexandr Zhelanov](http://opengameart.org/content/in-russian-style)
+
 License
 -------
 Copyright (c) 2014-2016, Mihail Szabolcs
 
-Fuzed is provided **as-is** under the **MIT** license. 
+Game Fz2D is provided **as-is** under the **MIT** license. 
 For more information see LICENSE.
-
-##### Assets
-* Music by [Tom Peter](http://opengameart.org/content/winter-feeling)
-* Sound Effects via [bfxr.net](http://www.bfxr.net/)
-* Graphics by [Marc Russel](http://spicypixel.net)

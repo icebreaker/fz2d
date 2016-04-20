@@ -152,22 +152,22 @@
   </li>
   <li>
     <span class='signature'>
+      <a href='#hide-instance'>
+        ::<strong>hide</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      Hides the object.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
       <a href='#kill-instance'>
         ::<strong>kill</strong>()
       </a>
     </span>
     <span class='desc'>
       Kills the object.
-    </span>
-  </li>
-  <li>
-    <span class='signature'>
-      <a href='#killAll-instance'>
-        ::<strong>killAll</strong>()
-      </a>
-    </span>
-    <span class='desc'>
-      Alias for kill.
     </span>
   </li>
   <li>
@@ -182,12 +182,12 @@
   </li>
   <li>
     <span class='signature'>
-      <a href='#resetAll-instance'>
-        ::<strong>resetAll</strong>()
+      <a href='#show-instance'>
+        ::<strong>show</strong>()
       </a>
     </span>
     <span class='desc'>
-      Alias for reset.
+      Shows the object.
     </span>
   </li>
   <li>
@@ -256,7 +256,7 @@ tag - name of the object (default: '_default')
     <p class='signature' id='draw-instance'>
       ::<strong>draw</strong>(ctx)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L55'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L57'>Source</a>
     </p>
     <div class='docstring'>
    Public: Draws the object on every frame.
@@ -276,6 +276,18 @@ ctx - <a href='../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a>
 </div>
   </div>
   <div class='method_details'>
+    <p class='signature' id='hide-instance'>
+      ::<strong>hide</strong>()
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L50'>Source</a>
+    </p>
+    <div class='docstring'>
+  Public: Hides the object. 
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
     <p class='signature' id='kill-instance'>
       ::<strong>kill</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
@@ -288,22 +300,10 @@ ctx - <a href='../../classes/Fz2D/Canvas.html'>Fz2D.Canvas</a>
 </div>
   </div>
   <div class='method_details'>
-    <p class='signature' id='killAll-instance'>
-      ::<strong>killAll</strong>()
-      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L29'>Source</a>
-    </p>
-    <div class='docstring'>
-  Public: Alias for kill. 
-</div>
-<div class='tags'>
-</div>
-  </div>
-  <div class='method_details'>
     <p class='signature' id='reset-instance'>
       ::<strong>reset</strong>(x = null, y = null, angle = null)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L37'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L33'>Source</a>
     </p>
     <div class='docstring'>
    Public: Resets the object.
@@ -334,13 +334,13 @@ angle - rotation angle
 </div>
   </div>
   <div class='method_details'>
-    <p class='signature' id='resetAll-instance'>
-      ::<strong>resetAll</strong>()
+    <p class='signature' id='show-instance'>
+      ::<strong>show</strong>()
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L49'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L45'>Source</a>
     </p>
     <div class='docstring'>
-  Public: Alias for reset. 
+  Public: Shows the object. 
 </div>
 <div class='tags'>
 </div>
@@ -349,7 +349,7 @@ angle - rotation angle
     <p class='signature' id='update-instance'>
       ::<strong>update</strong>(timer, input)
       <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
-&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L61'>Source</a>
+&#47;blob&#47;master/src&#47;scene&#47;object.coffee#L63'>Source</a>
     </p>
     <div class='docstring'>
    Public: Updates the object on every frame.
@@ -379,7 +379,7 @@ input - <a href='../../classes/Fz2D/Input.html'>Fz2D.Input</a>
     </div>
     <div id='footer'>
   Generated on
-  Tue Mar 29 2016 00:27:36 GMT+0300 (EEST)
+  Thu Apr 21 2016 00:12:36 GMT+0300 (EEST)
   by
   <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
   v2.3.1

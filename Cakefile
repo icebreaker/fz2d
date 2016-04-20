@@ -22,9 +22,6 @@ spawn_with_echo = (cmd, cb) ->
   e.on 'close', cb if cb?()
   e
 
-# prepend local node.js packages/modules `bin` directory to the PATH
-process.env['PATH'] = path.join(__dirname, 'node_modules/.bin') + ':' + process.env['PATH']
-
 # build directory
 build = path.join(__dirname, 'build')
 
@@ -37,31 +34,44 @@ template = path.join(__dirname, 'template')
 # docs directory
 docs = path.join(__dirname, 'docs')
 
+# demos directory
+demos = path.join(__dirname, 'demos')
+
 # default watch and recompile interval
 default_interval = 500
 
 option '-p', '--path [PATH]', 'specifies destination directory for the create or update tasks'
+option '-n', '--name [NAME]', 'specifies a project name for the create task'
 option '-i', '--interval [MS]', "specifies the watch and recompile interval (default: #{default_interval} ms)"
 
 minify = (options) ->
-  system_with_echo 'uglifyjs --no-dead-code -o ' + build + '/fz2d.min.js ' + build + '/fz2d.js'
+  input  = path.join(build, 'fz2d.js')
+  output = path.join(build, 'fz2d.min.js')
+
+  system_with_echo 'npm run uglifyjs -- --no-dead-code -o ' + output + ' ' + input
   
-  options.path ?= template
+  options.path = template
+  invoke 'update'
+
+  # FIXME: iterate over all demos and update them
+  options.path = path.join(demos, 'fuzed')
   invoke 'update'
 
 task 'make', 'compiles everything', (options) ->
-  system_with_echo 'coffee -o ' + build + ' -j '+ build + '/fz2d.js -cb ' + source, ->
+  output = path.join(build, 'fz2d.js')
+  system_with_echo 'npm run coffee -- -o ' + build + '/ -j '+ output + ' -cb ' + source, ->
   minify(options)
 
 task 'build', 'watches and recompiles everything on any change', (options) ->
-  spawn_with_echo 'coffee -o ' + build + ' -j ' + build + '/fz2d.js -cwb ' + source
+  output = path.join(build, 'fz2d.js')
+  spawn_with_echo 'npm run coffee -- -o ' + build + '/ -j ' + output + ' -cwb ' + source
 
   interval = options.interval || default_interval
-  fs.watchFile build + '/fz2d.js', interval: interval, (curr, prev) ->
+  fs.watchFile output, interval: interval, (curr, prev) ->
     minify(options)
 
 task 'docs', 'generates documentation', () ->
-  system_with_echo 'biscotto --title Fz2D --output-dir docs'
+  system_with_echo 'npm run biscotto -- --title Fz2D --output-dir docs'
 
 task 'create', 'creates a new project using the template', (options) ->
   if not options.path or fs.existsSync(path.join(options.path, 'Cakefile'))
@@ -77,8 +87,8 @@ task 'update', 'updates an existing project using the template', (options) ->
      not fs.existsSync(path.join(options.path, 'js'))
     puts 'You cannot update the project in the given directory. Not valid?'
   else
-    fs.copySync(path.join(build, 'fz2d.js'), path.join(options.path, '/js/fz2d.js'))
-    fs.copySync(path.join(build, 'fz2d.min.js'), path.join(options.path, '/js/fz2d.min.js'))
+    fs.copySync(path.join(build, 'fz2d.js'), path.join(options.path, 'js', 'fz2d.js'))
+    fs.copySync(path.join(build, 'fz2d.min.js'), path.join(options.path, 'js', 'fz2d.min.js'))
     puts 'Updated existing project in ' + options.path + ' ...'
 
 task 'test', 'runs all unit tests', () ->

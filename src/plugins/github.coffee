@@ -28,7 +28,7 @@ class Fz2D.Plugins.GitHub extends Fz2D.Plugin
 
     @_createRibbon(config.username, config.repository, config.color, config.position)
 
-  # Public: Creates a 'Fork Me' ribbon.
+  # Private: Creates a 'Fork Me' ribbon.
   #
   # username - GitHub username
   # repository - GitHub repository

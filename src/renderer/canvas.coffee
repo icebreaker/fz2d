@@ -50,31 +50,6 @@ class Fz2D.Canvas
 
     ctx
 
-  # Public: Creates an image filled with a solid color.
-  #
-  # w - width of the image
-  # h - height of the image
-  # color - color of the image
-  #
-  # Returns the image.
-  @createImage: (w, h, color) ->
-    ctx = Fz2D.Canvas.getContext(w, h)
-
-    [color, type, radius] = color.split(':')
-
-    ctx.fillStyle = color
-
-    if type == 'circle'
-      radius ?= w / 2.0
-
-      ctx.beginPath()
-      ctx.arc(radius, radius, radius, 0, 2 * Math.PI, false)
-      ctx.fill()
-    else
-      ctx.fillRect(0, 0, w, h)
-
-    ctx.canvas
- 
   # Public: Constructor.
   #
   # w - width

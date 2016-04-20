@@ -22,14 +22,14 @@ class Fz2D.Texture
         @iw = image.iw
         @ih = image.ih
         return
-      else if Fz2D.string(image)
+      else if image instanceof Fz2D.TextureInput
         w = x
         x = 0
 
         h = y
         y = 0
 
-        image = Fz2D.Renderer.createImage(w, h, image) # image = #color
+        image = image.apply(Fz2D.Renderer.getContext(w, h, null, null, '2d'), w, h)
 
       @_native = image
       @x = x

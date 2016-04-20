@@ -8,7 +8,7 @@ var Fz2D,
 Fz2D = (function() {
   function Fz2D() {}
 
-  Fz2D.VERSION = '0.0.4';
+  Fz2D.VERSION = '0.0.5';
 
   Fz2D.NONE = 0;
 
@@ -22,7 +22,7 @@ Fz2D = (function() {
 
   Fz2D.FG = '#FFFFFF';
 
-  Fz2D.BG = '#000000';
+  Fz2D.BG = '#3F7CB6';
 
   Fz2D.SELECTOR = '#canvas';
 
@@ -108,6 +108,14 @@ Fz2D = (function() {
     }
   })();
 
+  Fz2D.ipad = (function() {
+    if (/ipad/i.test(window.navigator.userAgent)) {
+      return 'ipad';
+    } else {
+      return null;
+    }
+  })();
+
   Fz2D.firefox = (function() {
     if (/firefox/i.test(window.navigator.userAgent)) {
       return 'firefox';
@@ -126,7 +134,27 @@ Fz2D = (function() {
     }
   })();
 
+  Fz2D.object = function(o) {
+    return typeof o === 'object';
+  };
+
+  Fz2D.enumerable = function(o) {
+    return typeof o === 'object';
+  };
+
+  Fz2D.string = function(o) {
+    return typeof o === 'string';
+  };
+
+  Fz2D.callable = function(o) {
+    return typeof o === 'function';
+  };
+
   Fz2D.any = function(o) {
+    return !this.empty(o);
+  };
+
+  Fz2D.present = function(o) {
     return !this.empty(o);
   };
 
@@ -197,7 +225,7 @@ Fz2D = (function() {
     return result;
   };
 
-  Fz2D.collide = function(o1, o2, callback) {
+  Fz2D.collide = function(o1, o2, cb) {
     var collide, j, l, len, len1, o3, ref, ref1, x1, x2, y1, y2;
     if (!(o1.exists && o1.solid && o2.exists && o2.solid && o1 !== o2)) {
       return false;
@@ -207,7 +235,7 @@ Fz2D = (function() {
       ref = o1._objects;
       for (j = 0, len = ref.length; j < len; j++) {
         o3 = ref[j];
-        if (Fz2D.collide(o3, o2, callback)) {
+        if (Fz2D.collide(o3, o2, cb)) {
           collide = true;
         }
       }
@@ -226,7 +254,7 @@ Fz2D = (function() {
       ref1 = o2._objects;
       for (l = 0, len1 = ref1.length; l < len1; l++) {
         o3 = ref1[l];
-        if (Fz2D.collide(o1, o3, callback)) {
+        if (Fz2D.collide(o1, o3, cb)) {
           collide = true;
         }
       }
@@ -237,7 +265,7 @@ Fz2D = (function() {
     x2 = o2.x + o2.bounds.x;
     y2 = o2.y + o2.bounds.y;
     if (!((x1 > x2 + o2.bounds.w) || (y1 > y2 + o2.bounds.h) || (x1 + o1.bounds.w < x2) || (y1 + o1.bounds.h < y2))) {
-      callback(o1, o2);
+      cb(o1, o2);
       return true;
     } else {
       return false;
@@ -330,7 +358,7 @@ Fz2D = (function() {
     return el;
   };
 
-  Fz2D.getJSON = function(url, callback) {
+  Fz2D.getJSON = function(url, cb) {
     var req;
     req = new XMLHttpRequest();
     req.open('GET', url, true);
@@ -338,13 +366,17 @@ Fz2D = (function() {
     req.onreadystatechange = function() {
       if (req.readyState === 4) {
         if (req.status === 200) {
-          return callback(window.JSON.parse(req.responseText), req.status);
+          return cb(window.JSON.parse(req.responseText), req.status);
         } else {
-          return callback(req.responseText, req.status);
+          return cb(req.responseText, req.status);
         }
       }
     };
     return req.send(null);
+  };
+
+  Fz2D.require = function(file) {
+    return require(__dirname + "/" + file);
   };
 
   Fz2D.Plugins = {};
@@ -356,10 +388,13 @@ Fz2D = (function() {
 
     Plugin.getName = function() {
       var error;
+      if (this._name != null) {
+        return this._name;
+      }
       try {
-        return this.prototype.constructor.name;
+        return this._name = this.prototype.constructor.name || this.prototype.constructor.toString().match(/function\s(.*?)\(/)[1];
       } catch (error) {
-        return "Generic";
+        return this._name = "Unknown";
       }
     };
 
@@ -373,18 +408,14 @@ Fz2D = (function() {
 
 })();
 
-if ((typeof global !== "undefined" && global !== null) && typeof global === 'object') {
-  Fz2D.__path = require('path');
-  Fz2D.require = function(file) {
-    return require(Fz2D.__path.join(__dirname, file));
-  };
-  global.Fz2D = Fz2D;
+if (window.Fz2D == null) {
+  window.Fz2D = Fz2D;
 }
 
 if (window.requestAnimationFrame == null) {
   window.requestAnimationFrame = (function(window) {
-    return window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback, element) {
-      return window.setTimeout(callback, 1000 / 60);
+    return window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(cb, element) {
+      return window.setTimeout(cb, 1000 / 60);
     };
   })(window);
 }
@@ -861,8 +892,8 @@ Fz2D.Loader = (function() {
     this.h = 24;
     this.x = (game.w - this.w) >> 1;
     this.y = (game.h - this.h) >> 1;
-    this._outer = new Fz2D.Texture(game.fg, this.w, this.h);
-    this._inner = new Fz2D.Texture(game.bg, this.w, this.h);
+    this._outer = new Fz2D.Texture(new Fz2D.TextureInput().addFill(game.fg), this.w, this.h);
+    this._inner = new Fz2D.Texture(new Fz2D.TextureInput().addFill(game.bg), this.w, this.h);
     this._timeout = new Fz2D.Timeout(600);
     this._timeout.onend = (function(_this) {
       return function() {
@@ -1071,7 +1102,7 @@ Fz2D.Loader.Loaders.Texture = (function(superClass) {
 Fz2D.Loader.Loaders.TextureAtlas = (function(superClass) {
   extend(TextureAtlas, superClass);
 
-  TextureAtlas.prototype.extension = 'atlas';
+  TextureAtlas.prototype.extension = 'atl';
 
   TextureAtlas.prototype.path = 'json';
 
@@ -1306,63 +1337,6 @@ Fz2D.Plugins.Box2D.World = (function() {
 
 })();
 
-Fz2D.Plugins.Branding = (function(superClass) {
-  extend(Branding, superClass);
-
-  function Branding(game) {
-    var base, base1, base2;
-    if (game.branding == null) {
-      return;
-    }
-    if (game.assets == null) {
-      game.assets = {};
-    }
-    if ((base = game.assets).plugins == null) {
-      base.plugins = {};
-    }
-    game.assets.plugins.branding = game.branding.logo;
-    if ((base1 = game.branding).position == null) {
-      base1.position = 'bottom-right';
-    }
-    if ((base2 = game.branding).border == null) {
-      base2.border = 5;
-    }
-  }
-
-  Branding.prototype.onload = function(game) {
-    if (game.branding == null) {
-      return;
-    }
-    this.logo = game.assets.plugins.branding;
-    this.w = this.logo.w;
-    this.h = this.logo.h;
-    switch (game.branding.position) {
-      case 'top-left':
-        this.x = game.branding.border;
-        return this.y = game.branding.border;
-      case 'top-right':
-        this.x = game.w - this.w - game.branding.border;
-        return this.y = game.branding.border;
-      case 'bottom-left':
-        this.x = game.branding.border;
-        return this.y = game.h - this.h - game.branding.border;
-      case 'bottom-right':
-        this.x = game.w - this.w - game.branding.border;
-        return this.y = game.h - this.h - game.branding.border;
-    }
-  };
-
-  Branding.prototype.draw = function(ctx) {
-    if (this.logo == null) {
-      return;
-    }
-    return ctx.draw(this.logo, 0, 0, this.w, this.h, this.x, this.y, this.w, this.h);
-  };
-
-  return Branding;
-
-})(Fz2D.Plugin);
-
 Fz2D.Plugins.Console = (function(superClass) {
   extend(Console, superClass);
 
@@ -1396,7 +1370,7 @@ Fz2D.Plugins.Console = (function(superClass) {
         text = [];
         for (j = 0, len = arguments.length; j < len; j++) {
           arg = arguments[j];
-          if (typeof arg === 'object') {
+          if (Fz2D.object(arg)) {
             text.push(JSON.stringify(arg, null, ' '));
           } else {
             text.push(arg);
@@ -1548,7 +1522,7 @@ Fz2D.Plugins.RemoteConsole = (function(superClass) {
         args = [];
         for (j = 0, len = arguments.length; j < len; j++) {
           arg = arguments[j];
-          if (typeof arg === 'object') {
+          if (Fz2D.object(arg)) {
             args.push(JSON.stringify(arg, null, ' '));
           } else {
             args.push(arg);
@@ -1570,6 +1544,31 @@ Fz2D.Plugins.RemoteConsole = (function(superClass) {
   };
 
   return RemoteConsole;
+
+})(Fz2D.Plugin);
+
+Fz2D.Plugins.RemoteDebug = (function(superClass) {
+  extend(RemoteDebug, superClass);
+
+  RemoteDebug.supported = Fz2D.debug;
+
+  function RemoteDebug(game) {
+    var _loop;
+    _loop = game._loop;
+    game._loop = (function(_this) {
+      return function() {
+        var e, error;
+        try {
+          return _loop();
+        } catch (error) {
+          e = error;
+          return console.log(e);
+        }
+      };
+    })(this);
+  }
+
+  return RemoteDebug;
 
 })(Fz2D.Plugin);
 
@@ -1698,13 +1697,18 @@ Fz2D.Plugins.Touch = (function(superClass) {
 
 Fz2D.Plugins.Touch.TouchControl = (function() {
   function TouchControl(w, h, config) {
+    var input;
     this._keys = config.keys || {};
     this._radius = config.radius || 50;
     this._radius2 = this._radius * this._radius;
     this._outer_size = this._radius * 2;
+    this._outer_half_size = this._outer_size >> 1;
     this._inner_size = this._outer_size - 20;
-    this._outer = new Fz2D.Texture("rgba(224, 224, 224, 0.2):circle", this._outer_size, this._outer_size);
-    this._inner = new Fz2D.Texture("rgba(224, 224, 224, 0.4):circle", this._inner_size, this._inner_size);
+    this._inner_half_size = this._inner_size >> 1;
+    input = new Fz2D.TextureInput().addCircle('rgba(224, 224, 224, 0.2)');
+    this._outer = new Fz2D.Texture(input, this._outer_size, this._outer_size);
+    input = new Fz2D.TextureInput().addCircle('rgba(224, 224, 224, 0.4)');
+    this._inner = new Fz2D.Texture(input, this._inner_size, this._inner_size);
     if (config.left != null) {
       this._outer_x = 20;
       this._inner_x = 30;
@@ -1754,7 +1758,7 @@ Fz2D.Plugins.Touch.TouchControl = (function() {
       touch = input.touch.collection.first();
       dx = touch.offsetX - this.cx;
       dy = touch.offsetY - this.cy;
-      if (dx * dx + dy * dy < 50 * 50) {
+      if (dx * dx + dy * dy < this._radius2) {
         this.id = touch.id;
         this.dx = 0;
         this.dy = 0;
@@ -1764,8 +1768,8 @@ Fz2D.Plugins.Touch.TouchControl = (function() {
   };
 
   TouchControl.prototype.draw = function(ctx) {
-    ctx.draw(this._outer, 0, 0, this._outer.w, this._outer.h, this._outer_x, this._outer_y, this._outer_size, this._outer_size);
-    return ctx.draw(this._inner, 0, 0, this._inner.w, this._inner.h, this.dx + this._inner_x, this.dy + this._inner_y, this._inner_size, this._inner_size);
+    ctx.draw(this._outer, 0, 0, this._outer.w, this._outer.h, this._outer_x, this._outer_y, this._outer_size, this._outer_size, this._outer_half_size, this._outer_half_size, 0.0, 1.0);
+    return ctx.draw(this._inner, 0, 0, this._inner.w, this._inner.h, this.dx + this._inner_x, this.dy + this._inner_y, this._inner_size, this._inner_size, this._inner_half_size, this._inner_half_size, 0.0, 1.0);
   };
 
   return TouchControl;
@@ -1893,24 +1897,6 @@ Fz2D.Canvas = (function() {
       ctx.imageSmoothingEnabled = false;
     }
     return ctx;
-  };
-
-  Canvas.createImage = function(w, h, color) {
-    var ctx, radius, ref, type;
-    ctx = Fz2D.Canvas.getContext(w, h);
-    ref = color.split(':'), color = ref[0], type = ref[1], radius = ref[2];
-    ctx.fillStyle = color;
-    if (type === 'circle') {
-      if (radius == null) {
-        radius = w / 2.0;
-      }
-      ctx.beginPath();
-      ctx.arc(radius, radius, radius, 0, 2 * Math.PI, false);
-      ctx.fill();
-    } else {
-      ctx.fillRect(0, 0, w, h);
-    }
-    return ctx.canvas;
   };
 
   function Canvas(w1, h1, color1, selector1) {
@@ -2201,12 +2187,12 @@ Fz2D.Texture = (function() {
         this.iw = image.iw;
         this.ih = image.ih;
         return;
-      } else if (typeof image === 'string') {
+      } else if (image instanceof Fz2D.TextureInput) {
         w = x;
         x = 0;
         h = y;
         y = 0;
-        image = Fz2D.Renderer.createImage(w, h, image);
+        image = image.apply(Fz2D.Renderer.getContext(w, h, null, null, '2d'), w, h);
       }
       this._native = image;
       this.x = x;
@@ -2341,12 +2327,55 @@ Fz2D.TextureAtlas = (function() {
 
 })();
 
-Fz2D.TextureMosaic = (function(superClass) {
-  extend(TextureMosaic, superClass);
+Fz2D.TextureInput = (function() {
+  function TextureInput() {
+    this._filters = [];
+  }
 
-  function TextureMosaic(w, h, tw, alpha) {
-    var buffer, ctx, i, image_data, j, l, ref, ref1, ref2, ref3, twl, u, x, xx, y, yy, z;
-    ctx = Fz2D.Renderer.getContext(w, h, null, null, '2d');
+  TextureInput.prototype.apply = function(ctx, w, h) {
+    var cb, j, len, ref;
+    ref = this._filters;
+    for (j = 0, len = ref.length; j < len; j++) {
+      cb = ref[j];
+      cb(ctx, w, h);
+    }
+    return ctx.canvas;
+  };
+
+  TextureInput.prototype.add = function(cb) {
+    this._filters.push(cb);
+    return this;
+  };
+
+  TextureInput.prototype.addFill = function(color) {
+    return this.add(function(ctx, w, h) {
+      ctx.fillStyle = color;
+      return ctx.fillRect(0, 0, w, h);
+    });
+  };
+
+  TextureInput.prototype.addCircle = function(color, radius) {
+    return this.add(function(ctx, w, h) {
+      if (radius == null) {
+        radius = w >> 1;
+      }
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(radius, radius, radius, 0, 2 * Math.PI, false);
+      return ctx.fill();
+    });
+  };
+
+  TextureInput.prototype.addMosaic = function(alpha, size) {
+    return this.add((function(_this) {
+      return function(ctx, w, h) {
+        return _this._build_mosaic(ctx, w, h, size, alpha);
+      };
+    })(this));
+  };
+
+  TextureInput.prototype._build_mosaic = function(ctx, w, h, tw, alpha) {
+    var buffer, i, image_data, j, l, ref, ref1, ref2, results, twl, u, x, xx, y, yy;
     image_data = ctx.getImageData(0, 0, tw, tw);
     buffer = image_data.data;
     twl = tw - 1;
@@ -2374,17 +2403,24 @@ Fz2D.TextureMosaic = (function(superClass) {
     }
     xx = ((w / tw) | 0) - 1;
     yy = ((h / tw) | 0) - 1;
+    console.log(xx, yy);
+    results = [];
     for (x = u = 0, ref2 = xx; 0 <= ref2 ? u <= ref2 : u >= ref2; x = 0 <= ref2 ? ++u : --u) {
-      for (y = z = 0, ref3 = yy; 0 <= ref3 ? z <= ref3 : z >= ref3; y = 0 <= ref3 ? ++z : --z) {
-        ctx.putImageData(image_data, x * tw, y * tw);
-      }
+      results.push((function() {
+        var ref3, results1, z;
+        results1 = [];
+        for (y = z = 0, ref3 = yy; 0 <= ref3 ? z <= ref3 : z >= ref3; y = 0 <= ref3 ? ++z : --z) {
+          results1.push(ctx.putImageData(image_data, x * tw, y * tw));
+        }
+        return results1;
+      })());
     }
-    TextureMosaic.__super__.constructor.call(this, ctx.canvas);
-  }
+    return results;
+  };
 
-  return TextureMosaic;
+  return TextureInput;
 
-})(Fz2D.Texture);
+})();
 
 Fz2D.Animation = (function() {
   function Animation(tag1, texture1, count1, delay1) {
@@ -2672,10 +2708,6 @@ Fz2D.Object = (function() {
     return this;
   };
 
-  Object.prototype.killAll = function() {
-    return this.kill();
-  };
-
   Object.prototype.reset = function(x, y, angle) {
     if (x == null) {
       x = null;
@@ -2701,8 +2733,14 @@ Fz2D.Object = (function() {
     return this;
   };
 
-  Object.prototype.resetAll = function() {
-    return this.reset();
+  Object.prototype.show = function() {
+    this.visible = true;
+    return this;
+  };
+
+  Object.prototype.hide = function() {
+    this.visible = false;
+    return this;
   };
 
   Object.prototype.draw = function(ctx) {};
@@ -2820,6 +2858,10 @@ Fz2D.Group = (function(superClass) {
     Group.__super__.constructor.call(this, x, y, w, h);
     this._objects = [];
   }
+
+  Group.prototype.any = function() {
+    return this._objects.length > 0;
+  };
 
   Group.prototype.find = function(cb, arg) {
     var j, len, o, ref;
@@ -3180,46 +3222,48 @@ Fz2D.Group = (function(superClass) {
     return null;
   };
 
-  Group.prototype.killAll = function() {
+  Group.prototype.kill = function() {
     var j, len, o, ref;
+    Group.__super__.kill.apply(this, arguments);
     ref = this._objects;
     for (j = 0, len = ref.length; j < len; j++) {
       o = ref[j];
-      o.killAll();
+      o.kill();
     }
-    return null;
+    return this;
   };
 
-  Group.prototype.resetAll = function() {
+  Group.prototype.reset = function() {
     var j, len, o, ref;
+    Group.__super__.reset.apply(this, arguments);
     ref = this._objects;
     for (j = 0, len = ref.length; j < len; j++) {
       o = ref[j];
-      o.resetAll();
+      o.reset();
     }
-    return null;
+    return this;
   };
 
-  Group.prototype.hideAll = function() {
-    var j, len, o, ref, results;
+  Group.prototype.hide = function() {
+    var j, len, o, ref;
+    Group.__super__.hide.apply(this, arguments);
     ref = this._objects;
-    results = [];
     for (j = 0, len = ref.length; j < len; j++) {
       o = ref[j];
-      results.push(o.visible = false);
+      o.hide();
     }
-    return results;
+    return this;
   };
 
-  Group.prototype.showAll = function() {
-    var j, len, o, ref, results;
+  Group.prototype.show = function() {
+    var j, len, o, ref;
+    Group.__super__.show.apply(this, arguments);
     ref = this._objects;
-    results = [];
     for (j = 0, len = ref.length; j < len; j++) {
       o = ref[j];
-      results.push(o.visible = true);
+      o.show();
     }
-    return results;
+    return this;
   };
 
   Group.prototype.findByTag = function(tag) {
@@ -3643,8 +3687,8 @@ Fz2D.Size = (function() {
     return this.h = y;
   };
 
-  Size.prototype.equals = function(p) {
-    return this.w === p.w && this.h === p.y;
+  Size.prototype.equals = function(s) {
+    return this.w === s.w && this.h === s.h;
   };
 
   Size.prototype.isNull = function() {
@@ -3717,16 +3761,29 @@ Fz2D.Vec2 = (function() {
 })();
 
 Fz2D.Audio = (function() {
-  Audio.extension = (function(audio) {
-    if (audio.canPlayType('audio/ogg')) {
-      return 'ogg';
-    } else if (audio.canPlayType('audio/mp3')) {
-      return 'mp3';
-    } else {
-      console.log("No support for audio :(");
-      return null;
+  Audio.MAX_VOLUME = 100.0;
+
+  Audio.INV_MAX_VOLUME = 1.0 / Audio.MAX_VOLUME;
+
+  Audio.FORMATS = {
+    'audio/ogg': 'ogg',
+    'audio/aac': 'm4a',
+    'audio/x-m4a': 'm4a',
+    'audio/wav': 'wav'
+  };
+
+  Audio.extension = (function(audio, formats) {
+    var extension, format;
+    for (format in formats) {
+      extension = formats[format];
+      if (Fz2D.present(audio.canPlayType(format))) {
+        console.log("Audio: " + format);
+        return extension;
+      }
     }
-  })(new window.Audio());
+    console.log('No audio support :(');
+    return null;
+  })(new window.Audio(), Audio.FORMATS);
 
   Audio.supported = (function() {
     if (Fz2D.noaudio != null) {
@@ -3805,7 +3862,7 @@ Fz2D.Audio = (function() {
   };
 
   Audio.prototype.setVolume = function(volume) {
-    this._native.volume = parseFloat(Fz2D.clamp(volume, 0.0, 100.0) / 100.0);
+    this._native.volume = parseFloat(Fz2D.clamp(volume, 0.0, Fz2D.Audio.MAX_VOLUME) * Fz2D.Audio.INV_MAX_VOLUME);
     return this;
   };
 
@@ -3898,17 +3955,17 @@ Fz2D.Game = (function() {
   }
 
   Game.prototype.registerPlugin = function(plugin) {
-    if (typeof plugin.onload === 'function') {
+    if (Fz2D.callable(plugin.onload)) {
       if (indexOf.call(this._plugins_onloadable, plugin) < 0) {
         this._plugins_onloadable.push(plugin);
       }
     }
-    if (typeof plugin.update === 'function') {
+    if (Fz2D.callable(plugin.update)) {
       if (indexOf.call(this._plugins_updateable, plugin) < 0) {
         this._plugins_updateable.push(plugin);
       }
     }
-    if (typeof plugin.draw === 'function') {
+    if (Fz2D.callable(plugin.draw)) {
       if (indexOf.call(this._plugins_drawable, plugin) < 0) {
         this._plugins_drawable.push(plugin);
       }
@@ -3919,11 +3976,18 @@ Fz2D.Game = (function() {
   Game.prototype.onload = function(game) {};
 
   Game.prototype.load = function(path) {
+    if (Fz2D.empty(path)) {
+      return;
+    }
     if (this._loader.group == null) {
       this.loaded = false;
       this.scene.add(this._loader);
     }
-    return this._loader.load(path);
+    if (Fz2D.enumerable(path)) {
+      return this._loadAssets(path);
+    } else {
+      return this._loader.load(path);
+    }
   };
 
   Game.prototype.draw = function(ctx) {
@@ -3951,7 +4015,7 @@ Fz2D.Game = (function() {
     var k, url;
     for (k in assets) {
       url = assets[k];
-      if (typeof url === 'object') {
+      if (Fz2D.enumerable(url)) {
         this._loadAssets(url);
       } else {
         assets[k] = this._loader.load(url);

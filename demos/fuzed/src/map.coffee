@@ -5,10 +5,6 @@ class Map extends Fz2D.Group
     @_types = []
     @_map = null
   
-  reset: () ->
-    super
-    @resetAll()
-
   addType: (type, klass) ->
     @_types[type] = klass
 

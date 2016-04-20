@@ -50,10 +50,10 @@ class Player extends Fz2D.Entity
 
     if input.keys[Key.LEFT] and @x > 0
       @play('run_left', true) unless @is('run_left')
-      @dx = -0.1
+      @dx = -0.2
     else if input.keys[Key.RIGHT] and @x + @w < @group.w
       @play('run_right', true) unless @is('run_right')
-      @dx = 0.1
+      @dx = 0.2
     else
       if @is('run_left')
         @play('idle_left', true)

@@ -9,6 +9,8 @@ and pepper.
 If you used [Flixel](http://flixel.org) and/or [Flash Punk](http://useflashpunk.net/) before, 
 you'll feel right at home :recycle:.
 
+Try out a small demo game by clicking [here](demos/fuzed).
+
 Getting Started
 ---------------
 It's terribly easy to get started, but before that, we need to install a couple 
@@ -17,6 +19,7 @@ of dependencies.
 #### Dependencies
 * [node.js](http://nodejs.org)
 * [npm](http://npmjs.org)
+* [coffeescript](http://coffeescript.org)
 
 After that, we can install all the necessary `packages` by executing:
 
@@ -24,8 +27,7 @@ After that, we can install all the necessary `packages` by executing:
 npm install
 ```
 
-To create a new `project` based on the provided `Fuzed` template, which you
-can try out online over [here](http://szabster.net/fz2d), all you need to do is following:
+To create a new `project` based on the provided template, all you need to do is following:
 
 ```
 mkdir ~/fuzed
@@ -65,5 +67,6 @@ For more information see LICENSE.
 
 ##### Template Asset License
 * Music by [Tom Peter](http://opengameart.org/content/winter-feeling)
+* Music by [Alexandr Zhelanov](http://opengameart.org/content/in-russian-style)
 * Sound Effects via [bfxr.net](http://www.bfxr.net/)
 * Graphics by [Marc Russel](http://spicypixel.net)
