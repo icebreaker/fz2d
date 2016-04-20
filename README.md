@@ -9,7 +9,7 @@ and pepper.
 If you used [Flixel](http://flixel.org) and/or [Flash Punk](http://useflashpunk.net/) before, 
 you'll feel right at home :recycle:.
 
-Try out a small demo game by clicking [here](demos/fuzed).
+Try out a small demo game by clicking [here](http://mihail.co/fz2d/demos/fuzed).
 
 Getting Started
 ---------------
