@@ -141,7 +141,7 @@ Game = (function(superClass) {
   };
 
   Game.prototype.onload = function(game) {
-    var assets, background, coin, exit_post, hud, input, map, menu, mosaic, player, scene, sprites, tiles;
+    var assets, background, coin, exit_post, hud, map, menu, player, scene, sprites, tiles;
     game.input.mouse.hide();
     assets = game.assets;
     scene = game.scene;
@@ -184,9 +184,7 @@ Game = (function(superClass) {
     scene.add(menu);
     scene.add(background);
     scene.add(map);
-    scene.add(hud);
-    input = new Fz2D.TextureInput().addMosaic(1.0, 16);
-    return mosaic = scene.add(new Fz2D.Entity(new Fz2D.Texture(input, game.w, game.h), 0, 0));
+    return scene.add(hud);
   };
 
   return Game;

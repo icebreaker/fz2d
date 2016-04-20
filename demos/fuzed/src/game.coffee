@@ -87,7 +87,4 @@ class Game extends Fz2D.Game
     scene.add(map)
     scene.add(hud)
 
-    input = new Fz2D.TextureInput().addMosaic(1.0, 16)
-    mosaic = scene.add(new Fz2D.Entity(new Fz2D.Texture(input, game.w, game.h), 0, 0))
-
 Game.run()
