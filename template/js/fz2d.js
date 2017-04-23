@@ -33,12 +33,12 @@ Fz2D = (function() {
   Fz2D.RAD2DEG = 180.0 / Math.PI;
 
   Fz2D.query = (function() {
-    var hash, j, k, kk, len, q, query, ref, ref1, v, vv;
+    var hash, k, kk, l, len, q, query, ref, ref1, v, vv;
     hash = {};
     query = window.location.href.split('?').pop();
     ref = query.split('&');
-    for (j = 0, len = ref.length; j < len; j++) {
-      q = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      q = ref[l];
       ref1 = q.split('='), k = ref1[0], v = ref1[1];
       kk = unescape(k);
       vv = unescape(v);
@@ -226,15 +226,15 @@ Fz2D = (function() {
   };
 
   Fz2D.collide = function(o1, o2, cb) {
-    var collide, j, l, len, len1, o3, ref, ref1, x1, x2, y1, y2;
+    var collide, l, len, len1, o3, ref, ref1, u, x1, x2, y1, y2;
     if (!(o1.exists && o1.solid && o2.exists && o2.solid && o1 !== o2)) {
       return false;
     }
     if (o1._objects && o2._objects) {
       collide = false;
       ref = o1._objects;
-      for (j = 0, len = ref.length; j < len; j++) {
-        o3 = ref[j];
+      for (l = 0, len = ref.length; l < len; l++) {
+        o3 = ref[l];
         if (Fz2D.collide(o3, o2, cb)) {
           collide = true;
         }
@@ -252,8 +252,8 @@ Fz2D = (function() {
       }
       collide = false;
       ref1 = o2._objects;
-      for (l = 0, len1 = ref1.length; l < len1; l++) {
-        o3 = ref1[l];
+      for (u = 0, len1 = ref1.length; u < len1; u++) {
+        o3 = ref1[u];
         if (Fz2D.collide(o1, o3, cb)) {
           collide = true;
         }
@@ -491,9 +491,9 @@ Fz2D.Input = (function() {
 
 Fz2D.Input.Keyboard = (function() {
   function Keyboard() {
-    var i, j, ref;
+    var i, l, ref;
     this.pressed = {};
-    for (i = j = 0, ref = Fz2D.Input.Keyboard.Key.MAX; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    for (i = l = 0, ref = Fz2D.Input.Keyboard.Key.MAX; 0 <= ref ? l <= ref : l >= ref; i = 0 <= ref ? ++l : --l) {
       this[i] = this.pressed[i] = false;
     }
     if (window.event != null) {
@@ -522,8 +522,8 @@ Fz2D.Input.Keyboard = (function() {
   }
 
   Keyboard.prototype.update = function() {
-    var i, j, ref;
-    for (i = j = 0, ref = Fz2D.Input.Keyboard.Key.MAX; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    var i, l, ref;
+    for (i = l = 0, ref = Fz2D.Input.Keyboard.Key.MAX; 0 <= ref ? l <= ref : l >= ref; i = 0 <= ref ? ++l : --l) {
       this.pressed[i] = false;
     }
     return null;
@@ -534,7 +534,7 @@ Fz2D.Input.Keyboard = (function() {
 })();
 
 Fz2D.Input.Keyboard.Key = (function() {
-  var c, j, ref, ref1;
+  var c, l, ref, ref1;
 
   function Key() {}
 
@@ -542,7 +542,7 @@ Fz2D.Input.Keyboard.Key = (function() {
 
   Key.NONE = 0;
 
-  for (c = j = ref = 'A'.charCodeAt(0), ref1 = 'Z'.charCodeAt(0); ref <= ref1 ? j <= ref1 : j >= ref1; c = ref <= ref1 ? ++j : --j) {
+  for (c = l = ref = 'A'.charCodeAt(0), ref1 = 'Z'.charCodeAt(0); ref <= ref1 ? l <= ref1 : l >= ref1; c = ref <= ref1 ? ++l : --l) {
     Key[String.fromCharCode(c)] = c;
   }
 
@@ -566,14 +566,14 @@ Fz2D.Input.Keyboard.Key = (function() {
 
 Fz2D.Input.Mouse = (function() {
   function Mouse(element1, x3, y3) {
-    var i, j, ref;
+    var i, l, ref;
     this.element = element1;
     this.x = x3 != null ? x3 : 0;
     this.y = y3 != null ? y3 : 0;
     this.position = new Fz2D.Vec2(this.x, this.y);
     this.pressed = {};
     this.released = {};
-    for (i = j = 0, ref = Fz2D.Input.Mouse.Button.MAX; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    for (i = l = 0, ref = Fz2D.Input.Mouse.Button.MAX; 0 <= ref ? l <= ref : l >= ref; i = 0 <= ref ? ++l : --l) {
       this[i] = this.pressed[i] = this.released[i] = false;
     }
     this.element.onmousedown = (function(_this) {
@@ -619,8 +619,11 @@ Fz2D.Input.Mouse = (function() {
     };
   }
 
-  Mouse.prototype.show = function() {
-    return this.element.style.cursor = 'hand';
+  Mouse.prototype.show = function(style) {
+    if (style == null) {
+      style = 'initial';
+    }
+    return this.element.style.cursor = style;
   };
 
   Mouse.prototype.hide = function() {
@@ -628,9 +631,9 @@ Fz2D.Input.Mouse = (function() {
   };
 
   Mouse.prototype.update = function() {
-    var i, j, ref;
+    var i, l, ref;
     this.dx = this.dy = 0;
-    for (i = j = 0, ref = Fz2D.Input.Mouse.Button.MAX; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    for (i = l = 0, ref = Fz2D.Input.Mouse.Button.MAX; 0 <= ref ? l <= ref : l >= ref; i = 0 <= ref ? ++l : --l) {
       this.pressed[i] = this.released[i] = false;
     }
     return null;
@@ -824,8 +827,8 @@ Fz2D.Input.Touch.Collection = (function() {
   };
 
   Collection.prototype.setFromTouchList = function(touches) {
-    var i, item, j, ref, touch;
-    for (i = j = 0, ref = touches.length - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    var i, item, l, ref, touch;
+    for (i = l = 0, ref = touches.length - 1; 0 <= ref ? l <= ref : l >= ref; i = 0 <= ref ? ++l : --l) {
       touch = touches[i];
       item = this._items[i];
       item.id = touch.identifier;
@@ -836,11 +839,11 @@ Fz2D.Input.Touch.Collection = (function() {
   };
 
   Collection.prototype.find = function(id) {
-    var i, item, j, ref;
+    var i, item, l, ref;
     if (this.length === 0) {
       return null;
     }
-    for (i = j = 0, ref = this.length - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    for (i = l = 0, ref = this.length - 1; 0 <= ref ? l <= ref : l >= ref; i = 0 <= ref ? ++l : --l) {
       item = this._items[i];
       if (item.id === id) {
         return item;
@@ -862,9 +865,9 @@ Fz2D.Input.Touch.Collection = (function() {
   };
 
   Collection.prototype._reserve = function(n) {
-    var i, j, ref;
+    var i, l, ref;
     this._items = [];
-    for (i = j = 0, ref = n - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    for (i = l = 0, ref = n - 1; 0 <= ref ? l <= ref : l >= ref; i = 0 <= ref ? ++l : --l) {
       this._items[i] = {
         id: null,
         offsetX: 0,
@@ -1223,11 +1226,11 @@ Fz2D.Plugins.Box2D.World = (function() {
   };
 
   World.prototype.update = function(timer) {
-    var body, entity, j, len, position, ref;
+    var body, entity, l, len, position, ref;
     this._world.Step(World.UPDATE_HZ, World.VELOCITY, World.POSITION);
     ref = this._entities;
-    for (j = 0, len = ref.length; j < len; j++) {
-      entity = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      entity = ref[l];
       if (!entity.exists) {
         continue;
       }
@@ -1323,10 +1326,10 @@ Fz2D.Plugins.Box2D.World = (function() {
   };
 
   World.prototype.clear = function() {
-    var entity, j, len, ref;
+    var entity, l, len, ref;
     ref = this._entities;
-    for (j = 0, len = ref.length; j < len; j++) {
-      entity = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      entity = ref[l];
       this._world.DestroyBody(entity.body);
       entity.body = null;
     }
@@ -1351,9 +1354,9 @@ Fz2D.Plugins.Console = (function(superClass) {
     bottom: 0,
     right: 0,
     margin: '20px',
-    border: '2px solid #B00000',
+    border: "2px solid " + Fz2D.FG,
     font: '18px Arial',
-    color: '#B00000',
+    color: Fz2D.FG,
     overflow: 'auto',
     zIndex: 999
   };
@@ -1366,10 +1369,10 @@ Fz2D.Plugins.Console = (function(superClass) {
     }
     window.console.log = (function(_this) {
       return function() {
-        var arg, div, j, len, text;
+        var arg, div, l, len, text;
         text = [];
-        for (j = 0, len = arguments.length; j < len; j++) {
-          arg = arguments[j];
+        for (l = 0, len = arguments.length; l < len; l++) {
+          arg = arguments[l];
           if (Fz2D.object(arg)) {
             text.push(JSON.stringify(arg, null, ' '));
           } else {
@@ -1514,14 +1517,14 @@ Fz2D.Plugins.RemoteConsole = (function(superClass) {
   };
 
   RemoteConsole.prototype._setup_after = function() {
-    var args, j, len, ref, results;
+    var args, l, len, ref, results;
     window.console.log = (function(_this) {
       return function() {
-        var arg, args, j, len;
+        var arg, args, l, len;
         _this._log.apply(window.console, arguments);
         args = [];
-        for (j = 0, len = arguments.length; j < len; j++) {
-          arg = arguments[j];
+        for (l = 0, len = arguments.length; l < len; l++) {
+          arg = arguments[l];
           if (Fz2D.object(arg)) {
             args.push(JSON.stringify(arg, null, ' '));
           } else {
@@ -1536,8 +1539,8 @@ Fz2D.Plugins.RemoteConsole = (function(superClass) {
     this.socket = window.io.connect(window.location.url);
     ref = this._args;
     results = [];
-    for (j = 0, len = ref.length; j < len; j++) {
-      args = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      args = ref[l];
       results.push(window.console.log.apply(window.console, args));
     }
     return results;
@@ -1584,9 +1587,9 @@ Fz2D.Plugins.Stats = (function(superClass) {
     left: 0,
     top: 0,
     margin: '20px',
-    border: '2px solid #B00000',
+    border: "2px solid " + Fz2D.FG,
     font: '28px Arial',
-    color: '#B00000',
+    color: Fz2D.FG,
     zIndex: 999
   };
 
@@ -1594,12 +1597,12 @@ Fz2D.Plugins.Stats = (function(superClass) {
     this._game = game;
     this._div = Fz2D.createEl('div', {}, this.styles);
     Fz2D.appendEl(this._div);
-    this._dt = 1111;
+    this._dt = 1001;
   }
 
   Stats.prototype.update = function(timer, input) {
     if (this._dt > 1000) {
-      this._div.innerHTML = "FPS: " + (Math.min(timer.fps, 60)) + " <br/> CTX: " + Fz2D.Renderer.supported + " <br/> DRW: " + this._game.draw_call_count + " <br/> AO: " + Fz2D.Audio.supported;
+      this._div.innerHTML = "FPS: " + (Math.min(timer.fps, 60)) + " <br/> Renderer: " + Fz2D.Renderer.supported + " <br/> Audio: " + Fz2D.Audio.supported + " <br/> Draw Calls: " + this._game.draw_call_count + " <br/> GPU Draw Calls: " + this._game.flush_call_count;
       return this._dt = 0;
     } else {
       return this._dt += timer.dt;
@@ -1659,22 +1662,22 @@ Fz2D.Plugins.Touch = (function(superClass) {
   }
 
   Touch.prototype.update = function(timer, input) {
-    var control, j, len, ref, results;
+    var control, l, len, ref, results;
     ref = this._controls;
     results = [];
-    for (j = 0, len = ref.length; j < len; j++) {
-      control = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      control = ref[l];
       results.push(control.update(timer, input));
     }
     return results;
   };
 
   Touch.prototype.draw = function(ctx) {
-    var control, j, len, ref, results;
+    var control, l, len, ref, results;
     ref = this._controls;
     results = [];
-    for (j = 0, len = ref.length; j < len; j++) {
-      control = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      control = ref[l];
       results.push(control.draw(ctx));
     }
     return results;
@@ -1907,6 +1910,7 @@ Fz2D.Canvas = (function() {
     this._ctx = Fz2D.Renderer.getContext(this.w, this.h, this.color, this.selector);
     this.bounds = new Fz2D.Rect(0, 0, this.w, this.h);
     this.draw_call_count = 0;
+    this.flush_call_count = 0;
   }
 
   Canvas.prototype.fill = function(color) {
@@ -1917,6 +1921,7 @@ Fz2D.Canvas = (function() {
 
   Canvas.prototype.clear = function() {
     this.draw_call_count = 0;
+    this.flush_call_count = 0;
     this._ctx.clearRect(0, 0, this.w, this.h);
     return this._ctx;
   };
@@ -1925,6 +1930,7 @@ Fz2D.Canvas = (function() {
 
   Canvas.prototype.draw = function(texture, sx, sy, sw, sh, x, y, w, h, hw, hh, angle, alpha) {
     this.draw_call_count++;
+    this.flush_call_count++;
     this._ctx.save();
     this._ctx.translate(x + hw, y + hh);
     this._ctx.rotate(angle * Fz2D.DEG2RAD);
@@ -1971,9 +1977,9 @@ Fz2D.CanvasWebGL = (function(superClass) {
 
   CanvasWebGL.VERTEX_CACHE_MAX_SIZE = 48 * 2048;
 
-  CanvasWebGL.VERTEX_SHADER = "precision lowp float;\n\nuniform vec2 screen;\nuniform vec2 texture;\n\nattribute vec4 pos;\nattribute vec4 uv;\n\nvarying vec2 texture_coord;\nvarying float alpha;\n\nvoid main(void)\n{ \n  texture_coord = uv.st * texture;\n  alpha = uv.w;\n  \n  float r = radians(uv.z);\n  float cosr = cos(r);\n  float sinr = sin(r);\n\n  vec2 pp = pos.xy - pos.zw;\n  vec2 p  = vec2(pp.x * cosr - pp.y * sinr, pp.x * sinr + pp.y * cosr);\n\n  p += pos.zw;\n  p *= screen;\n\n  gl_Position = vec4(p.x - 1.0, 1.0 - p.y, 0.0, 1.0);\n}";
+  CanvasWebGL.VERTEX_SHADER = "precision mediump float;\n\nuniform vec2 screen;\nuniform vec2 texture;\n\nattribute vec4 pos;\nattribute vec4 uv;\n\nvarying vec2 texture_coord;\nvarying float alpha;\n\nvoid main(void)\n{ \n  texture_coord = uv.st * texture;\n  alpha = uv.w;\n  \n  float r = radians(uv.z);\n  float cosr = cos(r);\n  float sinr = sin(r);\n\n  vec2 pp = pos.xy - pos.zw;\n  vec2 p  = vec2(pp.x * cosr - pp.y * sinr, pp.x * sinr + pp.y * cosr);\n\n  p += pos.zw;\n  p *= screen;\n\n  gl_Position = vec4(p.x - 1.0, 1.0 - p.y, 0.0, 1.0);\n}";
 
-  CanvasWebGL.FRAGMENT_SHADER = "precision lowp float;\n\nuniform sampler2D texture_id;\nvarying vec2 texture_coord;\nvarying float alpha;\n  \nvoid main(void)\n{\n  vec4 color = texture2D(texture_id, texture_coord);\n  color.a *= alpha;\n\n  gl_FragColor = color;\n}";
+  CanvasWebGL.FRAGMENT_SHADER = "precision mediump float;\n\nuniform sampler2D texture_id;\nvarying vec2 texture_coord;\nvarying float alpha;\n  \nvoid main(void)\n{\n  vec4 color = texture2D(texture_id, texture_coord);\n  color.a *= alpha;\n\n  gl_FragColor = color;\n}";
 
   function CanvasWebGL() {
     CanvasWebGL.__super__.constructor.apply(this, arguments);
@@ -2010,6 +2016,7 @@ Fz2D.CanvasWebGL = (function(superClass) {
 
   CanvasWebGL.prototype.clear = function() {
     this.draw_call_count = 0;
+    this.flush_call_count = 0;
     return this.gl.clear(this.gl.COLOR_BUFFER_BIT);
   };
 
@@ -2017,7 +2024,7 @@ Fz2D.CanvasWebGL = (function(superClass) {
     if (this._vertex_cache_size === 0) {
       return;
     }
-    this.draw_call_count++;
+    this.flush_call_count++;
     this.gl.bufferSubData(this.gl.ARRAY_BUFFER, 0, this._vertex_cache);
     this.gl.drawArrays(this.gl.TRIANGLES, 0, this._vertex_cache_size >> 3);
     return this._vertex_cache_size = 0;
@@ -2025,6 +2032,7 @@ Fz2D.CanvasWebGL = (function(superClass) {
 
   CanvasWebGL.prototype.draw = function(texture, sx, sy, sw, sh, x, y, w, h, hw, hh, angle, alpha) {
     var b, cx, cy, r, sb, sr;
+    this.draw_call_count++;
     if (texture._native._texture_id !== this._texture_id) {
       this.flush();
       if (texture._native._texture_id) {
@@ -2293,10 +2301,6 @@ Fz2D.Texture = (function() {
     return new Fz2D.Texture(this, x, y, w, h);
   };
 
-  Texture.prototype.clone = function() {
-    return new Fz2D.Texture(this);
-  };
-
   Texture.prototype.toImage = function() {
     return this._native;
   };
@@ -2333,10 +2337,10 @@ Fz2D.TextureInput = (function() {
   }
 
   TextureInput.prototype.apply = function(ctx, w, h) {
-    var cb, j, len, ref;
+    var cb, l, len, ref;
     ref = this._filters;
-    for (j = 0, len = ref.length; j < len; j++) {
-      cb = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      cb = ref[l];
       cb(ctx, w, h);
     }
     return ctx.canvas;
@@ -2372,7 +2376,7 @@ Fz2D.TextureInput = (function() {
 
 Fz2D.Animation = (function() {
   function Animation(tag1, texture1, count1, delay1) {
-    var i, j, ref, w;
+    var i, l, ref, w;
     this.tag = tag1;
     this.texture = texture1;
     this.count = count1;
@@ -2390,7 +2394,7 @@ Fz2D.Animation = (function() {
     }
     w = this.texture.w / this.count;
     this.frames = [];
-    for (i = j = 0, ref = this.count - 1; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    for (i = l = 0, ref = this.count - 1; 0 <= ref ? l <= ref : l >= ref; i = 0 <= ref ? ++l : --l) {
       this.frames.push(new Fz2D.Rect(this.texture.x + (i * w), this.texture.y, w, this.texture.h));
     }
     this.frame = this.frames[0];
@@ -2405,10 +2409,6 @@ Fz2D.Animation = (function() {
       })(this);
     }
   }
-
-  Animation.prototype.clone = function() {
-    return new Fz2D.Animation(this.tag, this.texture, this.count, this.delay);
-  };
 
   Animation.prototype.onend = function(animation) {};
 
@@ -2455,10 +2455,22 @@ Fz2D.Animation = (function() {
 
 Fz2D.BBox = (function() {
   function BBox(x3, y3, w1, h1) {
-    this.x = x3 != null ? x3 : 0;
-    this.y = y3 != null ? y3 : 0;
-    this.w = w1 != null ? w1 : 0;
-    this.h = h1 != null ? h1 : 0;
+    this.x = x3;
+    this.y = y3;
+    this.w = w1;
+    this.h = h1;
+    if (this.x == null) {
+      this.x = 0;
+    }
+    if (this.y == null) {
+      this.y = 0;
+    }
+    if (this.w == null) {
+      this.w = 0;
+    }
+    if (this.h == null) {
+      this.h = 0;
+    }
     this.center = new Fz2D.Vec2();
     this._update();
   }
@@ -2500,8 +2512,8 @@ Fz2D.BBox = (function() {
   };
 
   BBox.prototype._update = function() {
-    this.hw = this.w / 2.0;
-    this.hh = this.h / 2.0;
+    this.hw = this.w * 0.5;
+    this.hh = this.h * 0.5;
     this.radius = this.hw;
     this.center.set(this.x + this.hw, this.y + this.hh);
     return this;
@@ -2513,7 +2525,7 @@ Fz2D.BBox = (function() {
 
 Fz2D.Font = (function() {
   function Font(texture1, size1, s, e) {
-    var c, end, i, j, ref, ref1, start, w, x, xx, y, yy;
+    var c, end, i, l, ref, ref1, start, w, x, xx, y, yy;
     this.texture = texture1;
     this.size = size1 != null ? size1 : this.texture.h;
     if (s == null) {
@@ -2526,7 +2538,7 @@ Fz2D.Font = (function() {
     start = (s || ' ').charCodeAt(0);
     end = (e || '~').charCodeAt(0) + 1;
     w = this.texture.w / this.size;
-    for (c = j = ref = start, ref1 = end; ref <= ref1 ? j <= ref1 : j >= ref1; c = ref <= ref1 ? ++j : --j) {
+    for (c = l = ref = start, ref1 = end; ref <= ref1 ? l <= ref1 : l >= ref1; c = ref <= ref1 ? ++l : --l) {
       i = c - start;
       xx = i % w;
       yy = (i - xx) / w;
@@ -2547,12 +2559,12 @@ Fz2D.Font = (function() {
   };
 
   Font.prototype.measureText = function(text) {
-    var c, char, h, j, len, maxWidth, w;
+    var c, char, h, l, len, maxWidth, w;
     w = 0;
     h = 0;
     maxWidth = 0;
-    for (j = 0, len = text.length; j < len; j++) {
-      c = text[j];
+    for (l = 0, len = text.length; l < len; l++) {
+      c = text[l];
       switch (c) {
         case ' ':
           w += this.spaceSize;
@@ -2581,11 +2593,11 @@ Fz2D.Font = (function() {
   };
 
   Font.prototype.drawText = function(ctx, text, x, y) {
-    var c, char, j, len, xx, yy;
+    var c, char, l, len, xx, yy;
     xx = x;
     yy = y;
-    for (j = 0, len = text.length; j < len; j++) {
-      c = text[j];
+    for (l = 0, len = text.length; l < len; l++) {
+      c = text[l];
       switch (c) {
         case ' ':
           xx += this.spaceSize;
@@ -2633,13 +2645,26 @@ Fz2D.Iso = (function() {
 })();
 
 Fz2D.Object = (function() {
-  function Object(x3, y3, w1, h1, tag1) {
+  function Object(x3, y3, w1, h1) {
     this.x = x3;
     this.y = y3;
     this.w = w1;
     this.h = h1;
-    this.tag = tag1 != null ? tag1 : '_default';
+    if (this.x == null) {
+      this.x = 0;
+    }
+    if (this.y == null) {
+      this.y = 0;
+    }
+    if (this.w == null) {
+      this.w = 0;
+    }
+    if (this.h == null) {
+      this.h = 0;
+    }
     this.bounds = new Fz2D.BBox(0, 0, this.w, this.h);
+    this.hw = this.bounds.hw;
+    this.hh = this.bounds.hh;
     this.solid = true;
     this.visible = true;
     this.alive = true;
@@ -2647,6 +2672,7 @@ Fz2D.Object = (function() {
     this.angle = 0.0;
     this.alpha = 1.0;
     this.z = 0;
+    this.tag = "_default";
   }
 
   Object.prototype.kill = function() {
@@ -2702,43 +2728,22 @@ Fz2D.Object = (function() {
 Fz2D.Entity = (function(superClass) {
   extend(Entity, superClass);
 
-  function Entity(texture1, x, y, tag) {
-    var h, w;
+  function Entity(texture1, x, y, w, h) {
     this.texture = texture1;
-    w = this.texture.w;
-    h = this.texture.h;
-    if ((w % h === 0) && (w / h > 2)) {
-      w = h;
+    if (w == null) {
+      w = this.texture.w;
     }
-    Entity.__super__.constructor.call(this, x, y, w, h, tag);
+    if (h == null) {
+      h = this.texture.h;
+    }
+    Entity.__super__.constructor.call(this, x, y, w, h);
     this.dx = 0;
     this.dy = 0;
     this.moving = false;
     this.animations = {};
-    this.addAnimation(this.tag, this.texture);
+    this.addAnimation(this.tag, this.texture, 1);
     this.play(this.tag, true);
   }
-
-  Entity.prototype.clone = function() {
-    var animation, instance, ref, tag;
-    instance = new Fz2D.Entity(this.texture, this.x, this.y, this.tag);
-    instance.dx = this.dx;
-    instance.dy = this.dy;
-    instance.moving = this.moving;
-    instance.solid = this.solid;
-    instance.visible = this.visible;
-    instance.alive = this.alive;
-    instance.exists = this["true"];
-    instance.angle = this.angle;
-    instance.alpha = this.alpha;
-    instance.z = this;
-    ref = this.animations;
-    for (tag in ref) {
-      animation = ref[tag];
-      instance.animations[tag] = animation.clone();
-    }
-    return instance;
-  };
 
   Entity.prototype.isOutOfBounds = function() {
     return this.group && !Fz2D.overlap(this.group, this);
@@ -2768,7 +2773,7 @@ Fz2D.Entity = (function(superClass) {
   };
 
   Entity.prototype.draw = function(ctx) {
-    ctx.draw(this.animation.texture, this.animation.frame.x, this.animation.frame.y, this.animation.frame.w, this.animation.frame.h, this.x, this.y, this.w, this.h, this.bounds.hw, this.bounds.hh, this.angle, this.alpha);
+    ctx.draw(this.animation.texture, this.animation.frame.x, this.animation.frame.y, this.animation.frame.w, this.animation.frame.h, this.x, this.y, this.w, this.h, this.hw, this.hh, this.angle, this.alpha);
     return null;
   };
 
@@ -2803,7 +2808,7 @@ Fz2D.Group = (function(superClass) {
     if (h == null) {
       h = 0;
     }
-    Group.__super__.constructor.call(this, x, y, w, h);
+    Group.__super__.constructor.apply(this, arguments);
     this._objects = [];
   }
 
@@ -2812,22 +2817,49 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.find = function(cb, arg) {
-    var j, len, o, ref;
+    var i, l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
-      if (cb(o, arg) === true) {
+    for (i = l = 0, len = ref.length; l < len; i = ++l) {
+      o = ref[i];
+      if (cb(o, arg, i) === true) {
         return o;
       }
     }
     return null;
   };
 
-  Group.prototype.each = function(cb) {
-    var j, len, o, ref;
+  Group.prototype.reverseFind = function(cb, arg) {
+    var i, l, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
+    for (i = l = ref.length - 1; l >= 0; i = l += -1) {
+      o = ref[i];
+      if (cb(o, arg, i) === true) {
+        return o;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.range = function(i, n, cb) {
+    var j, l, len, o, ref;
+    ref = this._objects;
+    for (j = l = 0, len = ref.length; l < len; j = ++l) {
       o = ref[j];
+      if (j < i) {
+        continue;
+      }
+      if (j > n || cb(o, j) === false) {
+        break;
+      }
+    }
+    return null;
+  };
+
+  Group.prototype.each = function(cb) {
+    var l, len, o, ref;
+    ref = this._objects;
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (cb(o) === false) {
         break;
       }
@@ -2836,10 +2868,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.eachByClass = function(klass, cb) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (o instanceof klass && cb(o) === false) {
         break;
       }
@@ -2857,10 +2889,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.recycle = function() {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (!o.exists) {
         return o;
       }
@@ -2869,10 +2901,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.recycleByTag = function(tag) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (!o.exists && o.tag === tag) {
         return o;
       }
@@ -2881,10 +2913,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.recycleByClass = function(klass) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (!o.exists && o instanceof klass) {
         return o;
       }
@@ -2929,10 +2961,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.firstAvail = function() {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (!o.exists) {
         return o;
       }
@@ -2941,10 +2973,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.firstAvailByTag = function(tag) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (!o.exists && o.tag === tag) {
         return o;
       }
@@ -2953,10 +2985,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.firstAvailByClass = function(klass) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (!o.exists && o instanceof klass) {
         return o;
       }
@@ -2965,10 +2997,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.firstExisting = function() {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (o.exists) {
         return o;
       }
@@ -2977,10 +3009,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.firstExistingByTag = function(tag) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (o.exists && o.tag === tag) {
         return o;
       }
@@ -2989,10 +3021,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.firstExistingByClass = function(klass) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (o.exists && o instanceof klass) {
         return o;
       }
@@ -3001,10 +3033,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.firstAlive = function() {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (o.alive) {
         return o;
       }
@@ -3013,10 +3045,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.firstAliveByTag = function(tag) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (o.alive && o.tag === tag) {
         return o;
       }
@@ -3025,10 +3057,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.firstAliveByClass = function(klass) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (o.alive && o instanceof klass) {
         return o;
       }
@@ -3037,10 +3069,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.firstDead = function() {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (!o.alive) {
         return o;
       }
@@ -3049,10 +3081,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.firstDeadByTag = function(tag) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (!o.alive && o.tag === tag) {
         return o;
       }
@@ -3061,10 +3093,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.firstDeadByClass = function(klass) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (!o.alive && o instanceof klass) {
         return o;
       }
@@ -3073,10 +3105,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.firstVisible = function() {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (o.visible) {
         return o;
       }
@@ -3085,10 +3117,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.firstVisibleByTag = function(tag) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (o.visible && o.tag === tag) {
         return o;
       }
@@ -3097,10 +3129,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.firstVisibleByClass = function(klass) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (o.visible && o instanceof klass) {
         return o;
       }
@@ -3147,10 +3179,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.removeByTag = function(tag) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (o.tag === tag) {
         return this.remove(o);
       }
@@ -3159,10 +3191,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.removeByClass = function(klass) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (o instanceof klass) {
         return this.remove(o);
       }
@@ -3171,54 +3203,54 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.kill = function() {
-    var j, len, o, ref;
+    var l, len, o, ref;
     Group.__super__.kill.apply(this, arguments);
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       o.kill();
     }
     return this;
   };
 
   Group.prototype.reset = function() {
-    var j, len, o, ref;
+    var l, len, o, ref;
     Group.__super__.reset.apply(this, arguments);
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       o.reset();
     }
     return this;
   };
 
   Group.prototype.hide = function() {
-    var j, len, o, ref;
+    var l, len, o, ref;
     Group.__super__.hide.apply(this, arguments);
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       o.hide();
     }
     return this;
   };
 
   Group.prototype.show = function() {
-    var j, len, o, ref;
+    var l, len, o, ref;
     Group.__super__.show.apply(this, arguments);
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       o.show();
     }
     return this;
   };
 
   Group.prototype.findByTag = function(tag) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (o.tag === tag) {
         return o;
       }
@@ -3227,10 +3259,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.findByClass = function(klass) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (o instanceof klass) {
         return o;
       }
@@ -3259,10 +3291,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.draw = function(ctx) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (o.exists && o.visible) {
         o.draw(ctx);
       }
@@ -3271,10 +3303,10 @@ Fz2D.Group = (function(superClass) {
   };
 
   Group.prototype.update = function(timer, input) {
-    var j, len, o, ref;
+    var l, len, o, ref;
     ref = this._objects;
-    for (j = 0, len = ref.length; j < len; j++) {
-      o = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      o = ref[l];
       if (o.exists && o.alive) {
         o.update(timer, input);
       }
@@ -3300,7 +3332,8 @@ Fz2D.Gui.Button = (function(superClass) {
     if (over == null) {
       over = down;
     }
-    Button.__super__.constructor.call(this, up, x, y, 'up');
+    Button.__super__.constructor.call(this, up, x, y);
+    this.addAnimation('up', up);
     this.addAnimation('down', down);
     this.addAnimation('over', over);
   }
@@ -3425,9 +3458,9 @@ Fz2D.Gui.Label = (function(superClass) {
     var i;
     if ((format != null) && format.length === 2) {
       this.format = ((function() {
-        var j, ref, results;
+        var l, ref, results;
         results = [];
-        for (i = j = 1, ref = parseInt(format[1]); 1 <= ref ? j <= ref : j >= ref; i = 1 <= ref ? ++j : --j) {
+        for (i = l = 1, ref = parseInt(format[1]); 1 <= ref ? l <= ref : l >= ref; i = 1 <= ref ? ++l : --l) {
           results.push(format[0]);
         }
         return results;
@@ -3512,13 +3545,13 @@ Fz2D.Gui.Mouse = (function(superClass) {
   Mouse.prototype.onclick = function(mouse) {};
 
   Mouse.prototype.update = function(timer, input) {
-    var i, j, ref, results;
+    var i, l, ref, results;
     this.x = input.mouse.x;
     this.y = input.mouse.y;
     this.position.set(this.x, this.y);
     this.button = null;
     results = [];
-    for (i = j = 0, ref = Fz2D.Input.Mouse.Button.MAX; 0 <= ref ? j <= ref : j >= ref; i = 0 <= ref ? ++j : --j) {
+    for (i = l = 0, ref = Fz2D.Input.Mouse.Button.MAX; 0 <= ref ? l <= ref : l >= ref; i = 0 <= ref ? ++l : --l) {
       if (input.mouse.released[i]) {
         this.button = i;
         this.onclick(this);
@@ -3700,10 +3733,6 @@ Fz2D.Vec2 = (function() {
     return this.x === 0 && this.y === 0;
   };
 
-  Vec2.prototype.clone = function() {
-    return new Fz2D.Vec2(this.x, this.y);
-  };
-
   return Vec2;
 
 })();
@@ -3835,7 +3864,7 @@ Fz2D.Game = (function() {
   };
 
   function Game(opts) {
-    var j, k, len, plugin, ref, v;
+    var k, l, len, plugin, ref, v;
     if (opts == null) {
       opts = {};
     }
@@ -3868,8 +3897,8 @@ Fz2D.Game = (function() {
     this._plugins_drawable = [];
     if (this.plugins != null) {
       ref = this.plugins;
-      for (j = 0, len = ref.length; j < len; j++) {
-        plugin = ref[j];
+      for (l = 0, len = ref.length; l < len; l++) {
+        plugin = ref[l];
         if (plugin.supported != null) {
           this.registerPlugin(new plugin(this));
           console.log("Plugin: " + (plugin.getName()) + " << enabled >>");
@@ -3883,6 +3912,7 @@ Fz2D.Game = (function() {
     this.input = new Fz2D.Input(this._ctx.toElement());
     this.scene = new Fz2D.Group(0, 0, this.w, this.h);
     this.draw_call_count = 0;
+    this.flush_call_count = 0;
     this._loader = this.scene.add(new Fz2D.Loader(this));
     this._loader.onload = (function(_this) {
       return function() {
@@ -3947,11 +3977,11 @@ Fz2D.Game = (function() {
   };
 
   Game.prototype._onloadPlugins = function() {
-    var j, len, plugin, ref;
+    var l, len, plugin, ref;
     if (!this._plugins_onloaded) {
       ref = this._plugins_onloadable;
-      for (j = 0, len = ref.length; j < len; j++) {
-        plugin = ref[j];
+      for (l = 0, len = ref.length; l < len; l++) {
+        plugin = ref[l];
         plugin.onload(this);
       }
       this._plugins_onloaded = true;
@@ -3973,19 +4003,20 @@ Fz2D.Game = (function() {
   };
 
   Game.prototype._loop = function() {
-    var j, l, len, len1, plugin, ref, ref1;
+    var l, len, len1, plugin, ref, ref1, u;
     ref = this._plugins_updateable;
-    for (j = 0, len = ref.length; j < len; j++) {
-      plugin = ref[j];
+    for (l = 0, len = ref.length; l < len; l++) {
+      plugin = ref[l];
       plugin.update(this._timer, this.input, this);
     }
     this.update(this._timer, this.input);
     this.draw_call_count = this._ctx.draw_call_count;
+    this.flush_call_count = this._ctx.flush_call_count;
     this._ctx.clear();
     this.draw(this._ctx);
     ref1 = this._plugins_drawable;
-    for (l = 0, len1 = ref1.length; l < len1; l++) {
-      plugin = ref1[l];
+    for (u = 0, len1 = ref1.length; u < len1; u++) {
+      plugin = ref1[u];
       plugin.draw(this._ctx, this);
     }
     this._ctx.flush();
@@ -4023,6 +4054,10 @@ Fz2D.Random = (function() {
 
   Random.prototype.nextBool = function() {
     return !!(((this.nextFloat() * Fz2D.Random.BITS) | 0) & 1);
+  };
+
+  Random.prototype.nextDirection = function() {
+    return (-1.0 + this.nextBool() * 2.0) | 0;
   };
 
   Random.prototype.nextBetween = function(min, max) {

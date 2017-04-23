@@ -52,6 +52,7 @@ class Fz2D.Game
     @scene   = new Fz2D.Group(0, 0, @w, @h)
 
     @draw_call_count = 0
+    @flush_call_count = 0
 
     @_loader  = @scene.add(new Fz2D.Loader(@))
     @_loader.onload = () =>
@@ -150,6 +151,7 @@ class Fz2D.Game
     @update(@_timer, @input)
 
     @draw_call_count = @_ctx.draw_call_count
+    @flush_call_count = @_ctx.flush_call_count
 
     @_ctx.clear()
     

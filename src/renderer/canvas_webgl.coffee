@@ -22,7 +22,7 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
 
   # Private: Vertex Shader.
   @VERTEX_SHADER: """
-  precision lowp float;
+  precision mediump float;
 
   uniform vec2 screen;
   uniform vec2 texture;
@@ -54,7 +54,7 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
    
   # Private: Fragment Shader.
   @FRAGMENT_SHADER: """
-  precision lowp float;
+  precision mediump float;
 
   uniform sampler2D texture_id;
   varying vec2 texture_coord;
@@ -125,12 +125,13 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
   # Public: Clears the canvas.
   clear: () ->
     @draw_call_count = 0
+    @flush_call_count = 0
     @gl.clear(@gl.COLOR_BUFFER_BIT)
 
   # Public: Flushes the canvas.
   flush: () ->
     return if @_vertex_cache_size == 0
-    @draw_call_count++
+    @flush_call_count++
 
     @gl.bufferSubData(@gl.ARRAY_BUFFER, 0, @_vertex_cache)
     @gl.drawArrays(@gl.TRIANGLES, 0, @_vertex_cache_size >> 3)
@@ -153,6 +154,8 @@ class Fz2D.CanvasWebGL extends Fz2D.Canvas
   # angle - rotation angle
   # alpha - alpha value
   draw: (texture, sx, sy, sw, sh, x, y, w, h, hw, hh, angle, alpha) ->
+    @draw_call_count++
+
     if texture._native._texture_id != @_texture_id
       @flush()
 

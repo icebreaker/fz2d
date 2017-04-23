@@ -88,8 +88,3 @@ class Fz2D.Vec2
   # Public: Returns true if the vector is null, otherwise false.
   isNull: () ->
     @x == 0 and @y == 0
-
-  # Public: Clones vector.
-  # Returns a new {Fz2D.Vec2}.
-  clone: () ->
-    new Fz2D.Vec2(@x, @y)

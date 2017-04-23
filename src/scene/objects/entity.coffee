@@ -5,14 +5,13 @@ class Fz2D.Entity extends Fz2D.Object
   # texture - {Fz2D.Texture}
   # x - position on the X axis
   # y - position on the Y axis
-  # tag - name of the entity (default: '_default')
-  constructor: (@texture, x, y, tag) ->
-    w = @texture.w
-    h = @texture.h
+  # w - width (default: width of {Fz2D.Texture}
+  # h - height (default: height of {Fz2D.Texture}
+  constructor: (@texture, x, y, w, h) ->
+    w ?= @texture.w
+    h ?= @texture.h
 
-    w = h if (w % h == 0) and (w / h > 2)
-
-    super(x, y, w, h, tag)
+    super(x, y, w, h)
 
     @dx = 0
     @dy = 0
@@ -21,28 +20,8 @@ class Fz2D.Entity extends Fz2D.Object
 
     @animations = {}
 
-    @addAnimation(@tag, @texture)
+    @addAnimation(@tag, @texture, 1)
     @play(@tag, true)
-
-  # Public: Clones entity.
-  # Returns a {Fz2D.Entity}.
-  clone: () ->
-    instance          = new Fz2D.Entity(@texture, @x, @y, @tag)
-    instance.dx       = @dx
-    instance.dy       = @dy
-    instance.moving   = @moving
-    instance.solid    = @solid
-    instance.visible  = @visible
-    instance.alive    = @alive
-    instance.exists   = @true
-    instance.angle    = @angle
-    instance.alpha    = @alpha
-    instance.z        = @
-
-    for tag, animation of @animations
-      instance.animations[tag] = animation.clone()
-
-    instance
 
   # Public: Returns true if the entity is out of bounds.
   isOutOfBounds: () ->
@@ -101,8 +80,8 @@ class Fz2D.Entity extends Fz2D.Object
              @y,
              @w,
              @h,
-             @bounds.hw,
-             @bounds.hh
+             @hw,
+             @hh,
              @angle,
              @alpha)
     null

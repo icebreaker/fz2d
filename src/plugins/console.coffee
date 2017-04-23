@@ -13,9 +13,9 @@ class Fz2D.Plugins.Console extends Fz2D.Plugin
     bottom: 0
     right: 0
     margin: '20px'
-    border: '2px solid #B00000'
+    border: "2px solid #{Fz2D.FG}"
     font: '18px Arial'
-    color: '#B00000'
+    color: Fz2D.FG
     overflow: 'auto'
     zIndex: 999
 

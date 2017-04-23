@@ -28,6 +28,10 @@ class Fz2D.Random
   nextBool: () ->
     !!(((@nextFloat() * Fz2D.Random.BITS) | 0) & 1)
 
+  # Public: Returns a random direction, -1 or 1.
+  nextDirection: () ->
+    (-1.0 + @nextBool() * 2.0) | 0
+
   # Public: Returns a random integer between min and max.
   #
   # min - integer

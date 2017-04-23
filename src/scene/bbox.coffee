@@ -6,7 +6,11 @@ class Fz2D.BBox
   # y - position on the Y axis
   # w - width
   # h - height
-  constructor: (@x=0, @y=0, @w=0, @h=0) ->
+  constructor: (@x, @y, @w, @h) ->
+    @x ?= 0
+    @y ?= 0
+    @w ?= 0
+    @h ?= 0
     @center = new Fz2D.Vec2()
     @_update()
 
@@ -71,8 +75,8 @@ class Fz2D.BBox
 
   # Private: Updates half size and center.
   _update: () ->
-    @hw     = @w / 2.0
-    @hh     = @h / 2.0
+    @hw     = @w * 0.5
+    @hh     = @h * 0.5
     @radius = @hw
     @center.set(@x + @hw, @y + @hh)
     @

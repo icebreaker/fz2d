@@ -44,8 +44,10 @@ class Fz2D.Input.Mouse
       false
 
   # Public: Shows the mouse cursor.
-  show: () ->
-    @element.style.cursor = 'hand'
+  #
+  # style - cursor style (default: initial)
+  show: (style = 'initial') ->
+    @element.style.cursor = style
 
   # Public: Hides the mouse cursor.
   hide: () ->

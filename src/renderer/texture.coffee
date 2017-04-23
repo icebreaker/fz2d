@@ -127,11 +127,6 @@ class Fz2D.Texture
 
     new Fz2D.Texture(@, x, y, w, h)
 
-  # Public: Clones texture.
-  # Returns a {Fz2D.Texture} pointng to the same image.
-  clone: () ->
-    new Fz2D.Texture(@)
-
   # Public: Returns "native" image instance.
   toImage: () ->
     @_native

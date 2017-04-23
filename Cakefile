@@ -31,11 +31,8 @@ source = path.join(__dirname, 'src')
 # template directory
 template = path.join(__dirname, 'template')
 
-# docs directory
-docs = path.join(__dirname, 'docs')
-
 # demos directory
-demos = path.join(__dirname, 'demos')
+demos = path.join(__dirname, 'web', 'demos')
 
 # default watch and recompile interval
 default_interval = 500
@@ -54,8 +51,9 @@ minify = (options) ->
   invoke 'update'
 
   # FIXME: iterate over all demos and update them
-  options.path = path.join(demos, 'fuzed')
-  invoke 'update'
+  for name in ['fuzed', 'fillrate']
+    options.path = path.join(demos, name)
+    invoke 'update'
 
 task 'make', 'compiles everything', (options) ->
   output = path.join(build, 'fz2d.js')
@@ -71,7 +69,7 @@ task 'build', 'watches and recompiles everything on any change', (options) ->
     minify(options)
 
 task 'docs', 'generates documentation', () ->
-  system_with_echo 'npm run biscotto -- --title Fz2D --output-dir docs'
+  system_with_echo 'npm run biscotto -- --title Fz2D --output-dir web/docs'
 
 task 'create', 'creates a new project using the template', (options) ->
   if not options.path or fs.existsSync(path.join(options.path, 'Cakefile'))

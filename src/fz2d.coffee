@@ -1,7 +1,7 @@
 # Public: Fz2D
 class Fz2D
   # Public: Version Number.
-  @VERSION: '0.0.5'
+  @VERSION: '0.0.6'
 
   # Public: None.
   @NONE:    0

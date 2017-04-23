@@ -8,8 +8,9 @@ class Fz2D.Gui.Button extends Fz2D.Entity
   # down - {Fz2D.Texture} (default: up)
   # over - {Fz2D.Texture} (default: down)
   constructor: (x, y, up, down=up, over=down) ->
-    super(up, x, y, 'up')
-
+    super(up, x, y)
+    
+    @addAnimation('up', up)
     @addAnimation('down', down)
     @addAnimation('over', over)
 

@@ -11,9 +11,9 @@ class Fz2D.Plugins.Stats extends Fz2D.Plugin
     left: 0
     top: 0
     margin: '20px'
-    border: '2px solid #B00000'
+    border: "2px solid #{Fz2D.FG}"
     font: '28px Arial'
-    color: '#B00000'
+    color: Fz2D.FG
     zIndex: 999
  
   # Public: Constructor.
@@ -25,12 +25,16 @@ class Fz2D.Plugins.Stats extends Fz2D.Plugin
     @_div = Fz2D.createEl('div', {}, @styles)
     Fz2D.appendEl(@_div)
 
-    @_dt = 1111
+    @_dt = 1001
 
   # Public: Updates stats on every frame.
   update: (timer, input) ->
     if @_dt > 1000
-      @_div.innerHTML = "FPS: #{Math.min(timer.fps, 60)} <br/> CTX: #{Fz2D.Renderer.supported} <br/> DRW: #{@_game.draw_call_count} <br/> AO: #{Fz2D.Audio.supported}"
+      @_div.innerHTML = "FPS: #{Math.min(timer.fps, 60)} <br/>
+                         Renderer: #{Fz2D.Renderer.supported} <br/>
+                         Audio: #{Fz2D.Audio.supported} <br/>
+                         Draw Calls: #{@_game.draw_call_count} <br/>
+                         GPU Draw Calls: #{@_game.flush_call_count}"
       @_dt = 0
     else
       @_dt += timer.dt

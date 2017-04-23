@@ -6,9 +6,15 @@ class Fz2D.Object
   # y - position on the Y axis
   # w - width
   # h - height
-  # tag - name of the object (default: '_default')
-  constructor: (@x, @y, @w, @h, @tag='_default') ->
+  constructor: (@x, @y, @w, @h) ->
+    @x ?= 0
+    @y ?= 0
+    @w ?= 0
+    @h ?= 0
+
     @bounds = new Fz2D.BBox(0, 0, @w, @h)
+    @hw = @bounds.hw
+    @hh = @bounds.hh
 
     @solid    = true
     @visible  = true
@@ -17,6 +23,7 @@ class Fz2D.Object
     @angle    = 0.0
     @alpha    = 1.0
     @z        = 0
+    @tag      = "_default"
   
   # Public: Kills the object.
   kill: () ->

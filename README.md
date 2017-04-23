@@ -3,6 +3,8 @@ Fz2D
 Fz2D is a 2D game engine and framework, designed with simplicity and
 performance in mind from the ground up.
 
+![Fz2D](fz2d.png)
+
 You should consider it *alpha quality*, as-in take everything with grain of salt
 and pepper.
 
@@ -13,15 +15,12 @@ Try out a small demo game by clicking [here](http://mihail.co/fz2d/demos/fuzed).
 
 Getting Started
 ---------------
-It's terribly easy to get started, but before that, we need to install a couple 
-of dependencies.
+It's easy peasy to get started.
 
 #### Dependencies
 * [node.js](http://nodejs.org)
 * [npm](http://npmjs.org)
 * [coffeescript](http://coffeescript.org)
-
-After that, we can install all the necessary `packages` by executing:
 
 ```bash
 npm install
@@ -30,17 +29,12 @@ npm install
 To create a new `project` based on the provided template, all you need to do is following:
 
 ```
-mkdir ~/fuzed
-cake -p ~/fuzed create
-cd ~/fuzed
+mkdir ~/hello_world
+cake -p ~/hello_world create
+cd ~/hello_world
 npm install
 cake build
 ```
-
-The nice thing is, that `cake build`, will start up an `HTTP` server on your
-`localhost` (port _3000_ by default) and then refresh the page (tab) in your
-browser automatically anytime you modify any of the `Coffee` files in the `src`
-directory. Pretty neat, isn't it?
 
 To find out more `commands` just type `cake`.
 
@@ -60,13 +54,7 @@ Contribute
 
 License
 -------
-Copyright (c) 2014-2016, Mihail Szabolcs
+Copyright (c) 2014-2017, Mihail Szabolcs
 
 Fz2D is provided **as-is** under the **MIT** license. 
 For more information see LICENSE.
-
-##### Template Asset License
-* Music by [Tom Peter](http://opengameart.org/content/winter-feeling)
-* Music by [Alexandr Zhelanov](http://opengameart.org/content/in-russian-style)
-* Sound Effects via [bfxr.net](http://www.bfxr.net/)
-* Graphics by [Marc Russel](http://spicypixel.net)

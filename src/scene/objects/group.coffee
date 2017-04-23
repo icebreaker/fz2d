@@ -7,7 +7,7 @@ class Fz2D.Group extends Fz2D.Object
   # w - width of group (default: 0)
   # h - height of group (default: 0)
   constructor: (x=0, y=0, w=0, h=0) ->
-    super(x, y, w, h)
+    super
     @_objects = []
 
   # Public: Returns true if the group has at least one object.
@@ -21,9 +21,37 @@ class Fz2D.Group extends Fz2D.Object
   #
   # Returns the first object for which the callback function returned true.
   find: (cb, arg) ->
-    for o in @_objects
-      if cb(o, arg) is true
+    for o, i in @_objects
+      if cb(o, arg, i) is true
         return o
+
+    null
+
+  # Public: Iterates over each object in reverse order and calls the given callback.
+  #
+  # cb - iteration callback function
+  # arg - additional argument to be passed to the callback function
+  #
+  # Returns the first object for which the callback function returned true.
+  reverseFind: (cb, arg) ->
+    for o, i in @_objects by -1
+      if cb(o, arg, i) is true
+        return o
+
+    null
+
+  # Public: Iterates over all objects within the given range.
+  #
+  # i - start index
+  # n - number of objects to iterate over
+  # cb - iteration callback function
+  range: (i, n, cb) ->
+    for o, j in @_objects
+      if j < i
+        continue
+
+      if j > n or cb(o, j) is false
+        break
 
     null
 

@@ -60,6 +60,7 @@ class Fz2D.Canvas
     @_ctx = Fz2D.Renderer.getContext(@w, @h, @color, @selector)
     @bounds = new Fz2D.Rect(0, 0, @w, @h)
     @draw_call_count = 0
+    @flush_call_count = 0
 
   # Public: Fills the canvas with a solid color.
   #
@@ -72,6 +73,7 @@ class Fz2D.Canvas
   # Public: Clears the canvas.
   clear: () ->
     @draw_call_count = 0
+    @flush_call_count = 0
     @_ctx.clearRect(0, 0, @w, @h)
     @_ctx
 
@@ -96,6 +98,7 @@ class Fz2D.Canvas
   # alpha - alpha value
   draw: (texture, sx, sy, sw, sh, x, y, w, h, hw, hh, angle, alpha) ->
     @draw_call_count++
+    @flush_call_count++
     @_ctx.save()
 
     @_ctx.translate(x + hw, y + hh)
