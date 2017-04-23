@@ -32,7 +32,7 @@ source = path.join(__dirname, 'src')
 template = path.join(__dirname, 'template')
 
 # demos directory
-demos = path.join(__dirname, 'web', 'demos')
+demos = path.join(__dirname, 'docs', 'demos')
 
 # default watch and recompile interval
 default_interval = 500
@@ -69,7 +69,7 @@ task 'build', 'watches and recompiles everything on any change', (options) ->
     minify(options)
 
 task 'docs', 'generates documentation', () ->
-  system_with_echo 'npm run biscotto -- --title Fz2D --output-dir web/docs'
+  system_with_echo 'npm run biscotto -- --title Fz2D --output-dir docs/docs'
 
 task 'create', 'creates a new project using the template', (options) ->
   if not options.path or fs.existsSync(path.join(options.path, 'Cakefile'))

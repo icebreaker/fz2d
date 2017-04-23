@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset='UTF-8'>
+  <title>Fz2D</title>
+  <link rel='stylesheet' href='..&#47;..&#47;..&#47;..&#47;assets/biscotto.css' type='text/css'>
+  <script src='..&#47;..&#47;..&#47;..&#47;assets/biscotto.js'></script>
+  <script src='..&#47;..&#47;..&#47;..&#47;assets/search_data.js'></script>
+</head>
+  <body>
+    <div id='base' data-path='..&#47;..&#47;..&#47;..&#47;'></div>
+<div id='header'>
+  <div id='menu'>
+    <a href='..&#47;..&#47;..&#47;..&#47;README.md.html' title='Biscotto'>Biscotto</a>
+    &raquo;
+    <a href='..&#47;..&#47;..&#47;..&#47;class_index.html' title='Index'>Index</a>
+    &raquo;
+    <a href='..&#47;..&#47;..&#47;..&#47;classes&#47;Fz2D.html' title='Fz2D'>Fz2D</a>
+    &raquo;
+    <a href='..&#47;..&#47;..&#47;..&#47;classes&#47;Fz2D&#47;Input.html' title='Input'>Input</a>
+    &raquo;
+    <a href='..&#47;..&#47;..&#47;..&#47;classes&#47;Fz2D&#47;Input&#47;Touch.html' title='Touch'>Touch</a>
+    &raquo;
+    <span class='title'>Collection</span>
+    <nav>
+      <ul>
+        <li class='noframes'>
+          (<a class='noframes' href='#'>no frames</a>)
+        </li>
+      </ul>
+    </nav>
+    <div id='search'>
+      <a id='class_list_link' href='..&#47;..&#47;..&#47;..&#47;class_list.html'>Classes</a>
+      <a id='method_list_link' href='..&#47;..&#47;..&#47;..&#47;method_list.html'>Methods</a>
+      <a id='extra_list_link' href='..&#47;..&#47;..&#47;..&#47;extra_list.html'>Extras</a>
+    </div>
+  </div>
+  <iframe id='search_frame'></iframe>
+  <div id='fuzzySearch'>
+    <input type='text'>
+    <ol></ol>
+  </div>
+  <div id='help'>
+    <p>
+      Quickly fuzzy find classes, mixins, methods, file:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-T</span>
+        Open fuzzy finder dialog
+      </li>
+    </ul>
+    <p>
+      In frame mode you can toggle the list naviation frame on the left side:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-L</span>
+        Toggle list view
+      </li>
+    </ul>
+    <p>
+      You can focus a list in frame mode or toggle a tab in frameless mode:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-C</span>
+        Class list
+      </li>
+      <li>
+        <span>Ctrl-I</span>
+        Mixin list
+      </li>
+      <li>
+        <span>Ctrl-F</span>
+        File list
+      </li>
+      <li>
+        <span>Ctrl-M</span>
+        Method list
+      </li>
+      <li>
+        <span>Ctrl-E</span>
+        Extras list
+      </li>
+    </ul>
+    <p>
+      You can focus and blur the search input:
+    </p>
+    <ul>
+      <li>
+        <span>Ctrl-S</span>
+        Focus search input
+      </li>
+      <li>
+        <span>Esc</span>
+        Blur search input
+      </li>
+    </ul>
+    <p>
+      In frameless mode you can close the list tab:
+    </p>
+    <ul>
+      <li>
+        <span>Esc</span>
+        Close list tab
+      </li>
+    </ul>
+  </div>
+</div>
+    <div id='content'>
+      <h1>
+        Class
+        Fz2D.Input.Touch.Collection
+      </h1>
+      <table class='box'>
+        <tr>
+          <td>Defined in:</td>
+          <td>src&#47;input&#47;touch_collection.coffee</td>
+        </tr>
+      </table>
+      <h2>Overview</h2>
+      <div class='docstring'>
+  Public: Touch Collection 
+</div>
+<div class='tags'>
+</div>
+      <h2>Instance Method Summary</h2>
+      <ul class='summary'>
+  <li>
+    <span class='signature'>
+      <a href='#constructor-instance'>
+        ::<strong>constructor</strong>(bounds, n = 16)
+      </a>
+    </span>
+    <span class='desc'>
+      Constructor.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#find-instance'>
+        ::<strong>find</strong>(id)
+      </a>
+    </span>
+    <span class='desc'>
+      Finds a touch by its id.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#first-instance'>
+        ::<strong>first</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      Returns first touch.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#last-instance'>
+        ::<strong>last</strong>()
+      </a>
+    </span>
+    <span class='desc'>
+      Returns last touch.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#setFromPointer-instance'>
+        ::<strong>setFromPointer</strong>(pointer)
+      </a>
+    </span>
+    <span class='desc'>
+      Sets the internal touches.
+    </span>
+  </li>
+  <li>
+    <span class='signature'>
+      <a href='#setFromTouchList-instance'>
+        ::<strong>setFromTouchList</strong>(touches)
+      </a>
+    </span>
+    <span class='desc'>
+      Sets the internal touches.
+    </span>
+  </li>
+</ul>
+      <h2>Constructor Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='constructor-instance'>
+      ::<strong>constructor</strong>(bounds, n = 16)
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;input&#47;touch_collection.coffee#L7'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: Constructor.
+
+bounds - bounding rectangle of the element
+n - number of touches to pre-allocate (default: 16) 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>bounds</span>
+      &mdash;
+      <span class='desc'>bounding rectangle of the element</span>
+    </li>
+    <li>
+      <span class='name'>n</span>
+      &mdash;
+      <span class='desc'>number of touches to pre-allocate (default: 16)</span>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
+      <h2>Instance Method Details</h2>
+      <div class='methods'>
+  <div class='method_details'>
+    <p class='signature' id='find-instance'>
+      ::<strong>find</strong>(id)
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;input&#47;touch_collection.coffee#L41'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: Finds a touch by its id.
+
+id - touch identifier
+
+Returns a touch. 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>id</span>
+      &mdash;
+      <span class='desc'>touch identifier</span>
+    </li>
+  </ul>
+  <h3>Returns:</h3>
+  <ul class='return'>
+    <li>
+      <span class='type'></span>
+      <span class='desc'>Returns a touch.</span>
+    </li>
+  </ul>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='first-instance'>
+      ::<strong>first</strong>()
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;input&#47;touch_collection.coffee#L51'>Source</a>
+    </p>
+    <div class='docstring'>
+  Public: Returns first touch. 
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='last-instance'>
+      ::<strong>last</strong>()
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;input&#47;touch_collection.coffee#L55'>Source</a>
+    </p>
+    <div class='docstring'>
+  Public: Returns last touch. 
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='setFromPointer-instance'>
+      ::<strong>setFromPointer</strong>(pointer)
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;input&#47;touch_collection.coffee#L13'>Source</a>
+    </p>
+    <div class='docstring'>
+  Public: Sets the internal touches. 
+</div>
+<div class='tags'>
+</div>
+  </div>
+  <div class='method_details'>
+    <p class='signature' id='setFromTouchList-instance'>
+      ::<strong>setFromTouchList</strong>(touches)
+      <a class='gh-link' href='https:&#47;&#47;github.com&#47;icebreaker&#47;fz2d
+&#47;blob&#47;master/src&#47;input&#47;touch_collection.coffee#L24'>Source</a>
+    </p>
+    <div class='docstring'>
+   Public: Sets the internal touches.
+
+touches - a native TouchList 
+</div>
+<div class='tags'>
+  <h3>Parameters:</h3>
+  <ul class='param'>
+    <li>
+      <span class='name'>touches</span>
+      &mdash;
+      <span class='desc'>a native TouchList</span>
+    </li>
+  </ul>
+</div>
+  </div>
+</div>
+    </div>
+    <div id='footer'>
+  Generated on
+  Sun Apr 23 2017 13:58:56 GMT+0300 (EEST)
+  by
+  <a href='https://github.com/gjtorikian/biscotto' title='TomDoc-CoffeeScript API documentation generator'>Biscotto</a>
+  v2.3.1
+  (Node.js v5.7.0).
+  &#10034;
+  Press Ctrl-h to see the keyboard shortcuts
+</div>
+  </body>
+</html>
